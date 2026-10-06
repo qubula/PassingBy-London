@@ -79,12 +79,66 @@ PassingBy transforms London journeys into living history lessons. Passengers get
   </tr>
 </table>
 
+## Narrated by Alfie
+
+Every story is written in the voice of **Alfie**, a warm and slightly cheeky London cabbie. PassingBy is designed so that Alfie tells each story out loud as the cab passes the landmark, so passengers can keep their eyes on the window instead of the screen.
+
+Alfie's voice is a custom voice designed with ElevenLabs Voice Design. He was chosen after testing Google Cloud TTS, OpenAI TTS and ElevenLabs' stock voices, then tuning stability and style until the delivery sounded like a story told from the front seat rather than a script read aloud.
+
+| Listen | Landmark | Length |
+|---|---|---|
+| ▶ [Play](https://github.com/qubula/PassingBy-London/raw/main/docs/audio/alfie-london-eye.mp3) | London Eye | 0:16 |
+| ▶ [Play](https://github.com/qubula/PassingBy-London/raw/main/docs/audio/alfie-buckingham-palace.mp3) | Buckingham Palace | 0:15 |
+| ▶ [Play](https://github.com/qubula/PassingBy-London/raw/main/docs/audio/alfie-tower-bridge.mp3) | Tower Bridge | 0:26 |
+
+Narration has been produced for 100 of London's most iconic landmarks so far. Generating audio for all ~1,400 takes time, so the rest are told through the written postcards for now.
+
+**How the audio is made** ([`App/generate_narration.py`](App/generate_narration.py)):
+
+1. **Pick.** The top 100 landmarks are ranked by fame, from Buckingham Palace and Big Ben down.
+2. **Pace.** Each story gets natural pauses: ellipses at turns like *"… and"* or *"… but"*, and a paragraph break every two sentences, so Alfie breathes like a real storyteller.
+3. **Voice.** The text goes to the ElevenLabs text-to-speech API with Alfie's voice and these settings:
+
+| Setting | Value |
+|---|---|
+| Voice ID | `LPRLepQnqpzvBlsHyfyS` |
+| Model | `eleven_turbo_v2_5` |
+| Stability | `0.24`, low, for more variation in timing and tone |
+| Similarity boost | `0.79` |
+| Style | `0.76`, high, for an expressive, conversational delivery |
+| Speaker boost | on |
+
+### Use Alfie in your own project
+
+Alfie is shared in the ElevenLabs Voice Library. Add him to your account from the library, then call the API with his voice ID and the settings above:
+
+```python
+import requests
+
+response = requests.post(
+    "https://api.elevenlabs.io/v1/text-to-speech/LPRLepQnqpzvBlsHyfyS",
+    headers={"xi-api-key": "YOUR_ELEVENLABS_API_KEY"},
+    json={
+        "text": "Right then, on your left is the London Eye...",
+        "model_id": "eleven_turbo_v2_5",
+        "voice_settings": {
+            "stability": 0.24,
+            "similarity_boost": 0.79,
+            "style": 0.76,
+            "use_speaker_boost": True,
+        },
+    },
+)
+open("alfie.mp3", "wb").write(response.content)
+```
+
 ## Features
 
 - **Two ways to ride.** *Fastest* takes the direct route. *PassingBy* adds short detours through the most iconic landmarks near your path, capped so the trip only takes a few minutes longer.
 - **Nine themed tours.** Architecture, Historical, Royal, Museums & Galleries, Parks & Gardens, Religious Heritage, Modern London, Victorian Era, or everything.
 - **Location-triggered stories.** Each landmark has its own trigger radius (larger for a palace, smaller for a statue), so its card appears just as it comes into view.
-- **1,327 curated landmarks.** Built from OpenStreetMap and Wikipedia, each with a photo and AI-written talking points for every tour theme.
+- **~1,400 curated landmarks.** Built from OpenStreetMap and Wikipedia, each with a photo and AI-written talking points for every tour theme.
+- **Narrated by Alfie.** A custom ElevenLabs voice tells the stories like a London cabbie, with narration already produced for the 100 most iconic landmarks.
 - **Ranked by popularity.** Google Places ratings boost the landmarks people actually care about, so a PassingBy route passes Tower Bridge before an obscure plaque.
 - **Ride or walk.** Built for the back seat of a cab, and it works just as well on foot.
 - **Nothing to install.** It's a mobile web app: open the link, allow location access, and go.
@@ -114,6 +168,7 @@ flowchart LR
         BUILD --> TAG[llm_tagger.py<br/>themes + talking points]
         BUILD --> IMG[scrape_landmark_images.py<br/>photos]
         BUILD --> BIG[generate_big_names.py<br/>Google Places popularity]
+        TAG --> VOICE[generate_narration.py<br/>Alfie's voice · ElevenLabs]
     end
 
     subgraph data["Data/"]
@@ -145,6 +200,7 @@ flowchart LR
 | Frontend | Vanilla JavaScript, HTML/CSS, Swiper, Satoshi typeface |
 | Maps | Google Maps JavaScript API, Places API, Directions API |
 | Data pipeline | OpenStreetMap, Wikipedia API, Wikimedia Commons, OpenAI API |
+| Voice | ElevenLabs text-to-speech (`eleven_turbo_v2_5`), custom Alfie voice |
 | Hosting | Railway, custom domain |
 
 ## Project structure
@@ -161,12 +217,13 @@ flowchart LR
 │   ├── build_landmarks_v3.py  ┐
 │   ├── llm_tagger.py          │ Offline data pipeline
 │   ├── scrape_landmark_images.py │
-│   ├── generate_big_names.py  ┘
+│   ├── generate_big_names.py  │
+│   ├── generate_narration.py  ┘ Alfie's narration (ElevenLabs)
 │   └── Web_App/               Mobile templates, JS, CSS, fonts, images
 ├── Data/                      Landmark database, tags, images, categories
 ├── scripts/                   QR code and exhibition receipt generators
 ├── tests/                     Routing experiments
-└── docs/images/               Logo, designs, QR codes
+└── docs/                      Images (logo, designs, QR codes) and Alfie audio samples
 ```
 
 ## Run it locally
@@ -202,6 +259,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -days 365 \
 | `GOOGLE_MAPS_BROWSER_KEY` | Browser | Restrict it to your domain. Maps JavaScript + Places APIs only. |
 | `GOOGLE_DIRECTIONS_KEY` | Server | Directions API only. Never sent to the browser. |
 | `OPENAI_API_KEY`, `PEXELS_API_KEY`, `UNSPLASH_ACCESS_KEY` | Offline scripts | Only needed to rebuild the data in `Data/`. |
+| `ELEVENLABS_API_KEY` | Offline scripts | Only needed to generate Alfie's narration. |
 
 ### Deploying
 
@@ -225,6 +283,7 @@ Third-party data and assets (OpenStreetMap, Wikipedia, Wikimedia Commons photos,
 - Landmark data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL)
 - Landmark summaries from [Wikipedia](https://www.wikipedia.org/) (CC BY-SA)
 - Landmark photos from [Wikimedia Commons](https://commons.wikimedia.org/) (free licences; see each file's page for its author and terms)
+- Narration voice: Alfie, designed with [ElevenLabs](https://elevenlabs.io) Voice Design
 - Typeface: [Satoshi](https://www.fontshare.com/fonts/satoshi) by Indian Type Foundry
 
 <br>

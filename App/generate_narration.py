@@ -1,7 +1,7 @@
 """
-Generate TOP 100 landmark audio files for ESP32 exhibition device.
+Generate Alfie's narration for the top 100 landmarks with ElevenLabs.
 
-Voice: Custom Alfie
+Voice: Custom Alfie (designed with ElevenLabs Voice Design)
 Settings: stability=0.24, similarity=0.79, style=0.76
 Scripts: Enhanced with natural pauses for storytelling
 Output: exhibition_audio/ folder with 100 MP3 files
