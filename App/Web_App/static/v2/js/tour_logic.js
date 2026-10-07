@@ -244,10 +244,10 @@ function drawPins() {
     pinMarkers = ride.landmarks.map((lm, idx) => {
         const pos = landmarkLatLng(lm);
         if (pos.lat == null || pos.lng == null) return null;
+        const pin = window.landmarkPin(idx + 1);
         const marker = new google.maps.Marker({
             position: pos, map, title: lm.name, zIndex: 200 + idx,
-            label: { text: String(idx + 1), color: '#ffffff', fontSize: '11px', fontWeight: '600' },
-            icon: { path: google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#1e3a8a', fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 }
+            icon: pin.icon, label: pin.label
         });
         marker.addListener('click', () => openDeck(idx));
         return marker;
@@ -561,8 +561,7 @@ function initAudioToggle() {
         ride.audioOn = !ride.audioOn;
         btn.setAttribute('aria-pressed', ride.audioOn ? 'true' : 'false');
         btn.classList.toggle('is-on', ride.audioOn);
-        $('audio-state').textContent = ride.audioOn ? 'On' : 'Off';
-        $('mini-live').hidden = !ride.audioOn;
+                $('mini-live').hidden = !ride.audioOn;
         if (ride.audioOn) {
             // Play the story that's on screen, so the toggle has an instant effect
             if (ride.landmarks.length) playStory(ride.current);

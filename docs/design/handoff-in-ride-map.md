@@ -45,9 +45,9 @@ and `App/Web_App/static/mobile/js/tour_logic.js`.
 ## Audio
 
 - The toggle label is "Audio" (was "Alfie's voice").
-- The label sits in a white pill and says "Audio Off" or "Audio On". The switch
-  is a white track with a 2 px black outline. Off: hollow knob on the left. On:
-  solid black knob on the right. No green, no blue.
+- The label "Audio" sits in a white pill next to an iOS-style switch. Off: light
+  grey track (`#e5e5e5`), white knob on the left. On: dark track (`#2a2a2a`),
+  white knob on the right. The knob has a soft shadow. No green, no blue.
 - Small labels in the ride UI ("Next stop · in 2 min", "On your left · 200 m")
   are grey (`#6b7280`), not blue.
 - When audio is on, the mini card shows "Stories are playing live"
@@ -123,8 +123,9 @@ The postcard version (board 04d) is built at `/v2/tour`
   bounces, and the map takes one-finger drags. Only the story text scrolls.
 - Choose Route starts the theme check in the background, so Choose Theme can
   show its counts straight away.
-- Pins are Google Maps markers with a 24 px circle, which is smaller than the
-  44 px hit area asked for above. Revisit if pins are hard to tap in a cab.
+- Landmark pins (ride map and Choose Route map): light grey (`#D9D9D9`) teardrop,
+  28 × 40 px, with the landmark number in black Satoshi in the round head. The
+  tip sits on the landmark. Defined once in `static/v2/js/map_pins.js`.
 
 ## Still to decide
 
