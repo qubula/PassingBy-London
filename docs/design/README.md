@@ -34,13 +34,19 @@ Nobody used it in a moving cab, and rounds 1 and 2 were static screens.
 
 ![What informal feedback changed in PassingBy](../images/v2/testing/1-overview.png)
 
-![Landing and Choose Route](../images/v2/testing/2-landing-and-route.png)
+Each screen, from four round 1 directions to the final design. Faded screens were dropped; each one notes why, from the feedback or from my own decision after round 2.
 
-![Choose Theme and the ride](../images/v2/testing/3-theme-and-ride.png)
+![Landing](../images/v2/testing/2-landing.png)
 
-![Ideas I dropped, and why](../images/v2/testing/4-what-didnt-work.png)
+![Choose Route](../images/v2/testing/3-choose-route.png)
 
-![Next: making the testing more rigorous](../images/v2/testing/5-next-steps.png)
+![Choose Theme](../images/v2/testing/4-choose-theme.png)
+
+![In-ride map](../images/v2/testing/5-in-ride-map.png)
+
+![Ideas I dropped, and why](../images/v2/testing/6-what-didnt-work.png)
+
+![Next: making the testing more rigorous](../images/v2/testing/7-next-steps.png)
 
 The last slide is a plan. None of it has been run yet.
 
@@ -54,7 +60,7 @@ The last slide is a plan. None of it has been run yet.
 |---|---|---|
 | ![](../images/v2/screens/05-ride-map.png) | ![](../images/v2/screens/06-ride-postcard.png) | ![](../images/v2/screens/07-ride-story.png) |
 
-The black cab screens are built in v2, and these images match the live code.
+The black cab screens are built in v2, and these images match the live code. Map data © Google.
 The Uber / private hire screen is a design concept and is not built yet.
 
 ## Still to come
