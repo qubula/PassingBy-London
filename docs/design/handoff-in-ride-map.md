@@ -93,7 +93,10 @@ language (white card, Satoshi, no cream or vintage fonts).
 - Swipe sideways moves to the previous or next postcard. Behind the card sits
   a neat deck: two same-size cards, no rotation, offset 12 px and 24 px to the
   right (and slightly shorter), so only their right edges peek out.
-- The card keeps round 1 D's size. The story scrolls inside the back, with a
+- The card plus its deck spans exactly the mini card's width (20 px side
+  margins on a 390-wide screen): card about 326 px wide, deck edges filling the
+  last 24 px. Height stays round 1 D's (about 470).
+- The card keeps round 1 D's height. The story scrolls inside the back, with a
   fade and a scroll indicator.
 
 Test 04c against 04d with the same task: "A landmark just came up. Find out
