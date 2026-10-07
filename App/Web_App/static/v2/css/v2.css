@@ -399,5 +399,129 @@
   padding: 24px 28px calc(env(safe-area-inset-bottom) + 28px);
 }
 
+/* ==================== CHOOSE THEME ====================
+   Figma: "05b · Theme identities v2 — one body, nine editions".
+   One tile body for every theme: 161×150 at 390 wide, radius 12, flat,
+   mono code / count / label, glyph top-right. Only --body, --ink,
+   --accent and the name font change per edition. */
+.v2-theme {
+  background: #ffffff;
+}
+
+.v2-header-sub {
+  margin-top: -2px;
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.v2-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px 28px calc(env(safe-area-inset-bottom) + 28px);
+}
+
+.v2-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 161 / 150;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: var(--body, #f5f5f5);
+  color: var(--ink, var(--text-primary));
+  text-align: left;
+  font-family: inherit;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+}
+
+.v2-tile:active,
+.v2-tile.is-chosen { transform: scale(0.96); }
+
+.v2-tile--light { box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08); }
+
+.v2-tile-code,
+.v2-tile-count,
+.v2-tile-label {
+  position: absolute;
+  left: 14px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 500;
+}
+
+.v2-tile-code {
+  top: 13px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.v2-tile-glyph {
+  position: absolute;
+  top: 11px;
+  right: 13px;
+  fill: var(--accent);
+}
+
+.v2-tile-count {
+  top: 30px;
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.v2-tile-label {
+  top: 76px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.v2-tile-name {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 13px;
+  line-height: 1.1;
+}
+
+.v2-tile--loading {
+  background: #f2f2f0;
+  cursor: default;
+  animation: v2-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes v2-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.v2-tile--off {
+  background: #f5f5f5;
+  color: var(--text-tertiary);
+  cursor: default;
+}
+
+.v2-tile--off .v2-tile-code { opacity: 1; }
+
+.v2-tile-off-names {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 34px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.v2-tile-off-note {
+  position: absolute;
+  left: 14px;
+  bottom: 13px;
+  font-size: 12px;
+}
+
 /* Google Places dropdown: match the app's type */
 .pac-container { font-family: 'Satoshi', -apple-system, sans-serif; border-radius: 12px; margin-top: 6px; }
