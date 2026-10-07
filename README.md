@@ -14,22 +14,25 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
 
 <br>
 
-[![Live](https://img.shields.io/badge/live-passingby.uk-000000?style=flat-square)](https://www.passingby.uk/mobile)
+[![Live](https://img.shields.io/badge/live-passingby.uk%2Fv2-000000?style=flat-square)](https://www.passingby.uk/v2)
 ![Python](https://img.shields.io/badge/python-3.9+-000000?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-000000?style=flat-square&logo=fastapi&logoColor=white)
 ![Google Maps](https://img.shields.io/badge/Google%20Maps-000000?style=flat-square&logo=googlemaps&logoColor=white)
 ![Railway](https://img.shields.io/badge/deployed%20on-Railway-000000?style=flat-square&logo=railway&logoColor=white)
+[![Figma](https://img.shields.io/badge/design-Figma-000000?style=flat-square&logo=figma&logoColor=white)](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108)
 [![License](https://img.shields.io/badge/license-free%20for%20non--commercial%20use-000000?style=flat-square)](#license)
 
-[**Try it live**](https://www.passingby.uk/mobile) · [Watch the demo](https://www.youtube.com/watch?v=hFkSI2gQjCA) · [How it works](#how-it-works) · [Run it locally](#run-it-locally)
+[**Try v2 live**](https://www.passingby.uk/v2) · [Design board in Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108) · [The original design (v1)](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) · [How it works](#how-it-works) · [Run it locally](#run-it-locally)
 
 <br>
 
-<img src="docs/images/screenshots/01-home.png" alt="PassingBy home screen" width="230">
+<img src="docs/images/v2/screens/01-landing-black-cab.png" alt="PassingBy v2 landing screen" width="230">
 &nbsp;&nbsp;
-<img src="docs/images/screenshots/05-tour-card.png" alt="Live tour with a landmark card" width="230">
+<img src="docs/images/v2/screens/06-ride-postcard.png" alt="v2 ride screen with a landmark postcard" width="230">
 &nbsp;&nbsp;
-<img src="docs/images/screenshots/06-tour-story.png" alt="Landmark card flipped to its story" width="230">
+<img src="docs/images/v2/screens/07-ride-story.png" alt="Postcard flipped to its story" width="230">
+
+<sub>PassingBy v2: redesigned after informal testing of the original design.</sub>
 
 </div>
 
@@ -40,18 +43,63 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
 
 <br>
 
-## v2: revisiting PassingBy
+## v2: a redesign after testing
 
-I designed and built the first version of PassingBy in December 2025. Coming back to it less than a year later, I showed the screens to peers, friends and people around me, explored new directions for each step and started rebuilding the interface. That's v2.
-
-Both versions run side by side, so the working version is never lost:
+I designed and built the first version of PassingBy in December 2025. Coming back to it less than a year later, I tested the interface informally with peers, friends and people around me, explored new directions for every screen and rebuilt the app. **This is v2: a rework of the original design, not a new product.** The data, the routing and Alfie's stories are the same; the interface is new.
 
 | | Where | Status |
 |---|---|---|
-| **v1** | [passingby.uk/mobile](https://www.passingby.uk/mobile) · archived on the [`v1-archive` branch](https://github.com/qubula/PassingBy-London/tree/v1-archive) | The shipped design. Everything below describes v1. |
-| **v2** | `passingby.uk/v2` | In progress. Starts as a copy of v1 and changes screen by screen to the new design. |
+| **v2** (this README) | [passingby.uk/v2](https://www.passingby.uk/v2) | The redesign. All four screens are built from the final Figma design. |
+| **v1** (original design) | [passingby.uk/mobile](https://www.passingby.uk/mobile) · [v1 README and code](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) | The design shipped in December 2025. Still running, kept unchanged on the `v1-archive` branch. |
 
-The design rounds, feedback and final direction are in [Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108). Implementation notes live in [`docs/design/`](docs/design/).
+Both versions run side by side from the same server, so the original is never lost and the two can be compared on a phone.
+
+### The design board
+
+Every round of the redesign is on one Figma page: four layouts per screen in round 1, two in round 2, the final direction, the theme system and the testing summary. Each screen reads left to right.
+
+**[Open the design board in Figma →](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108)**
+
+The full write-up, with every slide, is in [`docs/design/`](docs/design/README.md).
+
+### What testing changed
+
+The feedback came from peers, friends and people around me. It was not a recruited or counted group, so the findings are directional, not statistical.
+
+<img src="docs/images/v2/testing/1-overview.png" alt="Testing summary: four stages from round 1 to the working v2" width="100%">
+
+<details>
+<summary><b>Key takeaways by screen, what didn't work, and what's next</b></summary>
+<br>
+
+<img src="docs/images/v2/testing/2-landing-and-route.png" alt="Takeaways for the Landing and Choose Route screens" width="100%">
+<img src="docs/images/v2/testing/3-theme-and-ride.png" alt="Takeaways for the Choose Theme screen and the ride" width="100%">
+<img src="docs/images/v2/testing/4-what-didnt-work.png" alt="Ideas dropped and why" width="100%">
+<img src="docs/images/v2/testing/5-next-steps.png" alt="Planned next steps for testing, not yet run" width="100%">
+
+</details>
+
+### Two ways in
+
+A ride with PassingBy starts in one of two places. Each will get its own QR code.
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="docs/images/v2/screens/01-landing-black-cab.png" alt="Black cab landing screen" width="220"></td>
+    <td align="center" width="50%"><img src="docs/images/v2/screens/02-landing-private-hire.png" alt="Uber / private hire landing concept" width="220"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Black cab</b> · built<br><sub>No booking to read from, so you type where you're going right under a short explanation.</sub></td>
+    <td align="center"><b>Uber / private hire</b> · design concept<br><sub>The trip is already booked, so one tap starts the stories for that ride.</sub></td>
+  </tr>
+</table>
+
+### What's next
+
+- **Uber / private hire screen.** Build the concept above as its own page and QR code.
+- **Inside the ride app.** A mock-up of PassingBy running inside a ride-hailing app, for example as an App Clip-style card. Still to be explored.
+- **Alfie in the ride.** Landmark audio is switched off in the v2 preview while the remaining recordings are made. The clip on the landing screen plays.
+- **A more rigorous test round.** Task-based usability testing on the live v2, a ride-along in a real cab and a planned A/B test of the postcard against the full card. See the last testing slide.
 
 ## See it in action
 
@@ -60,7 +108,7 @@ The design rounds, feedback and final direction are in [Figma](https://www.figma
     <img src="docs/images/video-thumbnail.jpg" alt="Watch the PassingBy demo on YouTube" width="720">
   </a>
   <br>
-  <sub>A walkthrough of a ride in v1, from planning the route to the landmark cards. Opens on YouTube.</sub>
+  <sub>A walkthrough of a ride in v1, the original design. A v2 video is coming. Opens on YouTube.</sub>
 </div>
 
 ## The idea
@@ -70,7 +118,9 @@ PassingBy transforms London journeys into living history lessons. Passengers get
 **How it plays out:** you enter the trip you were already going to make, and PassingBy plans a route that bends a little to take in the city's best sights. As the cab moves, your phone's GPS triggers a card for each landmark you pass, with a short story told by Alfie, a friendly London cabbie. The same route and stories work on foot, so you can also use it as a self-guided walking tour.
 
 <div align="center">
-  <img src="docs/images/landmark-cards.png" alt="Landmark card for Elizabeth Tower, front and back" width="640">
+  <img src="docs/images/v2/screens/06-ride-postcard.png" alt="Postcard for Elizabeth Tower, photo side" width="260">
+  &nbsp;&nbsp;
+  <img src="docs/images/v2/screens/07-ride-story.png" alt="Postcard for Elizabeth Tower, story side" width="260">
   <br>
   <sub>Each landmark arrives as a postcard. Tap it to flip from the photo to the story.</sub>
 </div>
@@ -79,18 +129,20 @@ PassingBy transforms London journeys into living history lessons. Passengers get
 
 <table>
   <tr>
-    <td align="center" width="25%"><img src="docs/images/screenshots/02-where-to.png" alt="Where to? screen" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/screenshots/03-choose-route.png" alt="Choose Route screen" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/screenshots/04-choose-theme.png" alt="Choose Theme screen" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/screenshots/05-tour-card.png" alt="Live tour screen" width="200"></td>
+    <td align="center" width="25%"><img src="docs/images/v2/screens/01-landing-black-cab.png" alt="Landing screen with the destination field" width="200"></td>
+    <td align="center" width="25%"><img src="docs/images/v2/screens/03-choose-route.png" alt="Choose Route screen" width="200"></td>
+    <td align="center" width="25%"><img src="docs/images/v2/screens/04-choose-theme.png" alt="Choose Theme screen" width="200"></td>
+    <td align="center" width="25%"><img src="docs/images/v2/screens/05-ride-map.png" alt="Ride screen with the map and a minimised card" width="200"></td>
   </tr>
   <tr>
-    <td align="center"><b>1. Where to?</b><br><sub>Your location fills in the start point. Search for a destination.</sub></td>
-    <td align="center"><b>2. Choose a route</b><br><sub><i>Fastest</i>, or <i>PassingBy</i> with detours past the sights.</sub></td>
-    <td align="center"><b>3. Pick a theme</b><br><sub>Only themes with landmarks on your route are shown.</sub></td>
-    <td align="center"><b>4. Ride</b><br><sub>Cards appear as you pass each landmark. Tap to read the story.</sub></td>
+    <td align="center"><b>1. Where to?</b><br><sub>A short explanation of PassingBy, then the destination. Your location is the start.</sub></td>
+    <td align="center"><b>2. Choose a route</b><br><sub><i>Fastest</i>, or <i>PassingBy</i>: the map, the extra minutes and the landmarks you'll pass, side by side.</sub></td>
+    <td align="center"><b>3. Pick a theme</b><br><sub>Equal tiles, sorted by how many landmarks each theme has on your route.</sub></td>
+    <td align="center"><b>4. Ride</b><br><sub>The next stop sits at the top. Each landmark arrives as a postcard you can minimise to the map.</sub></td>
   </tr>
 </table>
+
+<sub>v2 screens. The same steps in the original design are in the <a href="https://github.com/qubula/PassingBy-London/tree/v1-archive#a-ride-step-by-step">v1 README</a>.</sub>
 
 ## Narrated by Alfie
 
@@ -105,6 +157,9 @@ Alfie's voice is a custom voice designed with ElevenLabs Voice Design. He was ch
 | ▶ [Play](https://github.com/qubula/PassingBy-London/raw/main/docs/audio/alfie-tower-bridge.mp3) | Tower Bridge | 0:26 |
 
 Narration has been produced for 100 of London's most iconic landmarks so far. Generating audio for all ~1,400 takes time, so the rest are told through the written postcards for now.
+
+> [!NOTE]
+> In the v2 preview, landmark audio is switched off while the recordings are added. The ride's Audio toggle says "Audio is coming soon". The clip on the landing screen plays.
 
 **How the audio is made** ([`App/generate_narration.py`](App/generate_narration.py)):
 
@@ -148,7 +203,7 @@ open("alfie.mp3", "wb").write(response.content)
 ## Features
 
 - **Two ways to ride.** *Fastest* takes the direct route. *PassingBy* adds short detours through the most iconic landmarks near your path, capped so the trip only takes a few minutes longer.
-- **Nine themed tours.** Architecture, Historical, Royal, Museums & Galleries, Parks & Gardens, Religious Heritage, Modern London, Victorian Era, or everything.
+- **Nine themed tours.** Architecture, Historical, Royal, Museums & Galleries, Parks & Gardens, Religious Heritage, Modern London, Victorian Era, or everything. In v2 each theme has its own colour and glyph, shown as a small badge during the ride.
 - **Location-triggered stories.** Each landmark has its own trigger radius (larger for a palace, smaller for a statue), so its card appears just as it comes into view.
 - **~1,400 curated landmarks.** Built from OpenStreetMap and Wikipedia, each with a photo and AI-written talking points for every tour theme.
 - **Narrated by Alfie.** A custom ElevenLabs voice tells the stories like a London cabbie, with narration already produced for the 100 most iconic landmarks.
@@ -160,9 +215,10 @@ open("alfie.mp3", "wb").write(response.content)
 
 <table>
   <tr>
-    <td><img src="docs/images/qr/simple.png" alt="QR code for passingby.uk" width="160"></td>
+    <td><img src="docs/images/qr/v2.png" alt="QR code for passingby.uk/v2" width="160"></td>
     <td>
-      Scan with your phone, or open <a href="https://www.passingby.uk/mobile"><b>passingby.uk</b></a>.<br><br>
+      Scan with your phone, or open <a href="https://www.passingby.uk/v2"><b>passingby.uk/v2</b></a>.<br>
+      The original design is still at <a href="https://www.passingby.uk/mobile">passingby.uk/mobile</a>.<br><br>
       Set a start and end point in central London, pick a tour theme, and go.<br>
       <sub>Works best with location access allowed.</sub>
     </td>
@@ -205,6 +261,8 @@ flowchart LR
 2. **Match.** It finds every landmark within reach of the final route and attaches the story written for the chosen theme.
 3. **Ride.** The browser follows your position with the Geolocation API. When you come within a landmark's trigger radius, its card slides in.
 
+v1 and v2 share all of this. Only the screens differ.
+
 ## Tech stack
 
 | Layer | Tools |
@@ -232,11 +290,18 @@ flowchart LR
 │   ├── scrape_landmark_images.py │
 │   ├── generate_big_names.py  │
 │   ├── generate_narration.py  ┘ Alfie's narration (ElevenLabs)
-│   └── Web_App/               Mobile templates, JS, CSS, fonts, images
+│   └── Web_App/
+│       ├── templates/v2/      v2 screens (the redesign)
+│       ├── static/v2/         v2 CSS, JS and images
+│       ├── templates/mobile/  v1 screens (original design, unchanged)
+│       └── static/mobile/     v1 CSS, JS and images
 ├── Data/                      Landmark database, tags, images, categories
 ├── scripts/                   QR code and exhibition receipt generators
 ├── tests/                     Routing experiments
-└── docs/                      Images (logo, designs, QR codes) and Alfie audio samples
+└── docs/
+    ├── design/                The v2 redesign: testing summary and design specs
+    ├── images/                Logo, v1 screenshots, v2 screens and slides, QR codes
+    └── audio/                 Alfie audio samples
 ```
 
 ## Run it locally
@@ -255,7 +320,7 @@ cp .env.example .env        # then add your own keys
 uvicorn server:app --reload
 ```
 
-Open <http://localhost:8000/mobile>.
+Open <http://localhost:8000/v2> for v2, or <http://localhost:8000/mobile> for the original design (v1).
 
 To test GPS on a real phone, the page must be served over HTTPS. Create a self-signed certificate once, then run `start_https.sh` to serve the app on your local network:
 
