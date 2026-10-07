@@ -19,7 +19,6 @@ const ride = {
     current: 0,          // landmark shown in the mini card / postcard
     deckOpen: false,
     flipped: false,
-    audioOn: false,
     etaMinutes: null,
     startedAt: null
 };
@@ -313,7 +312,6 @@ function handlePosition(pos) {
 function onLandmarkTriggered(idx) {
     // Don't pull the card away from someone who is reading another one
     if (!ride.deckOpen) showMini(idx);
-    if (ride.audioOn) playStory(idx);
 }
 
 function refreshCurrentText() {
@@ -698,57 +696,37 @@ function initPostcard() {
 }
 
 // ---------- Audio ----------
-// Plays Alfie's recording when one exists (narration.js); otherwise the phone's
-// built-in voice reads the story. Off by default: phones only allow sound after a tap.
-let currentAudio = null;
+// Landmark audio is switched off in this preview (Alfie's recordings aren't all
+// made yet). The toggle slides on, shows "Audio is coming soon", then slides back.
+// The landing page's "Hear Alfie" clip still plays.
+let soonTimer = null;
 
 function initAudioToggle() {
     const btn = $('audio-toggle');
+    const soon = $('audio-soon');
+    const hide = () => {
+        clearTimeout(soonTimer);
+        soon.classList.remove('is-shown');
+        btn.classList.remove('is-on');
+        btn.setAttribute('aria-pressed', 'false');
+        setTimeout(() => { if (!soon.classList.contains('is-shown')) soon.hidden = true; }, 250);
+    };
     btn.addEventListener('click', () => {
-        ride.audioOn = !ride.audioOn;
-        btn.setAttribute('aria-pressed', ride.audioOn ? 'true' : 'false');
-        btn.classList.toggle('is-on', ride.audioOn);
-                if (ride.audioOn) {
-            // Play the story that's on screen, so the toggle has an instant effect
-            if (ride.landmarks.length) playStory(ride.current);
-        } else {
-            stopStory();
-        }
+        if (soon.classList.contains('is-shown')) { hide(); return; }
+        btn.classList.add('is-on');
+        btn.setAttribute('aria-pressed', 'true');
+        soon.hidden = false;
+        requestAnimationFrame(() => soon.classList.add('is-shown'));
+        clearTimeout(soonTimer);
+        soonTimer = setTimeout(hide, 2600);
     });
-}
-
-function stopStory() {
-    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-}
-
-function playStory(idx) {
-    const lm = ride.landmarks[idx];
-    if (!lm) return;
-    stopStory();
-    const file = (window.NARRATION || {})[lm.name];
-    if (file) {
-        currentAudio = new Audio(`/static/v2/audio/narration/${file}`);
-        currentAudio.play().catch(() => speak(lm));
-        return;
-    }
-    speak(lm);
-}
-
-function speak(lm) {
-    if (!window.speechSynthesis || !lm.script) return;
-    const utterance = new SpeechSynthesisUtterance(`${lm.name}. ${lm.script}`);
-    utterance.lang = 'en-GB';
-    const voice = window.speechSynthesis.getVoices().find(v => v.lang === 'en-GB');
-    if (voice) utterance.voice = voice;
-    window.speechSynthesis.speak(utterance);
+    soon.addEventListener('click', hide);
 }
 
 // ---------- End / shortcuts ----------
 function endTour() {
     if (confirm('End the ride?')) {
         if (watchId) navigator.geolocation.clearWatch(watchId);
-        stopStory();
         window.location.href = '/v2';
     }
 }

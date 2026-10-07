@@ -109,11 +109,16 @@ The postcard version (board 04d) is built at `/v2/tour`
 (`templates/v2/tour.html`, `static/v2/js/tour_logic.js`, styles in
 `static/v2/css/v2.css`). Notes from building it:
 
-- Audio is off by default, because phones only allow sound after a tap. Turning
-  it on plays the story on screen straight away, then each new landmark as it
-  triggers.
-- A landmark with an MP3 listed in `static/v2/js/narration.js` plays Alfie.
-  Any other landmark is read by the phone's built-in British English voice.
+- Landmark audio is switched off for now (October 2026), because most of
+  Alfie's recordings aren't made yet. Tapping the Audio toggle slides the switch
+  on, shows a white pop-up under it ("Audio is coming soon / For now, tap a card
+  to read its story."), then slides the switch back off after about 2.6 s. Tapping
+  the pop-up closes it sooner. The landing page's "Hear Alfie" clip still plays.
+- Earlier build, kept for when audio returns: turning audio on played the story on
+  screen straight away, then each new landmark as it triggered. A landmark with an
+  MP3 listed in `static/v2/js/narration.js` played Alfie; any other was read by
+  the phone's built-in British English voice. Phones only allow sound after a tap,
+  so audio must stay off by default.
 - Before the first landmark triggers, the mini card previews the next stop.
   Once the person opens a card themselves, it stops following automatically.
 - A landmark that triggers while the postcard is open doesn't replace it. It
@@ -127,7 +132,8 @@ The postcard version (board 04d) is built at `/v2/tour`
 - Tapping the mini card does nothing; only the drag opens it. Tapping a map pin
   opens that landmark's postcard with the same animation.
 - "Stories are playing live" always shows on the mini card (it is a static label
-  for now, whether or not audio is on).
+  for now, whether or not audio is on). With landmark audio off it no longer
+  matches what happens; see "Still to decide".
 - Sideways drags follow the finger; a fast flick or a drag past 90 px moves to
   the next card, otherwise it springs back. The ride page is locked: it never scrolls or
   bounces, and the map takes one-finger drags. Only the story text scrolls.
@@ -138,6 +144,9 @@ The postcard version (board 04d) is built at `/v2/tour`
   tip sits on the landmark. Defined once in `static/v2/js/map_pins.js`.
 
 ## Still to decide
+
+- What the mini card's "Stories are playing live" label should say while
+  landmark audio is off.
 
 - Whether Royal and Religious are too similar side by side (both blue-purple).
 - Whether themed landmark cards are worth testing at all, now that the ride

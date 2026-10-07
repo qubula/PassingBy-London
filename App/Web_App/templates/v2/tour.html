@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#2a2a2a">
     <title>Ride - PassingBy</title>
     <link rel="stylesheet" href="/static/v2/css/style.css?v=7">
-    <link rel="stylesheet" href="/static/v2/css/v2.css?v=7">
+    <link rel="stylesheet" href="/static/v2/css/v2.css?v=8">
 </head>
 <body class="v2-ride-body">
     <!-- v2 ride. Figma: "04d · In-ride map — Final direction, postcard version".
@@ -32,6 +32,11 @@
                 <button type="button" class="v2-end" id="end-tour" aria-label="End the ride">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
+            </div>
+            <!-- Landmark audio is switched off in this preview; the toggle shows this instead -->
+            <div class="v2-soon" id="audio-soon" role="status" aria-live="polite" hidden>
+                <strong>Audio is coming soon</strong>
+                <span>For now, tap a card to read its story.</span>
             </div>
         </div>
 
@@ -80,9 +85,8 @@
 
     <script>const GOOGLE_MAPS_KEY = "{{ google_maps_key }}";</script>
     <script src="/static/v2/js/editions.js?v=1"></script>
-    <script src="/static/v2/js/narration.js?v=1"></script>
     <script src="/static/v2/js/map_pins.js?v=1"></script>
-    <script src="/static/v2/js/tour_logic.js?v=21"></script>
+    <script src="/static/v2/js/tour_logic.js?v=22"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=geometry&callback=initMap" async defer></script>
 </body>
 </html>
