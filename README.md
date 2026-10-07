@@ -48,7 +48,7 @@ Both versions run side by side, so the working version is never lost:
 
 | | Where | Status |
 |---|---|---|
-| **v1** | [passingby.uk/mobile](https://www.passingby.uk/mobile) · frozen as the [`v1.0` tag](https://github.com/qubula/PassingBy-London/tree/v1.0) | The shipped design. Everything below describes v1. |
+| **v1** | [passingby.uk/mobile](https://www.passingby.uk/mobile) · archived on the [`v1-archive` branch](https://github.com/qubula/PassingBy-London/tree/v1-archive) | The shipped design. Everything below describes v1. |
 | **v2** | `passingby.uk/v2` | In progress. Starts as a copy of v1 and changes screen by screen to the new design. |
 
 The design rounds, feedback and final direction are in [Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108). Implementation notes live in [`docs/design/`](docs/design/).

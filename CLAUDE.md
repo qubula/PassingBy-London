@@ -13,7 +13,7 @@ product and the data pipeline.
 | Templates | `App/Web_App/templates/mobile/` | `App/Web_App/templates/v2/` |
 | CSS, JS, images | `App/Web_App/static/mobile/` | `App/Web_App/static/v2/` |
 | Browser storage keys | `alfie_*`, `tour_redirect_attempted` | `pb_v2_*` |
-| Frozen copy | git tag `v1.0` | — |
+| Frozen copy | branch `v1-archive` (do not push to it) | — |
 
 - v1 was designed and built from December 2025. v2 is the same product,
   revisited and redesigned in autumn 2026 after informal feedback rounds.
