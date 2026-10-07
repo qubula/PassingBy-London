@@ -137,6 +137,61 @@ async def mobile_tour(request: Request):
     )
 
 
+# ==================== V2 WEB APP ROUTES ====================
+# v2 is the redesign. It starts as a copy of the mobile (v1) app in
+# templates/v2 and static/v2, and shares the API routes below with v1.
+
+@app.get("/v2", response_class=HTMLResponse)
+async def v2_home(request: Request):
+    """v2 landing page"""
+    google_maps_key = os.getenv("GOOGLE_MAPS_BROWSER_KEY", "")
+    return mobile_templates.TemplateResponse(
+        request,
+        "v2/index.html",
+        {"google_maps_key": google_maps_key}
+    )
+
+
+@app.get("/v2/destination", response_class=HTMLResponse)
+async def v2_destination(request: Request):
+    """v2 destination selection page"""
+    google_maps_key = os.getenv("GOOGLE_MAPS_BROWSER_KEY", "")
+    return mobile_templates.TemplateResponse(
+        request,
+        "v2/destination.html",
+        {"google_maps_key": google_maps_key}
+    )
+
+
+@app.get("/v2/route-mode", response_class=HTMLResponse)
+async def v2_route_mode(request: Request):
+    """v2 route mode selection page"""
+    return mobile_templates.TemplateResponse(
+        request,
+        "v2/route_mode.html"
+    )
+
+
+@app.get("/v2/tour-type", response_class=HTMLResponse)
+async def v2_tour_type(request: Request):
+    """v2 tour type selection page"""
+    return mobile_templates.TemplateResponse(
+        request,
+        "v2/tour_type.html"
+    )
+
+
+@app.get("/v2/tour", response_class=HTMLResponse)
+async def v2_tour(request: Request):
+    """v2 active tour page"""
+    google_maps_key = os.getenv("GOOGLE_MAPS_BROWSER_KEY", "")
+    return mobile_templates.TemplateResponse(
+        request,
+        "v2/tour.html",
+        {"google_maps_key": google_maps_key}
+    )
+
+
 @app.post("/api/check-tour-availability")
 async def api_check_tour_availability(request: Request):
     """Check which tour types have landmarks for the given route"""

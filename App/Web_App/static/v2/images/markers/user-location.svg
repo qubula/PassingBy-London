@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155.94 155.94">
+  <defs>
+    <style>
+      .user-location-fill {
+        fill: #e5383b;
+      }
+    </style>
+  </defs>
+  <!-- Red circle -->
+  <circle class="user-location-fill" cx="77.97" cy="77.97" r="77.97"/>
+</svg>
