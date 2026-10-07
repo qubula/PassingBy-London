@@ -96,9 +96,14 @@ Rules:
 2. **Before exporting images**, read the current code for each screen and
    check the Figma frame against it: copy, controls, map pins, route line,
    badge and buttons. Never export from an old board or an old copy.
-3. Exports are rebuilt from the source frames above. Never edit the copies in
+3. Testing slides 2–5 ("06 · Testing summary") show each screen's round 1,
+   round 2 and final frames, copied from the boards, with the verdict and
+   reason for each. Verdicts come only from the user's feedback and the
+   "Round 2 — my decision" notes on the boards. Rebuild a slide when a final
+   frame changes.
+4. Exports are rebuilt from the source frames above. Never edit the copies in
    "07 · Clean screens" or the slide images by hand.
-4. Round 1 and round 2 boards are a historical record. Leave them unchanged.
+5. Round 1 and round 2 boards are a historical record. Leave them unchanged.
 
 - The root `README.md` is the project's portfolio page. It describes v2 and
   links to the v1 README on the `v1-archive` branch. v1 screenshots stay in

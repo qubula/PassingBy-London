@@ -68,14 +68,19 @@ The feedback came from peers, friends and people around me. It was not a recruit
 
 <img src="docs/images/v2/testing/1-overview.png" alt="Testing summary: four stages from round 1 to the working v2" width="100%">
 
+Each screen started as four directions. The ones that worked were combined in round 2, then narrowed to the final design. Faded screens were dropped, and each one notes why.
+
+<img src="docs/images/v2/testing/2-landing.png" alt="Landing: four round 1 directions narrowed through round 2 to the black cab and private hire screens" width="100%">
+<img src="docs/images/v2/testing/3-choose-route.png" alt="Choose Route: four round 1 directions narrowed to the map and landmark list" width="100%">
+<img src="docs/images/v2/testing/4-choose-theme.png" alt="Choose Theme: four round 1 directions narrowed to equal tiles, then themed editions" width="100%">
+<img src="docs/images/v2/testing/5-in-ride-map.png" alt="In-ride map: four round 1 directions narrowed to the postcard version" width="100%">
+
 <details>
-<summary><b>Key takeaways by screen, what didn't work, and what's next</b></summary>
+<summary><b>What didn't work, and what I'll test next</b></summary>
 <br>
 
-<img src="docs/images/v2/testing/2-landing-and-route.png" alt="Takeaways for the Landing and Choose Route screens" width="100%">
-<img src="docs/images/v2/testing/3-theme-and-ride.png" alt="Takeaways for the Choose Theme screen and the ride" width="100%">
-<img src="docs/images/v2/testing/4-what-didnt-work.png" alt="Ideas dropped and why" width="100%">
-<img src="docs/images/v2/testing/5-next-steps.png" alt="Planned next steps for testing, not yet run" width="100%">
+<img src="docs/images/v2/testing/6-what-didnt-work.png" alt="Ideas dropped and why" width="100%">
+<img src="docs/images/v2/testing/7-next-steps.png" alt="Planned next steps for testing, not yet run" width="100%">
 
 </details>
 
@@ -142,7 +147,7 @@ PassingBy transforms London journeys into living history lessons. Passengers get
   </tr>
 </table>
 
-<sub>v2 screens. The same steps in the original design are in the <a href="https://github.com/qubula/PassingBy-London/tree/v1-archive#a-ride-step-by-step">v1 README</a>.</sub>
+<sub>v2 screens. Map data © Google. The same steps in the original design are in the <a href="https://github.com/qubula/PassingBy-London/tree/v1-archive#a-ride-step-by-step">v1 README</a>.</sub>
 
 ## Narrated by Alfie
 
@@ -359,6 +364,7 @@ Third-party data and assets (OpenStreetMap, Wikipedia, Wikimedia Commons photos,
 ## Credits
 
 - Landmark data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL)
+- Map imagery in the design screens: Map data © Google
 - Landmark summaries from [Wikipedia](https://www.wikipedia.org/) (CC BY-SA)
 - Landmark photos from [Wikimedia Commons](https://commons.wikimedia.org/) (free licences; see each file's page for its author and terms)
 - Narration voice: Alfie, designed with [ElevenLabs](https://elevenlabs.io) Voice Design
