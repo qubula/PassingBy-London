@@ -62,6 +62,13 @@ All four v2 screens are built from the "Final direction" boards:
   https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108
   Each screen reads left to right: round 1, round 2, final direction. Build
   from the boards marked "Final direction".
+- `docs/design/README.md`: the redesign write-up (testing summary slides,
+  final screens). The README and this page use PNG exports from the Figma
+  frames "06 · Testing summary" and "07 · Clean screens for GitHub and
+  portfolio exports", saved in `docs/images/v2/`. Re-export them when the design changes.
+- The root `README.md` is the project's portfolio page. It describes v2 and
+  links to the v1 README on the `v1-archive` branch. v1 screenshots stay in
+  `docs/images/screenshots/`.
 - `docs/design/handoff-in-ride-map.md`: interaction spec for the in-ride map
   (states, gestures, card size, Audio toggle, theme badge, theme colours).
 - The product font is Satoshi (`App/Web_App/static/fonts/`). Figma uses DM Sans
