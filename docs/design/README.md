@@ -16,8 +16,8 @@ Each screen has one row on the Figma page, read left to right:
 | Row | Round 1 | Round 2 | Final direction |
 |---|---|---|---|
 | Landing | Four layouts (A–D) | Two versions, plus a bonus that combines B and D | Two entry points: black cab and Uber / private hire |
-| Choose Route | Four layouts | Two versions | Map, time difference and landmark list in one card |
-| Choose Theme | Four layouts | Two versions | Large equal tiles, sorted by landmarks on the route |
+| Choose Route | Four layouts | Two versions | Map, time difference and landmark list in one card, with numbered pins |
+| Choose Theme | Four layouts | Two versions | Large equal tiles (03c), then themed tiles with one colour, glyph and font per theme (05b, built) |
 | In-ride map | Four layouts | Two versions | Full card (04c) and postcard (04d), built as 04d |
 
 Below the rows: the proto-personas, the feedback method, the theme system
@@ -54,8 +54,8 @@ The last slide is a plan. None of it has been run yet.
 |---|---|---|
 | ![](../images/v2/screens/05-ride-map.png) | ![](../images/v2/screens/06-ride-postcard.png) | ![](../images/v2/screens/07-ride-story.png) |
 
-The black cab screens are built in v2. The Uber / private hire screen is a
-design concept and is not built yet.
+The black cab screens are built in v2, and these images match the live code.
+The Uber / private hire screen is a design concept and is not built yet.
 
 ## Still to come
 
