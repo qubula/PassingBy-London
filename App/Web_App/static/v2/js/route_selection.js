@@ -103,12 +103,10 @@ function drawMap() {
     // PassingBy: solid black
     new google.maps.Polyline({ map, path: scenicPath, strokeColor: '#1a1a1a', strokeOpacity: 1, strokeWeight: 4 });
 
-    (routes.scenic.landmarks || []).forEach(l => {
+    (routes.scenic.landmarks || []).forEach((l, i) => {
         if (!l.lat || !l.lng) return;
-        new google.maps.Marker({
-            map, position: { lat: l.lat, lng: l.lng }, title: l.name,
-            icon: { path: google.maps.SymbolPath.CIRCLE, scale: 6, fillColor: '#1e3a8a', fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 }
-        });
+        const pin = window.landmarkPin(i + 1);
+        new google.maps.Marker({ map, position: { lat: l.lat, lng: l.lng }, title: l.name, icon: pin.icon, label: pin.label, zIndex: 10 + i });
     });
     if (scenicPath.length) {
         const dot = (pos, color) => new google.maps.Marker({ map, position: pos, icon: { path: google.maps.SymbolPath.CIRCLE, scale: 7, fillColor: color, fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 } });
