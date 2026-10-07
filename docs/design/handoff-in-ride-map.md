@@ -102,6 +102,24 @@ language (white card, Satoshi, no cream or vintage fonts).
 Test 04c against 04d with the same task: "A landmark just came up. Find out
 what it is and read about it, then go back to the map."
 
+## Built in v2 (October 2026)
+
+The postcard version (board 04d) is built at `/v2/tour`
+(`templates/v2/tour.html`, `static/v2/js/tour_logic.js`, styles in
+`static/v2/css/v2.css`). Notes from building it:
+
+- Audio is off by default, because phones only allow sound after a tap. Turning
+  it on plays the story on screen straight away, then each new landmark as it
+  triggers.
+- A landmark with an MP3 listed in `static/v2/js/narration.js` plays Alfie.
+  Any other landmark is read by the phone's built-in British English voice.
+- Before the first landmark triggers, the mini card previews the next stop.
+  Once the person opens a card themselves, it stops following automatically.
+- A landmark that triggers while the postcard is open doesn't replace it. It
+  shows in the mini card when the postcard is minimised.
+- Pins are Google Maps markers with a 24 px circle, which is smaller than the
+  44 px hit area asked for above. Revisit if pins are hard to tap in a cab.
+
 ## Still to decide
 
 - Whether Royal and Religious are too similar side by side (both blue-purple).

@@ -28,6 +28,29 @@ product and the data pipeline.
 - Keep v2 links inside v2 (`/v2/...`, `/static/v2/...`). Never link from v2
   back into `/mobile`.
 
+## v2 build status and files
+
+All four v2 screens are built from the "Final direction" boards:
+
+| Screen | Template | Script |
+|---|---|---|
+| Landing (black cab entry point) | `templates/v2/index.html` | `static/v2/js/location.js` |
+| Choose Route | `templates/v2/route_mode.html` | `static/v2/js/route_selection.js` |
+| Choose Theme | `templates/v2/tour_type.html` | `static/v2/js/tour_selection.js` |
+| Ride (postcard version, board 04d) | `templates/v2/tour.html` | `static/v2/js/tour_logic.js` |
+
+- New v2 styles: `static/v2/css/v2.css` (loaded after the copied `style.css`).
+- Theme edition colours, fonts and glyphs: `static/v2/js/editions.js`, shared by the
+  theme tiles and the ride's theme badge. Keep it in sync with the handoff doc.
+- Alfie narration: `static/v2/js/narration.js` lists the MP3s in
+  `static/v2/audio/narration/`. Only 3 exist so far; other landmarks are read by the
+  phone's built-in voice. Don't describe that voice as Alfie.
+- `templates/v2/destination.html` is no longer linked: the landing has the
+  destination field. The Uber / private hire entry point is a separate concept
+  still to build (it gets its own URL and QR code).
+- v2 uses the same API endpoints as v1 (`/api/plan-route`,
+  `/api/check-tour-availability`); there are no v2-only endpoints.
+
 ## Design source for v2
 
 - Figma file "BlackCab App Wireframe", page "★ PassingBy — Design Iterations":
