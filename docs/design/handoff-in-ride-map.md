@@ -45,7 +45,10 @@ and `App/Web_App/static/mobile/js/tour_logic.js`.
 ## Audio
 
 - The toggle label is "Audio" (was "Alfie's voice").
-- Toggle: black track with a white knob when on. No green.
+- The label sits in a white pill. The switch is a white track with a 2 px black
+  outline and a black knob (knob on the right = on). No green, no blue.
+- Small labels in the ride UI ("Next stop · in 2 min", "On your left · 200 m")
+  are grey (`#6b7280`), not blue.
 - When audio is on, the mini card shows "Stories are playing live"
   (was "Alfie is telling it").
 
