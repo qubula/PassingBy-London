@@ -526,8 +526,23 @@
 /* ==================== RIDE ====================
    Figma: "04d · In-ride map — Final direction, postcard version".
    Spec: docs/design/handoff-in-ride-map.md */
+/* The ride is a fixed screen: the page never scrolls or bounces */
+html:has(.v2-ride-body),
+.v2-ride-body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.v2-ride-body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+}
+
 .v2-ride {
   position: relative;
+  touch-action: none;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -637,18 +652,29 @@
   background: #ffffff;
 }
 
+.v2-audio-state {
+  display: inline-block;
+  min-width: 22px;
+  font-weight: 600;
+}
+
+/* Off: hollow knob on the left. On: solid black knob on the right. */
 .v2-switch i {
   position: absolute;
   top: 2px;
   left: 2px;
   width: 16px;
   height: 16px;
+  border: 2px solid var(--text-primary);
   border-radius: 50%;
-  background: var(--text-primary);
-  transition: transform 0.2s ease;
+  background: #ffffff;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.v2-audio.is-on .v2-switch i { transform: translateX(16px); }
+.v2-audio.is-on .v2-switch i {
+  transform: translateX(16px);
+  background: var(--text-primary);
+}
 
 .v2-end {
   display: flex;
@@ -702,6 +728,8 @@
   background: #ffffff;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  touch-action: none;
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .v2-mini-photo {
@@ -785,7 +813,9 @@
   z-index: 10;
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  touch-action: none;
+  will-change: transform;
+  transition: opacity 0.24s ease, transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .v2-deck.is-open { opacity: 1; transform: none; }
@@ -813,16 +843,12 @@
   right: 24px;
   perspective: 1200px;
   outline: none;
-  transition: transform 0.16s ease, opacity 0.16s ease;
+  touch-action: none;
+  will-change: transform;
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.24s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-.v2-pc.out-left { transform: translateX(-110%); opacity: 0; }
-.v2-pc.out-right { transform: translateX(110%); opacity: 0; }
-.v2-pc.in-right { transform: translateX(60%); opacity: 0; transition: none; }
-.v2-pc.in-left { transform: translateX(-60%); opacity: 0; transition: none; }
-.v2-pc.nudge-left { transform: translateX(-16px); }
-.v2-pc.nudge-right { transform: translateX(16px); }
 
 .v2-pc-inner {
   position: relative;
@@ -935,6 +961,8 @@
   padding: 14px 6px 24px 0;
   border-top: 1px solid #e5e7eb;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   font-size: 16px;
   line-height: 1.55;
