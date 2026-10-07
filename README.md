@@ -40,6 +40,19 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
 
 <br>
 
+## v2: revisiting PassingBy
+
+I designed and built the first version of PassingBy in December 2025. Coming back to it less than a year later, I showed the screens to peers, friends and people around me, explored new directions for each step and started rebuilding the interface. That's v2.
+
+Both versions run side by side, so the working version is never lost:
+
+| | Where | Status |
+|---|---|---|
+| **v1** | [passingby.uk/mobile](https://www.passingby.uk/mobile) · frozen as the [`v1.0` tag](https://github.com/qubula/PassingBy-London/tree/v1.0) | The shipped design. Everything below describes v1. |
+| **v2** | `passingby.uk/v2` | In progress. Starts as a copy of v1 and changes screen by screen to the new design. |
+
+The design rounds, feedback and final direction are in [Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108). Implementation notes live in [`docs/design/`](docs/design/).
+
 ## See it in action
 
 <div align="center">
@@ -47,7 +60,7 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
     <img src="docs/images/video-thumbnail.jpg" alt="Watch the PassingBy demo on YouTube" width="720">
   </a>
   <br>
-  <sub>A walkthrough of a ride, from planning the route to the landmark cards. Opens on YouTube.</sub>
+  <sub>A walkthrough of a ride in v1, from planning the route to the landmark cards. Opens on YouTube.</sub>
 </div>
 
 ## The idea
