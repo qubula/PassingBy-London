@@ -30,7 +30,7 @@ product and the data pipeline.
 
 ## v2 build status and files
 
-All four v2 screens are built from the "Final direction" boards:
+All four v2 screens are built. Each one's Figma source is in the sync table below.
 
 | Screen | Template | Script |
 |---|---|---|
@@ -61,11 +61,41 @@ All four v2 screens are built from the "Final direction" boards:
 - Figma file "BlackCab App Wireframe", page "★ PassingBy — Design Iterations":
   https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108
   Each screen reads left to right: round 1, round 2, final direction. Build
-  from the boards marked "Final direction".
+  from the frames in the sync table below. Choose Theme comes from "05b",
+  not from the "03c" final board.
 - `docs/design/README.md`: the redesign write-up (testing summary slides,
   final screens). The README and this page use PNG exports from the Figma
   frames "06 · Testing summary" and "07 · Clean screens for GitHub and
   portfolio exports", saved in `docs/images/v2/`. Re-export them when the design changes.
+## Keep code and Figma in sync (required)
+
+The live v2 code is the source of truth. Figma must always show what the code
+draws, because the README and portfolio images are exported from Figma.
+
+| Screen | Code | Figma source frame (page "★ PassingBy — Design Iterations") |
+|---|---|---|
+| Landing, black cab | `templates/v2/index.html` | "Landing Final / Black cab" in 01c |
+| Landing, Uber / private hire | not built (concept) | "Landing Final / Uber · private hire concept" in 01c |
+| Choose Route | `templates/v2/route_mode.html`, `route_selection.js` | "Route Final" in 02c |
+| Choose Theme | `templates/v2/tour_type.html`, `tour_selection.js`, `editions.js` | "Theme v2 / Picker" in 05b |
+| Ride | `templates/v2/tour.html`, `tour_logic.js`, `map_pins.js` | "Map Postcard / 1–3" in 04d |
+
+Shared parts are Figma components on the Components page. Change the component
+when the code changes, and every board updates:
+`PB/Audio switch` (`.v2-audio`, `.v2-switch`), `PB/Map pin` (`map_pins.js`),
+`PB/End ride button` (`.v2-end`), `PB/Theme badge` (`editions.js`).
+
+Rules:
+1. **Any visual change in v2 code** (colour, size, copy, a new or removed
+   element) must update the matching Figma frame or component in the same
+   task. If that can't be done, say so to the user before finishing.
+2. **Before exporting images**, read the current code for each screen and
+   check the Figma frame against it: copy, controls, map pins, route line,
+   badge and buttons. Never export from an old board or an old copy.
+3. Exports are rebuilt from the source frames above. Never edit the copies in
+   "07 · Clean screens" or the slide images by hand.
+4. Round 1 and round 2 boards are a historical record. Leave them unchanged.
+
 - The root `README.md` is the project's portfolio page. It describes v2 and
   links to the v1 README on the `v1-archive` branch. v1 screenshots stay in
   `docs/images/screenshots/`.

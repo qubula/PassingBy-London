@@ -137,7 +137,7 @@ PassingBy transforms London journeys into living history lessons. Passengers get
   <tr>
     <td align="center"><b>1. Where to?</b><br><sub>A short explanation of PassingBy, then the destination. Your location is the start.</sub></td>
     <td align="center"><b>2. Choose a route</b><br><sub><i>Fastest</i>, or <i>PassingBy</i>: the map, the extra minutes and the landmarks you'll pass, side by side.</sub></td>
-    <td align="center"><b>3. Pick a theme</b><br><sub>Equal tiles, sorted by how many landmarks each theme has on your route.</sub></td>
+    <td align="center"><b>3. Pick a theme</b><br><sub>Each theme has its own colour, glyph and font, sorted by landmarks on your route.</sub></td>
     <td align="center"><b>4. Ride</b><br><sub>The next stop sits at the top. Each landmark arrives as a postcard you can minimise to the map.</sub></td>
   </tr>
 </table>
