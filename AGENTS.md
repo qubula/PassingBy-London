@@ -83,7 +83,11 @@ draws, because the README and portfolio images are exported from Figma.
 Shared parts are Figma components on the Components page. Change the component
 when the code changes, and every board updates:
 `PB/Audio switch` (`.v2-audio`, `.v2-switch`), `PB/Map pin` (`map_pins.js`),
-`PB/End ride button` (`.v2-end`), `PB/Theme badge` (`editions.js`).
+`PB/End ride button` (`.v2-end`), `PB/Theme badge` (`editions.js`),
+`PB/Ride map` (the ride map: a real London map in the `DARK_MAP` colours from
+`tour_logic.js`, with the route, pins and position dot drawn as the code draws
+them). Never draw a placeholder map on a final board; use `PB/Ride map`.
+Regenerate its image with `scripts/figma/ride_map.js` if the map style changes.
 
 Rules:
 1. **Any visual change in v2 code** (colour, size, copy, a new or removed
