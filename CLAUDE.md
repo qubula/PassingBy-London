@@ -42,9 +42,14 @@ All four v2 screens are built from the "Final direction" boards:
 - New v2 styles: `static/v2/css/v2.css` (loaded after the copied `style.css`).
 - Theme edition colours, fonts and glyphs: `static/v2/js/editions.js`, shared by the
   theme tiles and the ride's theme badge. Keep it in sync with the handoff doc.
-- Alfie narration: `static/v2/js/narration.js` lists the MP3s in
-  `static/v2/audio/narration/`. Only 3 exist so far; other landmarks are read by the
-  phone's built-in voice. Don't describe that voice as Alfie.
+- Landmark audio is switched off in the v2 preview. The ride's Audio toggle
+  only shows an "Audio is coming soon" pop-up and plays nothing (no Alfie clips,
+  no phone voice). The landing page's "Hear Alfie" clip still plays. Samples of
+  Alfie's narration will be in the promo video instead.
+- When landmark audio comes back: `static/v2/js/narration.js` (not loaded at the
+  moment) lists the MP3s in `static/v2/audio/narration/`. Only 3 exist so far;
+  about 100 more are being generated. Never describe the phone's built-in voice
+  as Alfie.
 - `templates/v2/destination.html` is no longer linked: the landing has the
   destination field. The Uber / private hire entry point is a separate concept
   still to build (it gets its own URL and QR code).
