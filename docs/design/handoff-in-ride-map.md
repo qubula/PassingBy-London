@@ -118,8 +118,18 @@ The postcard version (board 04d) is built at `/v2/tour`
   Once the person opens a card themselves, it stops following automatically.
 - A landmark that triggers while the postcard is open doesn't replace it. It
   shows in the mini card when the postcard is minimised.
-- Cards follow the finger while dragging (sideways and down) and spring back
-  if the drag is too short. The ride page is locked: it never scrolls or
+- The mini card and the postcard are one panel. Dragging the mini card up grows
+  the panel from the mini card's size into the postcard, with its top edge under
+  the finger (a clip-path reveal, bottom-anchored); the mini card's content fades
+  out early and the postcard's fades in late. Pulling the postcard down shrinks
+  it back the same way. On release a critically damped spring finishes the move
+  at the finger's speed: past halfway or a fast flick opens or closes it.
+- Tapping the mini card does nothing; only the drag opens it. Tapping a map pin
+  opens that landmark's postcard with the same animation.
+- "Stories are playing live" always shows on the mini card (it is a static label
+  for now, whether or not audio is on).
+- Sideways drags follow the finger; a fast flick or a drag past 90 px moves to
+  the next card, otherwise it springs back. The ride page is locked: it never scrolls or
   bounces, and the map takes one-finger drags. Only the story text scrolls.
 - Choose Route starts the theme check in the background, so Choose Theme can
   show its counts straight away.

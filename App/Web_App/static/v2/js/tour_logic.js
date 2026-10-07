@@ -329,47 +329,19 @@ function refreshCurrentText() {
 function showMini(idx) {
     const lm = ride.landmarks[idx];
     if (!lm) return;
+    const mini = $('mini-card');
+    const first = mini.hidden;
     ride.current = idx;
     $('mini-name').textContent = lm.name;
     $('mini-eyebrow').textContent = whereLine(idx, true);
     setImage($('mini-img'), lm.image_url);
-    $('mini-live').hidden = !ride.audioOn;
-    $('mini-card').hidden = false;
+    mini.hidden = false;
     $('swipe-hint').hidden = false;
-}
-
-function initMiniCard() {
-    const mini = $('mini-card');
-    let start = null;
-    let moved = false;
-
-    // Swipe up opens the postcard and the card follows the finger; a tap opens it too.
-    mini.addEventListener('touchstart', e => {
-        start = { y: e.touches[0].clientY, t: Date.now() };
-        moved = false;
-        mini.style.transition = 'none';
-    }, { passive: true });
-    mini.addEventListener('touchmove', e => {
-        if (!start) return;
-        const dy = e.touches[0].clientY - start.y;
-        if (Math.abs(dy) > 6) moved = true;
-        if (e.cancelable) e.preventDefault();          // never scroll the page
-        mini.style.transform = `translateY(${Math.max(-80, Math.min(30, dy))}px)`;
-    }, { passive: false });
-    mini.addEventListener('touchend', e => {
-        if (!start) return;
-        const dy = e.changedTouches[0].clientY - start.y;
-        start = null;
-        mini.style.transition = '';
-        mini.style.transform = '';
-        if (dy < -35 || !moved) openDeck(ride.current);
-    });
-    mini.addEventListener('click', e => {
-        // Touch is handled above; this is for mouse (desktop testing)
-        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
-        if (Date.now() - lastTouchAt < 800) return;
-        openDeck(ride.current);
-    });
+    if (first && !sheet.active) {
+        mini.classList.remove('is-entering');
+        void mini.offsetWidth;                 // restart the entrance animation
+        mini.classList.add('is-entering');
+    }
 }
 
 let lastTouchAt = 0;
@@ -383,6 +355,204 @@ function setImage(img, url) {
         img.removeAttribute('src');
         img.parentElement.classList.add('is-empty');
     }
+}
+
+// ---------- The sheet: one panel that grows from the mini card into the postcard ----------
+// progress 0 = mini card, 1 = full postcard. While dragging, the panel's top edge
+// follows the finger. On release a spring carries on at the finger's speed.
+const sheet = { p: 0, active: false, raf: null, range: 1, miniH: 128 };
+
+function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+
+function sheetPrepare() {
+    const deck = $('deck');
+    const mini = $('mini-card');
+    if (!mini.hidden) sheet.miniH = mini.offsetHeight;
+    mini.classList.remove('is-entering');
+    mini.hidden = false;
+    deck.hidden = false;
+    sheet.active = true;
+    sheet.range = Math.max(1, deck.offsetHeight - sheet.miniH);
+    if (sheet.raf) { cancelAnimationFrame(sheet.raf); sheet.raf = null; }
+}
+
+function sheetApply(p) {
+    sheet.p = p;
+    const deck = $('deck');
+    const mini = $('mini-card');
+    const pc = $('postcard');
+    const shown = clamp01(p);
+    // Rubber band past either end
+    const over = p > 1 ? (p - 1) * 0.25 : (p < 0 ? p * 0.25 : 0);
+    const inset = Math.max(0, (1 - shown) * sheet.range - over * sheet.range);
+    const radius = 20 - 4 * shown;
+    const clip = `inset(${inset}px 0 0 0 round ${radius}px)`;
+    deck.style.clipPath = clip;
+    deck.style.webkitClipPath = clip;
+    // The postcard widens into the deck as it opens; the deck cards fade in late
+    pc.style.right = `${24 * shown}px`;
+    pc.style.setProperty('--content', String(clamp01((shown - 0.3) / 0.55)));
+    deck.style.setProperty('--deck', String(clamp01((shown - 0.55) / 0.45)));
+    // The mini card's content fades out early, so the panel reads as one surface
+    mini.style.opacity = String(clamp01(1 - shown / 0.3));
+    $('swipe-hint').style.opacity = String(clamp01(1 - shown / 0.2));
+}
+
+function sheetSettle(target) {
+    const deck = $('deck');
+    const mini = $('mini-card');
+    sheet.active = false;
+    sheet.raf = null;
+    sheetApply(target);
+    if (target === 1) {
+        ride.deckOpen = true;
+        mini.hidden = true;
+        $('swipe-hint').hidden = true;
+    } else {
+        ride.deckOpen = false;
+        deck.hidden = true;
+        deck.style.clipPath = '';
+        deck.style.webkitClipPath = '';
+        mini.style.opacity = '';
+        $('swipe-hint').style.opacity = '';
+        $('swipe-hint').hidden = false;
+        showMini(ride.current);
+    }
+}
+
+// Critically damped spring from the current progress to the target,
+// starting at the finger's velocity (progress units per second).
+function sheetSpring(target, velocity) {
+    if (sheet.raf) cancelAnimationFrame(sheet.raf);
+    sheet.active = true;
+    let x = sheet.p;
+    let v = velocity || 0;
+    const stiffness = 320;
+    const damping = 2 * Math.sqrt(stiffness) * 0.92;   // a touch of softness, no wobble
+    let last = performance.now();
+    const step = now => {
+        const dt = Math.min(0.032, (now - last) / 1000);
+        last = now;
+        const a = -stiffness * (x - target) - damping * v;
+        v += a * dt;
+        x += v * dt;
+        if (Math.abs(x - target) < 0.002 && Math.abs(v) < 0.02) {
+            sheetSettle(target);
+            return;
+        }
+        sheetApply(x);
+        sheet.raf = requestAnimationFrame(step);
+    };
+    sheet.raf = requestAnimationFrame(step);
+}
+
+// Finger velocity from the last ~100 ms of movement (px per second)
+function velocityTracker() {
+    const samples = [];
+    return {
+        add(y) {
+            const t = performance.now();
+            samples.push({ y, t });
+            while (samples.length > 2 && t - samples[0].t > 100) samples.shift();
+        },
+        get() {
+            if (samples.length < 2) return 0;
+            const a = samples[0];
+            const b = samples[samples.length - 1];
+            const dt = (b.t - a.t) / 1000;
+            return dt > 0 ? (b.y - a.y) / dt : 0;
+        },
+        reset() { samples.length = 0; }
+    };
+}
+
+// Release: open or close from position and speed
+function sheetRelease(vyPx) {
+    const vp = -vyPx / sheet.range;                      // up is positive progress
+    let target;
+    if (vp > 1.2) target = 1;
+    else if (vp < -1.2) target = 0;
+    else target = sheet.p > 0.5 ? 1 : 0;
+    sheetSpring(target, vp);
+}
+
+function openDeck(idx) {
+    if (!ride.landmarks[idx]) return;
+    ride.userBrowsed = true;
+    $('pin-hint').hidden = true;
+    if (ride.deckOpen) {                                 // already open: just move to that card
+        if (idx !== ride.current) goTo(idx, idx > ride.current ? 1 : -1);
+        return;
+    }
+    showMini(idx);
+    fillPostcard(idx);
+    setFlipped(false);
+    sheetPrepare();
+    sheetApply(sheet.p || 0);
+    sheetSpring(1, 0);
+}
+
+function closeDeck() {
+    if (!ride.deckOpen && !sheet.active) return;
+    showMiniContent(ride.current);
+    sheetPrepare();
+    sheetApply(1);
+    sheetSpring(0, 0);
+}
+
+// Fill the mini card without the entrance animation (used under the closing panel)
+function showMiniContent(idx) {
+    const lm = ride.landmarks[idx];
+    if (!lm) return;
+    $('mini-name').textContent = lm.name;
+    $('mini-eyebrow').textContent = whereLine(idx, true);
+    setImage($('mini-img'), lm.image_url);
+}
+
+// Drag up on the mini card. There's no tap-to-open: only the drag opens it.
+function initMiniCard() {
+    const mini = $('mini-card');
+    const vt = velocityTracker();
+    let startY = null;
+    let dragging = false;
+
+    const begin = y => {
+        startY = y;
+        dragging = false;
+        vt.reset();
+        vt.add(y);
+    };
+    const move = (y, e) => {
+        if (startY === null) return;
+        if (e && e.cancelable) e.preventDefault();       // never scroll the page
+        const dy = y - startY;
+        vt.add(y);
+        if (!dragging) {
+            if (Math.abs(dy) < 4) return;
+            dragging = true;
+            ride.userBrowsed = true;
+            $('pin-hint').hidden = true;
+            fillPostcard(ride.current);
+            setFlipped(false);
+            sheetPrepare();
+        }
+        sheetApply(-dy / sheet.range);
+    };
+    const end = () => {
+        if (startY === null) return;
+        startY = null;
+        if (dragging) sheetRelease(vt.get());
+    };
+
+    mini.addEventListener('touchstart', e => begin(e.touches[0].clientY), { passive: true });
+    mini.addEventListener('touchmove', e => move(e.touches[0].clientY, e), { passive: false });
+    mini.addEventListener('touchend', end);
+    mini.addEventListener('touchcancel', end);
+    // Mouse (desktop testing)
+    let mouseDown = false;
+    mini.addEventListener('mousedown', e => { if (Date.now() - lastTouchAt < 800) return; mouseDown = true; begin(e.clientY); });
+    window.addEventListener('mousemove', e => { if (mouseDown) move(e.clientY, null); });
+    window.addEventListener('mouseup', () => { if (mouseDown) { mouseDown = false; end(); } });
 }
 
 // ---------- States 2 and 3: postcard deck ----------
@@ -404,37 +574,6 @@ function fillPostcard(idx) {
     document.querySelector('.v2-deck-card--3').hidden = remaining < 2;
 }
 
-function openDeck(idx) {
-    if (!ride.landmarks[idx]) return;
-    ride.userBrowsed = true;
-    fillPostcard(idx);
-    setFlipped(false);
-    ride.deckOpen = true;
-    $('mini-card').hidden = true;
-    $('swipe-hint').hidden = true;
-    $('pin-hint').hidden = true;
-    const deck = $('deck');
-    deck.style.transform = '';
-    deck.style.opacity = '';
-    deck.hidden = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => deck.classList.add('is-open')));
-}
-
-function closeDeck() {
-    const deck = $('deck');
-    ride.deckOpen = false;
-    deck.style.transition = '';
-    deck.style.transform = 'translateY(110%)';
-    deck.style.opacity = '0';
-    setTimeout(() => {
-        deck.classList.remove('is-open');
-        deck.hidden = true;
-        deck.style.transform = '';
-        deck.style.opacity = '';
-        showMini(ride.current);
-    }, 240);
-}
-
 function setFlipped(on) {
     ride.flipped = on;
     $('postcard').classList.toggle('is-flipped', on);
@@ -447,7 +586,7 @@ function snapBack(el) {
 }
 
 // Move to the previous / next postcard. The card leaves in the swipe direction
-// from wherever the finger let go, and the next one slides in from the other side.
+// from wherever the finger let go, and the next one glides in from the other side.
 function goTo(idx, direction) {
     const pc = $('postcard');
     if (idx < 0 || idx >= ride.landmarks.length) {
@@ -455,30 +594,33 @@ function goTo(idx, direction) {
         return;
     }
     pc.style.transition = '';
-    pc.style.transform = `translateX(${direction > 0 ? -115 : 115}%)`;
+    pc.style.transform = `translateX(${direction > 0 ? -112 : 112}%)`;
     pc.style.opacity = '0';
     setTimeout(() => {
         fillPostcard(idx);
         setFlipped(false);
         pc.style.transition = 'none';
-        pc.style.transform = `translateX(${direction > 0 ? 45 : -45}%)`;
+        pc.style.transform = `translateX(${direction > 0 ? 30 : -30}%) scale(0.96)`;
+        pc.style.opacity = '0';
         requestAnimationFrame(() => requestAnimationFrame(() => snapBack(pc)));
-    }, 200);
+    }, 230);
 }
 
-// One gesture handler for the postcard. The card follows the finger:
-// sideways drags move through the deck, a downward drag pulls the deck down
-// to minimise it, a tap flips it. The story on the back still scrolls natively.
+// One gesture handler for the postcard. Sideways drags move the card with the
+// finger; a downward drag shrinks the panel back into the mini card; a tap
+// flips it. The story on the back still scrolls natively.
 function initPostcard() {
     const pc = $('postcard');
     const deck = $('deck');
     const story = $('pc-story');
+    const vt = velocityTracker();
     let g = null;
 
     const begin = (x, y, target) => {
-        g = { x, y, t: Date.now(), dx: 0, dy: 0, axis: null, inStory: story.contains(target) };
+        if (sheet.raf) return;                          // ignore touches while the panel is settling
+        g = { x, y, t: performance.now(), dx: 0, dy: 0, axis: null, inStory: story.contains(target) };
+        vt.reset();
         pc.style.transition = 'none';
-        deck.style.transition = 'none';
     };
 
     const move = (x, y, e) => {
@@ -488,49 +630,54 @@ function initPostcard() {
         if (!g.axis) {
             if (Math.abs(g.dx) < 8 && Math.abs(g.dy) < 8) return;
             if (Math.abs(g.dx) > Math.abs(g.dy)) g.axis = 'x';
-            else if (g.dy > 0 && (!g.inStory || story.scrollTop <= 0)) g.axis = 'down';
-            else g.axis = 'scroll';                     // let the story scroll
+            else if (g.dy > 0 && (!g.inStory || story.scrollTop <= 0)) {
+                g.axis = 'down';
+                showMiniContent(ride.current);
+                sheetPrepare();
+            } else g.axis = 'scroll';                   // let the story scroll
         }
         if (g.axis === 'scroll') return;
         if (e && e.cancelable) e.preventDefault();      // never scroll the page
         if (g.axis === 'x') {
+            vt.add(x);
             const edge = (ride.current === 0 && g.dx > 0) || (ride.current === ride.landmarks.length - 1 && g.dx < 0);
-            const dx = edge ? g.dx * 0.3 : g.dx;        // resist at the ends of the deck
-            pc.style.transform = `translateX(${dx}px)`;
-            pc.style.opacity = String(1 - Math.min(Math.abs(dx) / 700, 0.35));
+            const dx = edge ? g.dx * 0.28 : g.dx;       // resist at the ends of the deck
+            pc.style.transform = `translateX(${dx}px) rotate(0deg)`;
+            pc.style.opacity = String(1 - Math.min(Math.abs(dx) / 800, 0.3));
         } else {
-            const dy = Math.max(0, g.dy);
-            deck.style.transform = `translateY(${dy}px)`;
-            deck.style.opacity = String(1 - Math.min(dy / 600, 0.4));
+            vt.add(y);
+            sheetApply(1 - g.dy / sheet.range);
         }
     };
 
     const end = () => {
         if (!g) return;
-        const { dx, dy, axis, t } = g;
+        const { dx, axis, t } = g;
         g = null;
         pc.style.transition = '';
-        deck.style.transition = '';
-        const fast = Date.now() - t < 250;
         if (!axis) {
-            if (Date.now() - t < 450) setFlipped(!ride.flipped);   // tap
+            if (performance.now() - t < 450) setFlipped(!ride.flipped);   // tap
         } else if (axis === 'x') {
-            if (Math.abs(dx) > 70 || (fast && Math.abs(dx) > 30)) {
+            const vx = vt.get();                        // px per second
+            if (Math.abs(dx) > 90 || (Math.abs(vx) > 450 && Math.abs(dx) > 20)) {
                 const dir = dx < 0 ? 1 : -1;
                 goTo(ride.current + dir, dir);
             } else {
                 snapBack(pc);
             }
         } else if (axis === 'down') {
-            if (dy > 90 || (fast && dy > 40)) closeDeck();
-            else snapBack(deck);
+            sheetRelease(vt.get());
         }
     };
 
     pc.addEventListener('touchstart', e => begin(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
     pc.addEventListener('touchmove', e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
     pc.addEventListener('touchend', end);
-    pc.addEventListener('touchcancel', () => { g = null; snapBack(pc); snapBack(deck); });
+    pc.addEventListener('touchcancel', () => {
+        if (g && g.axis === 'down') sheetRelease(0);
+        g = null;
+        snapBack(pc);
+    });
 
     // Mouse (desktop testing). Phones also fire mouse events after a touch; ignore those.
     let mouseDown = false;
@@ -561,8 +708,7 @@ function initAudioToggle() {
         ride.audioOn = !ride.audioOn;
         btn.setAttribute('aria-pressed', ride.audioOn ? 'true' : 'false');
         btn.classList.toggle('is-on', ride.audioOn);
-                $('mini-live').hidden = !ride.audioOn;
-        if (ride.audioOn) {
+                if (ride.audioOn) {
             // Play the story that's on screen, so the toggle has an instant effect
             if (ride.landmarks.length) playStory(ride.current);
         } else {
