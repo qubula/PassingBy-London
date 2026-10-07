@@ -1,0 +1,171 @@
+// Renders the high-fidelity PassingBy mockups in docs/images/v2/mockups/.
+// Screens: scripts/mockups/screens/ (3x exports of the Figma source frames, no status bar).
+// Usage: npm i playwright && npx playwright install chromium, then
+//   node scripts/mockups/render.mjs <outDir> [names...]   (names: hero flow ride detail themes entry single)
+import { chromium } from 'playwright';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+
+const HERE = path.dirname(new URL(import.meta.url).pathname);
+const OUT = process.argv[2] || path.join(HERE, 'out');
+fs.mkdirSync(OUT, { recursive: true });
+const S = n => 'file://' + path.join(HERE, 'screens', n + '.png');
+const DARK = new Set(['ridemap', 'postcard', 'story']);
+
+// ---------- status bar (iOS 17 style) ----------
+function statusBar(dark) {
+  const c = dark ? '#fff' : '#000';
+  const signal = `<svg width="18" height="12" viewBox="0 0 18 12"><g fill="${c}">
+    <rect x="0" y="7.6" width="3.2" height="4.2" rx="1"/><rect x="4.8" y="5.2" width="3.2" height="6.6" rx="1"/>
+    <rect x="9.6" y="2.6" width="3.2" height="9.2" rx="1"/><rect x="14.4" y="0" width="3.2" height="11.8" rx="1"/></g></svg>`;
+  const sector = (r0, r1) => {
+    const a = Math.PI / 4, cx = 8, cy = 11.6;
+    const p = (r, s) => [cx + r * Math.sin(s * a), cy - r * Math.cos(s * a)];
+    const [x1, y1] = p(r1, -1), [x2, y2] = p(r1, 1), [x3, y3] = p(r0, 1), [x4, y4] = p(r0, -1);
+    return r0 === 0
+      ? `M${cx} ${cy} L${x1} ${y1} A${r1} ${r1} 0 0 1 ${x2} ${y2} Z`
+      : `M${x1} ${y1} A${r1} ${r1} 0 0 1 ${x2} ${y2} L${x3} ${y3} A${r0} ${r0} 0 0 0 ${x4} ${y4} Z`;
+  };
+  const wifi = `<svg width="16" height="12" viewBox="0 0 16 12"><g fill="${c}" stroke="${c}" stroke-width="0.7" stroke-linejoin="round">
+    <path d="${sector(0, 3.4)}"/><path d="${sector(5.0, 7.4)}"/><path d="${sector(9.0, 11.4)}"/></g></svg>`;
+  const battery = `<svg width="28" height="13" viewBox="0 0 28 13">
+    <rect x="0.5" y="0.5" width="24" height="12" rx="3.8" fill="none" stroke="${c}" stroke-opacity="0.38"/>
+    <rect x="2.5" y="2.5" width="20" height="8" rx="2.2" fill="${c}"/>
+    <path d="M26 4.4v4.2c0.9-0.3 1.5-1.1 1.5-2.1s-0.6-1.8-1.5-2.1z" fill="${c}" fill-opacity="0.45"/></svg>`;
+  return `<div class="sb" style="color:${c}"><div class="sb-l"><span class="time">9:41</span></div>
+    <div class="sb-r">${signal}${wifi}${battery}</div></div>`;
+}
+
+// ---------- device ----------
+function phone(screen, opts = {}) {
+  const dark = DARK.has(screen);
+  const scale = opts.scale || 1;
+  return `<div class="phone ${opts.cls || ''}" style="--s:${scale};${opts.style || ''}">${opts.noShadow ? '' : '<div class="shadow"></div><div class="shadow2"></div>'}
+    <div class="btn act"></div><div class="btn vu"></div><div class="btn vd"></div><div class="btn pw"></div>
+    <div class="bezel"><div class="screen" style="background-image:url('${S(screen)}')">
+      ${statusBar(dark)}<div class="island"><i></i></div>
+      <div class="home" style="background:${dark ? '#fff' : '#000'}"></div><div class="glare"></div>
+    </div></div></div>`;
+}
+// frameless screen card (for cascades)
+function card(screen, style = '') {
+  const dark = DARK.has(screen);
+  return `<div class="card" style="background-image:url('${S(screen)}');${style}">${statusBar(dark)}
+    <div class="home" style="background:${dark ? '#fff' : '#000'}"></div></div>`;
+}
+
+const CSS = `
+@font-face{font-family:Satoshi;src:url('file://${HERE}/../../App/Web_App/static/fonts/Satoshi-Variable.ttf');font-weight:300 900}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;color:#111}
+.stage{position:relative;overflow:hidden}
+.phone{position:absolute;isolation:isolate;width:421px;height:875px;border-radius:70px;transform:scale(var(--s));transform-origin:top left;
+  background:linear-gradient(150deg,#5b6672 0%,#232a33 18%,#3d4652 38%,#1a1f26 62%,#4d5864 82%,#20262e 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.shadow{position:absolute;left:6%;right:6%;top:6%;bottom:-2%;border-radius:80px;background:rgba(18,20,24,.55);filter:blur(42px);transform:translateY(46px);z-index:-1}
+.shadow2{position:absolute;left:3%;right:3%;top:40%;bottom:0;border-radius:70px;background:rgba(18,20,24,.35);filter:blur(16px);transform:translateY(14px);z-index:-1}
+.phone::after{content:'';position:absolute;inset:1.6px;border-radius:68.5px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 0 2px 1px rgba(255,255,255,.08);pointer-events:none}
+.btn{position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#1b2027,#4f5a66 50%,#252b33)}
+.btn.act{left:-3px;top:118px;height:34px}.btn.vu{left:-3px;top:182px;height:64px}.btn.vd{left:-3px;top:258px;height:64px}
+.btn.pw{right:-3px;top:212px;height:102px}
+.bezel{position:absolute;inset:3.5px;border-radius:66.5px;background:#050506;box-shadow:inset 0 0 0 1.5px #16191d}
+.screen{position:absolute;left:12px;top:12px;width:390px;height:844px;border-radius:55px;overflow:hidden;background-size:cover;background-position:center;background-color:#fff}
+.card{position:absolute;width:390px;height:844px;border-radius:44px;overflow:hidden;background-size:cover;background-color:#fff;
+  box-shadow:0 40px 80px -30px rgba(20,22,26,.35),0 12px 30px -12px rgba(20,22,26,.18),0 0 0 1px rgba(0,0,0,.04)}
+.sb{position:absolute;left:0;right:0;top:0;height:54px;display:flex;align-items:center;font-family:Inter;z-index:3}
+.sb-l{width:150px;display:flex;justify-content:center;padding-left:14px}
+.time{font-weight:600;font-size:17px;letter-spacing:-.3px}
+.sb-r{margin-left:auto;width:150px;display:flex;justify-content:center;align-items:center;gap:6px;padding-right:12px}
+.island{position:absolute;top:11px;left:50%;width:125px;height:37px;margin-left:-62.5px;border-radius:20px;background:#000;z-index:4}
+.island i{position:absolute;right:13px;top:12px;width:13px;height:13px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#2b3a55 0%,#0d1220 45%,#05070b 70%);box-shadow:0 0 0 1.5px #0b0d12}
+.home{position:absolute;bottom:8px;left:50%;width:138px;height:5px;margin-left:-69px;border-radius:3px;z-index:3}
+.glare{position:absolute;inset:0;background:linear-gradient(118deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 32%);pointer-events:none;z-index:5}
+.lbl{position:absolute;font-size:15px;font-weight:500;color:#6b6e75;letter-spacing:.2px}
+.lbl b{display:block;font-size:20px;font-weight:700;color:#111;letter-spacing:-.2px;margin-top:4px}
+.num{position:absolute;font-size:13px;font-weight:600;letter-spacing:1.4px;color:#8a8d93}
+.h1{position:absolute;font-weight:800;letter-spacing:-2px;line-height:.98;color:#111}
+.h1 span{color:#a3a5a9}
+`;
+
+const pages = {
+  // 1. Hero: three phones in a row
+  hero: { w: 1800, h: 1100, bg: '#E8E7E3', html: () => `
+    ${phone('landing', { scale: .98, style: 'left:226px;top:118px' })}
+    ${phone('theme', { scale: .98, style: 'left:690px;top:118px' })}
+    ${phone('postcard', { scale: .98, style: 'left:1154px;top:118px' })}` },
+
+  // 2. Flow cascade: four steps, frameless, overlapping
+  flow: { w: 2000, h: 1000, bg: '#EFEEEA', html: () => {
+    const items = [['landing', 'Where to?'], ['route', 'Choose a route'], ['theme', 'Pick a theme'], ['postcard', 'Ride']];
+    return items.map(([s, t], i) => {
+      const x = 150 + i * 430, y = 150 + (i % 2) * 0;
+      return `${card(s, `left:${x}px;top:${y}px;transform:scale(.92);transform-origin:top left;z-index:${i + 1}`)}
+        <div class="num" style="left:${x + 4}px;top:${y - 52}px">0${i + 1}</div>
+        <div class="lbl" style="left:${x + 40}px;top:${y - 58}px"><b style="margin:0">${t}</b></div>`;
+    }).join('');
+  } },
+
+  // 3. Ride states: map -> postcard -> story, cascading with overlap
+  ride: { w: 1800, h: 1020, bg: '#1E2126', html: () => `
+    ${card('ridemap', 'left:180px;top:150px;transform:scale(.95) rotate(0deg);transform-origin:top left;opacity:1;z-index:1')}
+    ${card('postcard', 'left:705px;top:150px;transform:scale(.95);transform-origin:top left;z-index:2')}
+    ${card('story', 'left:1230px;top:150px;transform:scale(.95);transform-origin:top left;z-index:3')}
+    <div class="lbl" style="left:180px;top:84px;color:#9aa0a8">Map first<b style="color:#fff">The next stop, always on top</b></div>
+    <div class="lbl" style="left:705px;top:84px;color:#9aa0a8">Swipe up<b style="color:#fff">A postcard for each landmark</b></div>
+    <div class="lbl" style="left:1230px;top:84px;color:#9aa0a8">Tap to flip<b style="color:#fff">Alfie's story on the back</b></div>` },
+
+  // 4. Detail: big cropped phone with headline (reference: single-phone hero)
+  detail: { w: 1800, h: 1200, bg: '#E3E1DA', html: () => `
+    <div class="h1" style="left:110px;top:360px;font-size:92px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
+    ${phone('postcard', { scale: 1.62, style: 'left:860px;top:150px' })}` },
+
+  // 5. Theme close-up: zoomed crop of the tiles
+  themes: { w: 1800, h: 1200, bg: '#EFEEEA', html: () => `
+    ${phone('theme', { scale: 1.0, style: 'left:150px;top:160px' })}
+    <div style="position:absolute;left:760px;top:160px;width:880px;height:878px;border-radius:48px;overflow:hidden;
+      box-shadow:0 50px 90px -40px rgba(20,22,26,.4),0 0 0 1px rgba(0,0,0,.04);background:#fff url('${S('theme')}') no-repeat;background-size:1009px auto;background-position:-64px -506px"></div>
+    <svg style="position:absolute;left:0;top:0" width="1800" height="1200">
+      <path d="M530 372 L760 200 M530 711 L760 1000" stroke="#a9abb0" stroke-width="2" fill="none" stroke-dasharray="1 9" stroke-linecap="round"/>
+      <rect x="190" y="371" width="340" height="340" rx="22" fill="none" stroke="#111" stroke-width="2.5"/></svg>
+    <div class="lbl" style="left:760px;top:1062px">Choose Theme<b>Nine editions, one tile design</b></div>` },
+
+  // 6. Two ways in
+  entry: { w: 1800, h: 1150, bg: '#E8E7E3', html: () => `
+    <div class="h1" style="left:110px;top:150px;font-size:72px">Two ways<br><span>in.</span></div>
+    <div class="lbl" style="left:112px;top:360px;width:420px;font-size:20px;line-height:1.45;color:#55585e">A black cab has no booking to read, so you type where you're going.
+      In an Uber or private hire, the trip is already booked, so one tap starts the stories.</div>
+    ${phone('landing', { scale: .98, style: 'left:640px;top:135px' })}
+    ${phone('privatehire', { scale: .98, style: 'left:1170px;top:135px' })}
+    <div class="lbl" style="left:640px;top:1012px">Black cab<b>Built in v2</b></div>
+    <div class="lbl" style="left:1170px;top:1012px">Uber / private hire<b>Design concept</b></div>` },
+};
+
+const browser = await chromium.launch();
+const only = process.argv.slice(3);
+for (const [name, p] of Object.entries(pages)) {
+  if (only.length && !only.includes(name)) continue;
+  const page = await browser.newPage({ viewport: { width: p.w, height: p.h }, deviceScaleFactor: 2 });
+  const f = path.join(os.tmpdir(), 'pb_mock_' + name + '.html');
+  fs.writeFileSync(f, `<html><head><style>${CSS}</style></head><body><div class="stage" style="width:${p.w}px;height:${p.h}px;background:${p.bg}">${p.html()}</div></body></html>`);
+  await page.goto('file://' + f, { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(200);
+  await page.screenshot({ path: path.join(OUT, name + '.png') });
+  await page.close();
+}
+// single framed phones on transparent background
+for (const s of ['landing', 'privatehire', 'route', 'theme', 'ridemap', 'postcard', 'story']) {
+  if (only.length && !only.includes('single')) break;
+  const page = await browser.newPage({ viewport: { width: 520, height: 980 }, deviceScaleFactor: 3 });
+  const f = path.join(os.tmpdir(), 'pb_mock_single.html');
+  fs.writeFileSync(f, `<html><head><style>${CSS} .phone{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}</style></head><body style="background:transparent">
+    <div class="stage" style="width:520px;height:980px">${phone(s, { style: 'left:49.5px;top:52.5px', noShadow: true })}</div></body></html>`);
+  await page.goto('file://' + f, { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: path.join(OUT, 'phone-' + s + '.png'), omitBackground: true, clip: { x: 44, y: 47, width: 432, height: 886 } });
+  await page.close();
+}
+await browser.close();
+console.log('done', OUT);

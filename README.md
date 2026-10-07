@@ -22,132 +22,36 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
 [![Figma](https://img.shields.io/badge/design-Figma-000000?style=flat-square&logo=figma&logoColor=white)](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108)
 [![License](https://img.shields.io/badge/license-free%20for%20non--commercial%20use-000000?style=flat-square)](#license)
 
-[**Try v2 live**](https://www.passingby.uk/v2) · [Design board in Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108) · [The original design (v1)](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) · [How it works](#how-it-works) · [Run it locally](#run-it-locally)
+[**Try it live**](https://www.passingby.uk/v2) · [Design process in Figma](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108) · [How it works](#how-it-works) · [Run it locally](#run-it-locally)
 
 <br>
 
-<img src="docs/images/v2/screens/01-landing-black-cab.png" alt="PassingBy v2 landing screen" width="230">
-&nbsp;&nbsp;
-<img src="docs/images/v2/screens/06-ride-postcard.png" alt="v2 ride screen with a landmark postcard" width="230">
-&nbsp;&nbsp;
-<img src="docs/images/v2/screens/07-ride-story.png" alt="Postcard flipped to its story" width="230">
+<img src="docs/images/v2/mockups/hero.jpg" alt="PassingBy on three phones: the landing screen, the theme picker and a landmark postcard during a ride" width="100%">
 
-<sub>PassingBy v2: redesigned after informal testing of the original design.</sub>
-
-</div>
-
-> [!IMPORTANT]
-> **Free for non-commercial use. Commercial use requires a licence.**
-> You're welcome to use, study and adapt PassingBy for personal, educational and non-profit projects.
-> If you'd like to use it commercially, build a product on it, or work together on a similar idea, [get in touch](https://kubajarzebski.xyz/). See [License](#license).
-
-<br>
-
-## v2: a redesign after testing
-
-I designed and built the first version of PassingBy in December 2025. Coming back to it less than a year later, I tested the interface informally with peers, friends and people around me, explored new directions for every screen and rebuilt the app. **This is v2: a rework of the original design, not a new product.** The data, the routing and Alfie's stories are the same; the interface is new.
-
-| | Where | Status |
-|---|---|---|
-| **v2** (this README) | [passingby.uk/v2](https://www.passingby.uk/v2) | The redesign. All four screens are built from the final Figma design. |
-| **v1** (original design) | [passingby.uk/mobile](https://www.passingby.uk/mobile) · [v1 README and code](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) | The design shipped in December 2025. Still running, kept unchanged on the `v1-archive` branch. |
-
-Both versions run side by side from the same server, so the original is never lost and the two can be compared on a phone.
-
-### The design board
-
-Every round of the redesign is on one Figma page: four layouts per screen in round 1, two in round 2, the final direction, the theme system and the testing summary. Each screen reads left to right.
-
-**[Open the design board in Figma →](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108)**
-
-The full write-up, with every slide, is in [`docs/design/`](docs/design/README.md).
-
-### What testing changed
-
-The feedback came from peers, friends and people around me. It was not a recruited or counted group, so the findings are directional, not statistical.
-
-<img src="docs/images/v2/testing/1-overview.png" alt="Testing summary: four stages from round 1 to the working v2" width="100%">
-
-Each screen started as four directions. The ones that worked were combined in round 2, then narrowed to the final design. Faded screens were dropped, and each one notes why.
-
-<img src="docs/images/v2/testing/2-landing.png" alt="Landing: four round 1 directions narrowed through round 2 to the black cab and private hire screens" width="100%">
-<img src="docs/images/v2/testing/3-choose-route.png" alt="Choose Route: four round 1 directions narrowed to the map and landmark list" width="100%">
-<img src="docs/images/v2/testing/4-choose-theme.png" alt="Choose Theme: four round 1 directions narrowed to equal tiles, then themed editions" width="100%">
-<img src="docs/images/v2/testing/5-in-ride-map.png" alt="In-ride map: four round 1 directions narrowed to the postcard version" width="100%">
-
-<details>
-<summary><b>What didn't work, and what I'll test next</b></summary>
-<br>
-
-<img src="docs/images/v2/testing/6-what-didnt-work.png" alt="Ideas dropped and why" width="100%">
-<img src="docs/images/v2/testing/7-next-steps.png" alt="Planned next steps for testing, not yet run" width="100%">
-
-</details>
-
-### Two ways in
-
-A ride with PassingBy starts in one of two places. Each will get its own QR code.
-
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="docs/images/v2/screens/01-landing-black-cab.png" alt="Black cab landing screen" width="220"></td>
-    <td align="center" width="50%"><img src="docs/images/v2/screens/02-landing-private-hire.png" alt="Uber / private hire landing concept" width="220"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Black cab</b> · built<br><sub>No booking to read from, so you type where you're going right under a short explanation.</sub></td>
-    <td align="center"><b>Uber / private hire</b> · design concept<br><sub>The trip is already booked, so one tap starts the stories for that ride.</sub></td>
-  </tr>
-</table>
-
-### What's next
-
-- **Uber / private hire screen.** Build the concept above as its own page and QR code.
-- **Inside the ride app.** A mock-up of PassingBy running inside a ride-hailing app, for example as an App Clip-style card. Still to be explored.
-- **Alfie in the ride.** Landmark audio is switched off in the v2 preview while the remaining recordings are made. The clip on the landing screen plays.
-- **A more rigorous test round.** Task-based usability testing on the live v2, a ride-along in a real cab and a planned A/B test of the postcard against the full card. See the last testing slide.
-
-## See it in action
-
-<div align="center">
-  <a href="https://www.youtube.com/watch?v=hFkSI2gQjCA">
-    <img src="docs/images/video-thumbnail.jpg" alt="Watch the PassingBy demo on YouTube" width="720">
-  </a>
-  <br>
-  <sub>A walkthrough of a ride in v1, the original design. A v2 video is coming. Opens on YouTube.</sub>
 </div>
 
 ## The idea
 
-PassingBy transforms London journeys into living history lessons. Passengers get micro stories and fun facts triggered in real time, each one telling the story of the exact location visible from their window. From iconic sights like Big Ben and the London Eye to hidden gems like Little Dean's Yard that even lifelong Londoners rarely know about, PassingBy is designed for tourists, locals and everyone in between. It turns an ordinary commute into something memorable and makes the city's stories accessible to all.
+PassingBy turns a London journey into a short history lesson. As you pass a landmark, a postcard for it appears on your phone with a micro story about the exact place outside your window, told by Alfie, a friendly London cabbie. It covers icons like Big Ben and the London Eye, and hidden places like Little Dean's Yard that even lifelong Londoners rarely know about.
 
-**How it plays out:** you enter the trip you were already going to make, and PassingBy plans a route that bends a little to take in the city's best sights. As the cab moves, your phone's GPS triggers a card for each landmark you pass, with a short story told by Alfie, a friendly London cabbie. The same route and stories work on foot, so you can also use it as a self-guided walking tour.
+**How it plays out:** you enter the trip you were already making. PassingBy plans a route that bends a little to take in the best sights, and as the car moves your phone's GPS brings up a card for each landmark you pass. It works in a black cab, an Uber or other private hire, and on foot as a self-guided walk. There's nothing to install: it's a web app you open from a link or a QR code.
 
-<div align="center">
-  <img src="docs/images/v2/screens/06-ride-postcard.png" alt="Postcard for Elizabeth Tower, photo side" width="260">
-  &nbsp;&nbsp;
-  <img src="docs/images/v2/screens/07-ride-story.png" alt="Postcard for Elizabeth Tower, story side" width="260">
-  <br>
-  <sub>Each landmark arrives as a postcard. Tap it to flip from the photo to the story.</sub>
-</div>
+<img src="docs/images/v2/mockups/ride.jpg" alt="The ride in three steps: the map with the next stop, a postcard for Elizabeth Tower, and the story on the back" width="100%">
 
 ## A ride, step by step
 
-<table>
-  <tr>
-    <td align="center" width="25%"><img src="docs/images/v2/screens/01-landing-black-cab.png" alt="Landing screen with the destination field" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/v2/screens/03-choose-route.png" alt="Choose Route screen" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/v2/screens/04-choose-theme.png" alt="Choose Theme screen" width="200"></td>
-    <td align="center" width="25%"><img src="docs/images/v2/screens/05-ride-map.png" alt="Ride screen with the map and a minimised card" width="200"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>1. Where to?</b><br><sub>A short explanation of PassingBy, then the destination. Your location is the start.</sub></td>
-    <td align="center"><b>2. Choose a route</b><br><sub><i>Fastest</i>, or <i>PassingBy</i>: the map, the extra minutes and the landmarks you'll pass, side by side.</sub></td>
-    <td align="center"><b>3. Pick a theme</b><br><sub>Each theme has its own colour, glyph and font, sorted by landmarks on your route.</sub></td>
-    <td align="center"><b>4. Ride</b><br><sub>The next stop sits at the top. Each landmark arrives as a postcard you can minimise to the map.</sub></td>
-  </tr>
-</table>
+<img src="docs/images/v2/mockups/flow.jpg" alt="Four steps: where to, choose a route, pick a theme, ride" width="100%">
 
-<sub>v2 screens. Map data © Google. The same steps in the original design are in the <a href="https://github.com/qubula/PassingBy-London/tree/v1-archive#a-ride-step-by-step">v1 README</a>.</sub>
+1. **Where to?** A short explanation of PassingBy, then your destination. Your location is the start point.
+2. **Choose a route.** *Fastest*, or *PassingBy*: the map, the extra minutes and the landmarks you'll pass, side by side.
+3. **Pick a theme.** Nine themes, each with its own colour and glyph, sorted by how many landmarks it has on your route.
+4. **Ride.** The next stop sits at the top. Each landmark arrives as a postcard: tap it for the story, swipe down to see the map.
+
+<sub>Map data © Google.</sub>
+
+### Two ways in
+
+<img src="docs/images/v2/mockups/entry.jpg" alt="Two landing screens: black cab, where you type the destination, and Uber or private hire, where the booked trip loads" width="100%">
 
 ## Narrated by Alfie
 
@@ -216,6 +120,8 @@ open("alfie.mp3", "wb").write(response.content)
 - **Ride or walk.** Built for the back seat of a cab, and it works just as well on foot.
 - **Nothing to install.** It's a mobile web app: open the link, allow location access, and go.
 
+<img src="docs/images/v2/mockups/themes.jpg" alt="Close-up of the theme picker: each theme has its own colour, glyph and font" width="100%">
+
 ## Try it
 
 <table>
@@ -229,6 +135,23 @@ open("alfie.mp3", "wb").write(response.content)
     </td>
   </tr>
 </table>
+
+## Redesigned after testing (v2)
+
+I designed and built PassingBy in December 2025. Less than a year later I came back to it, showed the interface to peers, friends and people around me, and redesigned every screen. This README shows that redesign, v2. The routing, the landmark data and Alfie's stories didn't change; the interface did.
+
+Each screen went through four directions in round 1 and two in round 2 before the final design. The feedback was informal, from a small group, so it's directional rather than statistical.
+
+<img src="docs/images/v2/testing/2-landing.png" alt="Landing screen: four round 1 directions narrowed through round 2 to the final screens, with the reason for each" width="100%">
+
+**[See the whole process in Figma →](https://www.figma.com/design/f4HvYvFfbI5Fi7HiI7SMpA/BlackCab-App-Wireframe?node-id=2008-108)** Every round, the feedback, what was dropped and why. The same slides are in [`docs/design/`](docs/design/README.md).
+
+| | Where |
+|---|---|
+| **v2**, the redesign | [passingby.uk/v2](https://www.passingby.uk/v2) |
+| **v1**, the original design | [passingby.uk/mobile](https://www.passingby.uk/mobile) · [v1 README and code](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) · [video walkthrough](https://www.youtube.com/watch?v=hFkSI2gQjCA) |
+
+**Next:** the Uber / private hire screen with its own QR code, a mock-up of PassingBy inside a ride-hailing app, Alfie's audio in the ride (switched off in the preview for now) and a more rigorous test round on the live app.
 
 ## How it works
 

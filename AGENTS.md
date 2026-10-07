@@ -101,6 +101,11 @@ Rules:
    reason for each. Verdicts come only from the user's feedback and the
    "Round 2 — my decision" notes on the boards. Rebuild a slide when a final
    frame changes.
+4. Mockups (`docs/images/v2/mockups/`) are rendered by
+   `scripts/mockups/render.mjs` from 3x exports of the source frames with the
+   status bar and home indicator removed (`scripts/mockups/screens/`); the
+   script draws the device, status bar and island. Re-export those screens and
+   re-render when a final frame changes.
 4. Exports are rebuilt from the source frames above. Never edit the copies in
    "07 · Clean screens" or the slide images by hand.
 5. Round 1 and round 2 boards are a historical record. Leave them unchanged.
