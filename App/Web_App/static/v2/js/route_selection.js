@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const destination = localStorage.getItem('pb_v2_destination');
     if (!destination) {
-        window.location.href = '/v2/destination';
+        window.location.href = '/v2';
     } else {
         console.log("Planning route to:", JSON.parse(destination).name);
         // Here we would ideally fetch real ETA estimates from the backend

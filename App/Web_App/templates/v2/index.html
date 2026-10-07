@@ -3,51 +3,83 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a1a1a">
-    <title>Alfie Tour Guide</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffffff">
+    <title>PassingBy</title>
     <link rel="stylesheet" href="/static/v2/css/style.css?v=7">
+    <link rel="stylesheet" href="/static/v2/css/v2.css?v=1">
 </head>
 
 <body>
-    <div class="screen landing-screen">
-        <!-- Map Preview Background -->
-        <div class="map-preview"></div>
+    <!-- v2 landing (black cab entry point): explains the product, then asks where you're going.
+         Design: Figma "01c · Landing — Final direction", black cab version. -->
+    <div class="screen v2-landing">
+        <img src="/static/v2/images/logo.png" alt="PassingBy" class="v2-logo">
 
-        <!-- Top Branding -->
-        <div class="top-brand">
-            <img src="/static/v2/images/logo.png" alt="PassingBy" class="logo">
-            <p class="tagline">Your London tour guide</p>
+        <!-- What you get: postcards + Alfie's voice -->
+        <div class="v2-postcards" aria-hidden="true">
+            <div class="v2-postcard v2-postcard--back">
+                <div class="v2-postcard-photo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Big_Ben_Elizabeth_Tower_London_2023_01.jpg/500px-Big_Ben_Elizabeth_Tower_London_2023_01.jpg" alt="">
+                </div>
+                <p class="v2-postcard-title">Elizabeth Tower</p>
+            </div>
+            <div class="v2-postcard v2-postcard--front">
+                <div class="v2-postcard-photo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/London-Eye-2009.JPG/500px-London-Eye-2009.JPG" alt="">
+                </div>
+                <p class="v2-postcard-title">London Eye</p>
+                <p class="v2-postcard-sub">London, England</p>
+            </div>
         </div>
 
-        <!-- Bottom CTA Card -->
-        <div class="cta-card">
-            <div class="glass-card">
-                <button class="btn btn-primary btn-large" onclick="startTour()">
-                    Personalise ride
+        <button type="button" class="v2-hear-alfie" id="hear-alfie" aria-label="Play a sample of Alfie's narration">
+            <svg class="v2-hear-alfie-play" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg>
+            <svg class="v2-hear-alfie-pause" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/></svg>
+            <span class="v2-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <span>Hear Alfie · 0:16</span>
+        </button>
+        <audio id="alfie-sample" src="/static/v2/audio/alfie-london-eye.mp3" preload="none"></audio>
+
+        <h1 class="v2-headline">London's stories, as you pass them</h1>
+        <p class="v2-sub">A postcard and Alfie's voice for every landmark on your ride.</p>
+
+        <!-- Where to? Uses the same ids as the old destination page so location.js works unchanged. -->
+        <div class="v2-search search-section">
+            <div class="v2-field">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <input type="text" id="destination-input" placeholder="Where are you heading?" autocomplete="off" aria-label="Destination">
+                <button id="clear-input" class="v2-clear hidden" aria-label="Clear">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
             </div>
+            <label class="v2-start">
+                <span class="v2-start-dot" aria-hidden="true"></span>
+                <span class="v2-start-label">Starting from</span>
+                <input type="text" id="start-input" placeholder="your location" autocomplete="off" aria-label="Starting point">
+            </label>
         </div>
     </div>
 
     <script>
-        // Navigation
-        function startTour() {
-            window.location.href = '/v2/destination';
-        }
+        const GOOGLE_MAPS_KEY = "{{ google_maps_key }}";
 
-        // Haptic feedback (iOS)
-        const btn = document.querySelector('.btn-primary');
-        if (btn) {
-            btn.addEventListener('touchstart', function () {
-                if (navigator.vibrate) {
-                    navigator.vibrate(10);
-                }
-            });
-        }
+        // "Hear Alfie" sample: play / pause the real London Eye narration.
+        const alfieBtn = document.getElementById('hear-alfie');
+        const alfieAudio = document.getElementById('alfie-sample');
+        alfieBtn.addEventListener('click', () => {
+            if (alfieAudio.paused) { alfieAudio.play(); } else { alfieAudio.pause(); }
+        });
+        alfieAudio.addEventListener('play', () => alfieBtn.classList.add('is-playing'));
+        alfieAudio.addEventListener('pause', () => alfieBtn.classList.remove('is-playing'));
+        alfieAudio.addEventListener('ended', () => { alfieAudio.currentTime = 0; alfieBtn.classList.remove('is-playing'); });
     </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initAutocomplete"
+        async defer></script>
+    <script src="/static/v2/js/location.js"></script>
 </body>
 
 </html>
