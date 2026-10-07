@@ -1,0 +1,207 @@
+/* v2 redesign styles. Loaded after style.css (the copy of v1's styles).
+   Figma: "★ PassingBy — Design Iterations", boards marked "Final direction". */
+
+/* ==================== LANDING (black cab) ====================
+   Figma: "01c · Landing — Final direction", black cab version. */
+.v2-landing {
+  align-items: center;
+  text-align: center;
+  padding: calc(env(safe-area-inset-top) + 20px) 28px calc(env(safe-area-inset-bottom) + 28px);
+  background: #ffffff;
+}
+
+.v2-logo {
+  width: 132px;
+  height: auto;
+  margin-top: 4px;
+}
+
+.v2-postcards {
+  position: relative;
+  width: 220px;
+  height: 200px;
+  margin: 18px auto 0;
+}
+
+.v2-postcard {
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 168px;
+  height: 196px;
+  padding: 12px 12px 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.v2-postcard--back { transform: translateX(22px) rotate(6deg); }
+.v2-postcard--front { transform: rotate(-4deg); }
+
+.v2-postcard-photo {
+  height: 124px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f5f5f5;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+
+.v2-postcard-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.v2-postcard-title {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #2c2416;
+}
+
+.v2-postcard-sub {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.v2-hear-alfie {
+  position: relative;
+  z-index: 2;
+  margin-top: -18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 12px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.v2-hear-alfie-pause { display: none; }
+.v2-hear-alfie.is-playing .v2-hear-alfie-play { display: none; }
+.v2-hear-alfie.is-playing .v2-hear-alfie-pause { display: block; }
+
+.v2-wave { display: inline-flex; align-items: center; gap: 3px; height: 16px; }
+.v2-wave i { display: block; width: 3px; border-radius: 2px; background: #ffffff; }
+.v2-wave i:nth-child(1) { height: 4px; }
+.v2-wave i:nth-child(2) { height: 10px; }
+.v2-wave i:nth-child(3) { height: 16px; }
+.v2-wave i:nth-child(4) { height: 8px; }
+.v2-wave i:nth-child(5) { height: 12px; }
+.v2-wave i:nth-child(6) { height: 6px; }
+.v2-wave i:nth-child(7) { height: 10px; }
+.v2-hear-alfie.is-playing .v2-wave i { animation: v2-wave 0.9s ease-in-out infinite; }
+.v2-hear-alfie.is-playing .v2-wave i:nth-child(2n) { animation-delay: 0.15s; }
+.v2-hear-alfie.is-playing .v2-wave i:nth-child(3n) { animation-delay: 0.3s; }
+
+@keyframes v2-wave {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+.v2-headline {
+  margin-top: 28px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 320px;
+}
+
+.v2-sub {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  max-width: 310px;
+}
+
+.v2-search {
+  width: 100%;
+  max-width: 334px;
+  margin: 32px 0 0;
+  padding: 0;
+  text-align: left;
+}
+
+.v2-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 58px;
+  padding: 0 16px;
+  border: 1.5px solid var(--text-primary);
+  border-radius: 16px;
+  background: #f5f5f5;
+  color: var(--text-primary);
+}
+
+.v2-field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px; /* 16px stops iOS zooming into the field */
+  color: var(--text-primary);
+}
+
+.v2-field input::placeholder { color: var(--text-tertiary); }
+
+.v2-clear {
+  display: flex;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.v2-start {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-left: 2px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.v2-start-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-primary);
+}
+
+.v2-start-label { flex: none; }
+
+.v2-start input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.v2-start input:focus { border-bottom-color: var(--text-tertiary); }
+.v2-start input::placeholder { color: var(--text-secondary); }
+
+/* Google Places dropdown: match the app's type */
+.pac-container { font-family: 'Satoshi', -apple-system, sans-serif; border-radius: 12px; margin-top: 6px; }
