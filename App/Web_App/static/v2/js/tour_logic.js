@@ -138,6 +138,7 @@ function initMap() {
         zoom: 12,
         disableDefaultUI: true,
         clickableIcons: false,
+        gestureHandling: 'greedy',   // one finger moves the map; the page itself never scrolls
         styles: DARK_MAP
     });
     calculateRoute();
@@ -339,21 +340,40 @@ function showMini(idx) {
 
 function initMiniCard() {
     const mini = $('mini-card');
-    let startY = null;
-    let swiped = false;
-    // Swipe up opens the postcard; a plain tap does too (via click)
-    mini.addEventListener('touchstart', e => { startY = e.touches[0].clientY; swiped = false; }, { passive: true });
+    let start = null;
+    let moved = false;
+
+    // Swipe up opens the postcard and the card follows the finger; a tap opens it too.
+    mini.addEventListener('touchstart', e => {
+        start = { y: e.touches[0].clientY, t: Date.now() };
+        moved = false;
+        mini.style.transition = 'none';
+    }, { passive: true });
+    mini.addEventListener('touchmove', e => {
+        if (!start) return;
+        const dy = e.touches[0].clientY - start.y;
+        if (Math.abs(dy) > 6) moved = true;
+        if (e.cancelable) e.preventDefault();          // never scroll the page
+        mini.style.transform = `translateY(${Math.max(-80, Math.min(30, dy))}px)`;
+    }, { passive: false });
     mini.addEventListener('touchend', e => {
-        if (startY === null) return;
-        const dy = e.changedTouches[0].clientY - startY;
-        startY = null;
-        if (dy < -30) { swiped = true; openDeck(ride.current); }
+        if (!start) return;
+        const dy = e.changedTouches[0].clientY - start.y;
+        start = null;
+        mini.style.transition = '';
+        mini.style.transform = '';
+        if (dy < -35 || !moved) openDeck(ride.current);
     });
-    mini.addEventListener('click', () => {
-        if (swiped) { swiped = false; return; }
+    mini.addEventListener('click', e => {
+        // Touch is handled above; this is for mouse (desktop testing)
+        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+        if (Date.now() - lastTouchAt < 800) return;
         openDeck(ride.current);
     });
 }
+
+let lastTouchAt = 0;
+document.addEventListener('touchstart', () => { lastTouchAt = Date.now(); }, { passive: true, capture: true });
 
 function setImage(img, url) {
     if (url) {
@@ -393,18 +413,26 @@ function openDeck(idx) {
     $('mini-card').hidden = true;
     $('swipe-hint').hidden = true;
     $('pin-hint').hidden = true;
-    $('deck').hidden = false;
-    requestAnimationFrame(() => $('deck').classList.add('is-open'));
+    const deck = $('deck');
+    deck.style.transform = '';
+    deck.style.opacity = '';
+    deck.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => deck.classList.add('is-open')));
 }
 
 function closeDeck() {
     const deck = $('deck');
-    deck.classList.remove('is-open');
     ride.deckOpen = false;
+    deck.style.transition = '';
+    deck.style.transform = 'translateY(110%)';
+    deck.style.opacity = '0';
     setTimeout(() => {
+        deck.classList.remove('is-open');
         deck.hidden = true;
+        deck.style.transform = '';
+        deck.style.opacity = '';
         showMini(ride.current);
-    }, 220);
+    }, 240);
 }
 
 function setFlipped(on) {
@@ -412,60 +440,104 @@ function setFlipped(on) {
     $('postcard').classList.toggle('is-flipped', on);
 }
 
+function snapBack(el) {
+    el.style.transition = '';
+    el.style.transform = '';
+    el.style.opacity = '';
+}
+
+// Move to the previous / next postcard. The card leaves in the swipe direction
+// from wherever the finger let go, and the next one slides in from the other side.
 function goTo(idx, direction) {
+    const pc = $('postcard');
     if (idx < 0 || idx >= ride.landmarks.length) {
-        // Nothing there: small nudge so the swipe still feels answered
-        const pc = $('postcard');
-        pc.classList.add(direction > 0 ? 'nudge-left' : 'nudge-right');
-        setTimeout(() => pc.classList.remove('nudge-left', 'nudge-right'), 250);
+        snapBack(pc);                                   // nothing there: spring back
         return;
     }
-    const pc = $('postcard');
-    pc.classList.add(direction > 0 ? 'out-left' : 'out-right');
+    pc.style.transition = '';
+    pc.style.transform = `translateX(${direction > 0 ? -115 : 115}%)`;
+    pc.style.opacity = '0';
     setTimeout(() => {
         fillPostcard(idx);
         setFlipped(false);
-        pc.classList.remove('out-left', 'out-right');
-        pc.classList.add(direction > 0 ? 'in-right' : 'in-left');
-        requestAnimationFrame(() => requestAnimationFrame(() => pc.classList.remove('in-right', 'in-left')));
-    }, 160);
+        pc.style.transition = 'none';
+        pc.style.transform = `translateX(${direction > 0 ? 45 : -45}%)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => snapBack(pc)));
+    }, 200);
 }
 
-// One gesture handler for the whole postcard: tap flips, swipe down minimises,
-// swipe sideways moves through the deck. The story on the back still scrolls.
+// One gesture handler for the postcard. The card follows the finger:
+// sideways drags move through the deck, a downward drag pulls the deck down
+// to minimise it, a tap flips it. The story on the back still scrolls natively.
 function initPostcard() {
     const pc = $('postcard');
+    const deck = $('deck');
     const story = $('pc-story');
-    let start = null;
+    let g = null;
 
     const begin = (x, y, target) => {
-        start = { x, y, t: Date.now(), inStory: story.contains(target), storyTop: story.scrollTop };
+        g = { x, y, t: Date.now(), dx: 0, dy: 0, axis: null, inStory: story.contains(target) };
+        pc.style.transition = 'none';
+        deck.style.transition = 'none';
     };
-    const finish = (x, y) => {
-        if (!start) return;
-        const dx = x - start.x;
-        const dy = y - start.y;
-        const dt = Date.now() - start.t;
-        const s = start;
-        start = null;
 
-        if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 400) {
-            setFlipped(!ride.flipped);              // tap
-        } else if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) {
-            goTo(ride.current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);   // sideways
-        } else if (dy > 60 && Math.abs(dy) > Math.abs(dx)) {
-            // Down: minimise, unless the person is scrolling the story back up
-            if (!s.inStory || (s.storyTop <= 0 && story.scrollTop <= 0)) closeDeck();
+    const move = (x, y, e) => {
+        if (!g) return;
+        g.dx = x - g.x;
+        g.dy = y - g.y;
+        if (!g.axis) {
+            if (Math.abs(g.dx) < 8 && Math.abs(g.dy) < 8) return;
+            if (Math.abs(g.dx) > Math.abs(g.dy)) g.axis = 'x';
+            else if (g.dy > 0 && (!g.inStory || story.scrollTop <= 0)) g.axis = 'down';
+            else g.axis = 'scroll';                     // let the story scroll
+        }
+        if (g.axis === 'scroll') return;
+        if (e && e.cancelable) e.preventDefault();      // never scroll the page
+        if (g.axis === 'x') {
+            const edge = (ride.current === 0 && g.dx > 0) || (ride.current === ride.landmarks.length - 1 && g.dx < 0);
+            const dx = edge ? g.dx * 0.3 : g.dx;        // resist at the ends of the deck
+            pc.style.transform = `translateX(${dx}px)`;
+            pc.style.opacity = String(1 - Math.min(Math.abs(dx) / 700, 0.35));
+        } else {
+            const dy = Math.max(0, g.dy);
+            deck.style.transform = `translateY(${dy}px)`;
+            deck.style.opacity = String(1 - Math.min(dy / 600, 0.4));
         }
     };
 
-    let lastTouch = 0;
-    pc.addEventListener('touchstart', e => { lastTouch = Date.now(); begin(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });
-    pc.addEventListener('touchend', e => { lastTouch = Date.now(); finish(e.changedTouches[0].clientX, e.changedTouches[0].clientY); });
-    pc.addEventListener('touchcancel', () => { start = null; });
-    // Mouse (desktop testing). Phones also fire mouse events after a tap; ignore those.
-    pc.addEventListener('mousedown', e => { if (Date.now() - lastTouch > 800) begin(e.clientX, e.clientY, e.target); });
-    pc.addEventListener('mouseup', e => { if (Date.now() - lastTouch > 800) finish(e.clientX, e.clientY); });
+    const end = () => {
+        if (!g) return;
+        const { dx, dy, axis, t } = g;
+        g = null;
+        pc.style.transition = '';
+        deck.style.transition = '';
+        const fast = Date.now() - t < 250;
+        if (!axis) {
+            if (Date.now() - t < 450) setFlipped(!ride.flipped);   // tap
+        } else if (axis === 'x') {
+            if (Math.abs(dx) > 70 || (fast && Math.abs(dx) > 30)) {
+                const dir = dx < 0 ? 1 : -1;
+                goTo(ride.current + dir, dir);
+            } else {
+                snapBack(pc);
+            }
+        } else if (axis === 'down') {
+            if (dy > 90 || (fast && dy > 40)) closeDeck();
+            else snapBack(deck);
+        }
+    };
+
+    pc.addEventListener('touchstart', e => begin(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
+    pc.addEventListener('touchmove', e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+    pc.addEventListener('touchend', end);
+    pc.addEventListener('touchcancel', () => { g = null; snapBack(pc); snapBack(deck); });
+
+    // Mouse (desktop testing). Phones also fire mouse events after a touch; ignore those.
+    let mouseDown = false;
+    pc.addEventListener('mousedown', e => { if (Date.now() - lastTouchAt < 800) return; mouseDown = true; begin(e.clientX, e.clientY, e.target); });
+    window.addEventListener('mousemove', e => { if (mouseDown) move(e.clientX, e.clientY, null); });
+    window.addEventListener('mouseup', () => { if (mouseDown) { mouseDown = false; end(); } });
+
     pc.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(!ride.flipped); }
         if (e.key === 'Escape') closeDeck();
@@ -473,6 +545,9 @@ function initPostcard() {
         if (e.key === 'ArrowLeft') goTo(ride.current - 1, -1);
     });
     pc.tabIndex = 0;
+
+    // Stop the page itself from moving if a drag starts on the deck's edges
+    deck.addEventListener('touchmove', e => { if (!story.contains(e.target) && e.cancelable) e.preventDefault(); }, { passive: false });
 }
 
 // ---------- Audio ----------
@@ -486,6 +561,7 @@ function initAudioToggle() {
         ride.audioOn = !ride.audioOn;
         btn.setAttribute('aria-pressed', ride.audioOn ? 'true' : 'false');
         btn.classList.toggle('is-on', ride.audioOn);
+        $('audio-state').textContent = ride.audioOn ? 'On' : 'Off';
         $('mini-live').hidden = !ride.audioOn;
         if (ride.audioOn) {
             // Play the story that's on screen, so the toggle has an instant effect

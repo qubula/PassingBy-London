@@ -68,27 +68,41 @@ function getLocation(storageKey) {
 
 async function loadThemes() {
     const desc = document.getElementById('theme-desc');
-    const start = getLocation('pb_v2_start');
+    const start = getLocation('pb_v2_start') || 'Charing Cross, London';
     const savedEnd = localStorage.getItem('pb_v2_destination');
     if (!savedEnd) { window.location.href = '/v2'; return; }
     const endLoc = JSON.parse(savedEnd);
     const end = endLoc.address || endLoc.name;
+    const key = `${start}|${end}`;
 
+    // 1. Counts already fetched in the background on Choose Route: show them instantly
+    try {
+        const cached = JSON.parse(sessionStorage.getItem('pb_v2_theme_counts') || 'null');
+        if (cached && cached.key === key) {
+            desc.textContent = 'Sorted by landmarks on your route';
+            renderTiles(cached.counts);
+            return;
+        }
+    } catch (e) { /* ignore */ }
+
+    // 2. Otherwise show every tile straight away and fill in the counts when they arrive
+    renderTiles(null);
+    desc.textContent = 'Counting landmarks on your route…';
     try {
         const response = await fetch('/api/check-tour-availability', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ start: start || 'Charing Cross, London', end, mode: localStorage.getItem('pb_v2_route_mode') || 'scenic' })
+            body: JSON.stringify({ start, end, mode: 'scenic' })
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         if (data.status !== 'success') throw new Error(data.message || 'Check failed');
+        sessionStorage.setItem('pb_v2_theme_counts', JSON.stringify({ key, counts: data.landmark_counts || {} }));
         desc.textContent = 'Sorted by landmarks on your route';
         renderTiles(data.landmark_counts || {});
     } catch (error) {
         console.error('[Choose Theme]', error);
-        desc.textContent = "Couldn't check your route. All themes are shown.";
-        renderTiles(null);
+        desc.textContent = 'Pick a theme for your ride';
     }
 }
 

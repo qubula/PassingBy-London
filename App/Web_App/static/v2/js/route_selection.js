@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dest = JSON.parse(savedDestination);
     const destination = dest.address || dest.name;
     const origin = getOrigin();
+    prefetchThemeCounts(origin, destination);
 
     const [fastest, scenic] = await Promise.allSettled([
         planRoute(origin, destination, '1'),
@@ -178,3 +179,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLandmarks();
     drawMap();
 });
+
+// Start the theme check now, while the person is still choosing a route, so the
+// Choose Theme screen can show its counts straight away. Result goes to sessionStorage.
+function prefetchThemeCounts(origin, destination) {
+    const key = `${origin}|${destination}`;
+    try {
+        const cached = JSON.parse(sessionStorage.getItem('pb_v2_theme_counts') || 'null');
+        if (cached && cached.key === key) return;
+    } catch (e) { /* ignore */ }
+    fetch('/api/check-tour-availability', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ start: origin, end: destination, mode: 'scenic' })
+    })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            if (data && data.status === 'success') {
+                sessionStorage.setItem('pb_v2_theme_counts', JSON.stringify({ key, counts: data.landmark_counts || {} }));
+            }
+        })
+        .catch(() => { /* Choose Theme will ask again */ });
+}

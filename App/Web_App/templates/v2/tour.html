@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#2a2a2a">
     <title>Ride - PassingBy</title>
     <link rel="stylesheet" href="/static/v2/css/style.css?v=7">
-    <link rel="stylesheet" href="/static/v2/css/v2.css?v=4">
+    <link rel="stylesheet" href="/static/v2/css/v2.css?v=5">
 </head>
 <body class="v2-ride-body">
     <!-- v2 ride. Figma: "04d · In-ride map — Final direction, postcard version".
@@ -26,7 +26,7 @@
             </div>
             <div class="v2-ride-controls">
                 <button type="button" class="v2-audio" id="audio-toggle" aria-pressed="false">
-                    <span>Audio</span>
+                    <span>Audio <b class="v2-audio-state" id="audio-state">Off</b></span>
                     <span class="v2-switch" aria-hidden="true"><i></i></span>
                 </button>
                 <button type="button" class="v2-end" id="end-tour" aria-label="End the ride">
@@ -81,7 +81,7 @@
     <script>const GOOGLE_MAPS_KEY = "{{ google_maps_key }}";</script>
     <script src="/static/v2/js/editions.js?v=1"></script>
     <script src="/static/v2/js/narration.js?v=1"></script>
-    <script src="/static/v2/js/tour_logic.js?v=18"></script>
+    <script src="/static/v2/js/tour_logic.js?v=19"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=geometry&callback=initMap" async defer></script>
 </body>
 </html>

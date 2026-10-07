@@ -45,8 +45,9 @@ and `App/Web_App/static/mobile/js/tour_logic.js`.
 ## Audio
 
 - The toggle label is "Audio" (was "Alfie's voice").
-- The label sits in a white pill. The switch is a white track with a 2 px black
-  outline and a black knob (knob on the right = on). No green, no blue.
+- The label sits in a white pill and says "Audio Off" or "Audio On". The switch
+  is a white track with a 2 px black outline. Off: hollow knob on the left. On:
+  solid black knob on the right. No green, no blue.
 - Small labels in the ride UI ("Next stop · in 2 min", "On your left · 200 m")
   are grey (`#6b7280`), not blue.
 - When audio is on, the mini card shows "Stories are playing live"
@@ -117,6 +118,11 @@ The postcard version (board 04d) is built at `/v2/tour`
   Once the person opens a card themselves, it stops following automatically.
 - A landmark that triggers while the postcard is open doesn't replace it. It
   shows in the mini card when the postcard is minimised.
+- Cards follow the finger while dragging (sideways and down) and spring back
+  if the drag is too short. The ride page is locked: it never scrolls or
+  bounces, and the map takes one-finger drags. Only the story text scrolls.
+- Choose Route starts the theme check in the background, so Choose Theme can
+  show its counts straight away.
 - Pins are Google Maps markers with a 24 px circle, which is smaller than the
   44 px hit area asked for above. Revisit if pins are hard to tap in a cab.
 
