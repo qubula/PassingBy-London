@@ -90,8 +90,9 @@ language (white card, Satoshi, no cream or vintage fonts).
 - Tap anywhere on the card flips it (the current code already does this on
   iOS: see commit "Flip landmark cards on a tap anywhere on the card").
 - Swipe down minimises from either face.
-- Swipe sideways moves to the previous or next postcard; a stack of cards
-  behind shows there are more.
+- Swipe sideways moves to the previous or next postcard. Behind the card sits
+  a neat deck: two same-size cards, no rotation, offset 12 px and 24 px to the
+  right (and slightly shorter), so only their right edges peek out.
 - The card keeps round 1 D's size. The story scrolls inside the back, with a
   fade and a scroll indicator.
 
