@@ -203,5 +203,201 @@
 .v2-start input:focus { border-bottom-color: var(--text-tertiary); }
 .v2-start input::placeholder { color: var(--text-secondary); }
 
+/* ==================== SHARED: header ==================== */
+.v2-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: calc(env(safe-area-inset-top) + 16px) 28px 8px;
+  text-align: center;
+}
+
+.v2-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.v2-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(229, 231, 235, 0.8);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.v2-eyebrow {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* ==================== CHOOSE ROUTE ====================
+   Figma: "02c · Choose Route — Final direction". */
+.v2-route {
+  background: #ffffff;
+}
+
+.v2-route-map {
+  position: relative;
+  height: 200px;
+  margin: 12px 28px 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f2f2f0;
+}
+
+.v2-route-map-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.v2-route-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 28px 0;
+}
+
+.v2-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 0 16px;
+  border: 1.5px solid transparent;
+  border-radius: 16px;
+  background: #f5f5f5;
+  font-family: inherit;
+  text-align: left;
+  color: var(--text-primary);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.v2-option.is-selected {
+  border-color: var(--text-primary);
+  background: #ffffff;
+}
+
+.v2-option--passingby {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 16px;
+}
+
+.v2-option-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.v2-radio {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--text-tertiary);
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.v2-option.is-selected .v2-radio {
+  border: 7px solid var(--text-primary);
+}
+
+.v2-line {
+  flex: none;
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.v2-line--fastest {
+  background: repeating-linear-gradient(90deg, #6b7280 0 5px, transparent 5px 8px);
+}
+
+.v2-line--passingby { background: var(--text-primary); }
+
+.v2-option-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.v2-option-times {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.v2-option-time {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.v2-option:not(.is-selected) .v2-option-time { color: var(--text-secondary); }
+
+.v2-option-diff {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.v2-option-detail {
+  display: block;
+  margin-top: 16px;
+}
+
+.v2-option--passingby:not(.is-selected) .v2-option-detail { display: none; }
+
+.v2-landmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.v2-landmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.v2-landmark i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1e3a8a;
+}
+
+.v2-landmark-more {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.v2-route-footer {
+  margin-top: auto;
+  padding: 24px 28px calc(env(safe-area-inset-bottom) + 28px);
+}
+
 /* Google Places dropdown: match the app's type */
 .pac-container { font-family: 'Satoshi', -apple-system, sans-serif; border-radius: 12px; margin-top: 6px; }

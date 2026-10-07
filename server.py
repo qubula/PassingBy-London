@@ -165,10 +165,12 @@ async def v2_destination(request: Request):
 
 @app.get("/v2/route-mode", response_class=HTMLResponse)
 async def v2_route_mode(request: Request):
-    """v2 route mode selection page"""
+    """v2 route mode selection page (draws both routes on a map, so it needs the browser key)"""
+    google_maps_key = os.getenv("GOOGLE_MAPS_BROWSER_KEY", "")
     return mobile_templates.TemplateResponse(
         request,
-        "v2/route_mode.html"
+        "v2/route_mode.html",
+        {"google_maps_key": google_maps_key}
     )
 
 
