@@ -72,6 +72,29 @@ Theme picker tile (Figma component `PB/Theme tile`): 161 × 150, radius 12, flat
 14 px inset. Code label, count and "LANDMARKS" in a mono font. Glyph top-right.
 Only the colours, the name font and the glyph change per theme.
 
+## Alternative to test: postcard version (Figma board 04d)
+
+Same flow and same state 1 as above. Only the way the landmark is shown
+changes: the shipped postcard, tapped to flip, restyled to the current design
+language (white card, Satoshi, no cream or vintage fonts).
+
+| State | What's on screen | How you get there |
+|---|---|---|
+| 1 · Minimised | Same as the main version | Swipe down from the front or the back of the postcard |
+| 2 · Postcard front | Photo in a white mount (whole, `object-fit: contain`), name, "On your left · 200 m", "Tap to read the story" | Swipe up on the mini card, or tap a landmark pin |
+| 3 · Postcard back | Story text, the photo shrunk into a stamp top-right, "Tap to flip back" | Tap anywhere on the card front |
+
+- Tap anywhere on the card flips it (the current code already does this on
+  iOS: see commit "Flip landmark cards on a tap anywhere on the card").
+- Swipe down minimises from either face.
+- Swipe sideways moves to the previous or next postcard; a stack of cards
+  behind shows there are more.
+- The card keeps round 1 D's size. The story scrolls inside the back, with a
+  fade and a scroll indicator.
+
+Test 04c against 04d with the same task: "A landmark just came up. Find out
+what it is and read about it, then go back to the map."
+
 ## Still to decide
 
 - Whether Royal and Religious are too similar side by side (both blue-purple).
