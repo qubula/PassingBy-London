@@ -523,5 +523,427 @@
   font-size: 12px;
 }
 
+/* ==================== RIDE ====================
+   Figma: "04d · In-ride map — Final direction, postcard version".
+   Spec: docs/design/handoff-in-ride-map.md */
+.v2-ride {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #2a2a2a;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (min-width: 768px) {
+  .v2-ride { height: 844px; max-height: 90vh; }
+}
+
+.v2-ride-map {
+  position: absolute;
+  inset: 0;
+  background: #2a2a2a;
+}
+
+.v2-ride-top {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 12px);
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.v2-ride-top > * { pointer-events: auto; }
+
+.v2-next {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.v2-badge {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #111111;
+}
+
+.v2-next-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.v2-next-text .v2-eyebrow { color: var(--text-secondary); }
+
+.v2-next-name {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.v2-next-eta {
+  flex: none;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.v2-ride-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+/* Audio: white pill, white track with a black outline, black knob */
+.v2-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 14px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.v2-switch {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  border: 2px solid var(--text-primary);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.v2-switch i {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  transition: transform 0.2s ease;
+}
+
+.v2-audio.is-on .v2-switch i { transform: translateX(16px); }
+
+.v2-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.v2-pin-hint {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.v2-handle {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  margin-left: -20px;
+  border-radius: 2px;
+  background: #e5e7eb;
+}
+
+/* State 1: mini card */
+.v2-mini {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: calc(env(safe-area-inset-bottom) + 52px);
+  z-index: 10;
+  display: flex;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.v2-mini-photo {
+  flex: none;
+  width: 84px;
+  height: 104px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.v2-mini-photo img,
+.v2-pc-stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.is-empty img { visibility: hidden; }
+
+/* Images never take over a swipe (desktop image drag, iOS long-press) */
+.v2-ride img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+.v2-mini-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.v2-mini-text .v2-eyebrow { color: var(--text-secondary); }
+
+.v2-mini-name {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.v2-live {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.v2-swipe-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 22px);
+  z-index: 10;
+  text-align: center;
+  font-size: 12px;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+.v2-mini[hidden], .v2-swipe-hint[hidden], .v2-pin-hint[hidden], .v2-deck[hidden], .v2-live[hidden] { display: none; }
+
+/* States 2 and 3: postcard deck. Card + deck span the mini card's width:
+   the card is 24px narrower, the two deck cards fill the last 24px. */
+.v2-deck {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: calc(env(safe-area-inset-bottom) + 52px);
+  height: min(470px, calc(100% - 230px));
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.v2-deck.is-open { opacity: 1; transform: none; }
+
+.v2-deck-card {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 12px;
+  right: 12px;
+  border-radius: 16px;
+  background: #f5f5f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.v2-deck-card--3 { top: 16px; bottom: 16px; left: 24px; right: 0; background: #e5e7eb; }
+.v2-deck-card--2 { right: 12px; }
+.v2-deck-card[hidden] { display: none; }
+
+.v2-pc {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 24px;
+  perspective: 1200px;
+  outline: none;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.v2-pc.out-left { transform: translateX(-110%); opacity: 0; }
+.v2-pc.out-right { transform: translateX(110%); opacity: 0; }
+.v2-pc.in-right { transform: translateX(60%); opacity: 0; transition: none; }
+.v2-pc.in-left { transform: translateX(-60%); opacity: 0; transition: none; }
+.v2-pc.nudge-left { transform: translateX(-16px); }
+.v2-pc.nudge-right { transform: translateX(16px); }
+
+.v2-pc-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.v2-pc.is-flipped .v2-pc-inner { transform: rotateY(180deg); }
+
+.v2-pc-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.v2-pc-back {
+  align-items: stretch;
+  transform: rotateY(180deg);
+  padding: 32px 24px 20px;
+}
+
+.v2-pc-mount {
+  flex: 1;
+  min-height: 0;
+  width: 77%;
+  padding: 8px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+}
+
+.v2-pc-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+/* Whole landmark, never cropped */
+.v2-pc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.v2-pc-name {
+  margin-top: 18px;
+  font-size: 22px;
+  line-height: 1.25;
+  color: #2c2416;
+  text-align: center;
+}
+
+.v2-pc-where {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.v2-pc-pill {
+  flex: none;
+  align-self: center;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: #f5f5f5;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.v2-pc-stamp {
+  position: absolute;
+  top: 24px;
+  right: 20px;
+  width: 58px;
+  height: 70px;
+  padding: 4px;
+  border: 1.5px dashed var(--text-tertiary);
+  border-radius: 4px;
+  background: #ffffff;
+  transform: rotate(-4deg);
+}
+
+.v2-pc-back .v2-eyebrow { color: var(--text-secondary); }
+
+.v2-pc-name--back {
+  margin-top: 4px;
+  padding-right: 70px;
+  text-align: left;
+}
+
+.v2-pc-story {
+  flex: 1;
+  min-height: 0;
+  margin-top: 16px;
+  padding: 14px 6px 24px 0;
+  border-top: 1px solid #e5e7eb;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+}
+
 /* Google Places dropdown: match the app's type */
 .pac-container { font-family: 'Satoshi', -apple-system, sans-serif; border-radius: 12px; margin-top: 6px; }
