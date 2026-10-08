@@ -66,9 +66,11 @@ All four v2 screens are built. Each one's Figma source is in the sync table belo
 - Figma page "★ PassingBy — Sticker & QR": five in-car sticker directions.
   Each QR code encodes https://www.passingby.uk/v2 (error correction H) and
   was checked with a ZXing decoder. Re-check any restyled QR before printing.
-- Board "08 · Uber / private hire — concept round 1" on the design page:
-  generic ride-app screens for `docs/design/private-hire-concept.md`. Not
-  built, and never styled as a real company's interface.
+- Figma page "★ PassingBy — Live Activity & ride app": lock screen Live
+  Activity, Dynamic Island and ride-app entry points for
+  `docs/design/private-hire-concept.md`. Ride-app screens follow ride-hailing
+  patterns but carry no real company logo and are labelled as a concept.
+  SF Pro is listed in Figma but does not render through the API; use Inter.
 - `docs/design/README.md`: the redesign write-up (testing summary slides,
   final screens). The README and this page use PNG exports from the Figma
   frames "06 · Testing summary" and "07 · Clean screens for GitHub and
