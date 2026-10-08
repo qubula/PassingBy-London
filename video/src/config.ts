@@ -4,7 +4,9 @@
 import landmarks from './generated/landmarks.json';
 
 export const FPS = 30;
-const s = (seconds: number) => Math.round(seconds * FPS);
+// Seconds to frames.
+export const sec = (seconds: number) => Math.round(seconds * FPS);
+const s = sec;
 
 // Landmark count straight from the database, rounded down: 1,327 -> "1,300+".
 const rounded = Math.floor(landmarks.count / 100) * 100;
@@ -45,27 +47,27 @@ export const storyFor = (name: string): string =>
 export const HERO = 'Elizabeth Tower';
 export const PICKED = 'Buckingham Palace';
 
-// Alfie: the real recorded clip, trimmed to its first line.
+// Alfie: the real recorded clip, trimmed to its first two sentences.
 export const ALFIE = {
   file: 'shared/audio/alfie-buckingham-palace.mp3',
   startFrom: 0, // seconds into the clip
-  duration: 2.6, // seconds; the first pause in this clip is at 2.55 s
+  duration: 4.45, // seconds: the first two sentences (the second pause is at 4.43 s)
 };
 
 // The theme that lifts out of the grid (a key from editions.js).
-export const THEME_PICK = 'royal';
+export const THEME_PICK = 'architecture';
 
 // Beats, in order. Lengths in seconds; they add up to the video length.
 export const BEATS = {
-  hook: s(1.5),
-  deck: s(2.0),
-  fan: s(2.0),
-  alfie: s(2.0),
-  rideApp: s(3.5),
-  themes: s(2.5),
-  ride: s(3.5),
-  blackCab: s(2.5),
-  end: s(2.5),
+  hook: s(2.5),
+  deck: s(3.5),
+  fan: s(4.0),
+  alfie: s(5.0),
+  rideApp: s(6.0),
+  themes: s(4.5),
+  ride: s(6.0),
+  blackCab: s(4.5),
+  end: s(4.0),
 };
 export const TOTAL = Object.values(BEATS).reduce((a, b) => a + b, 0);
 
@@ -78,7 +80,7 @@ export const COPY = {
   rideApp: 'Book a ride. Add the scenic route.',
   rideAppPrice: '+6 min · +£3.20',
   themes: '9 themes',
-  themesSub: 'Royal, Historical, Architecture…',
+  themesSub: 'Architecture, Historical, Royal…',
   ride: 'Stories as you pass them',
   blackCab: 'In a black cab? Scan the sticker.',
   endTagline: "London's stories, as you pass them",

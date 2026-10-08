@@ -2,15 +2,15 @@
 // picked theme lifts, and its colour washes over the frame.
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { BEATS, COLORS, COPY, THEME_PICK } from '../config';
+import { BEATS, COLORS, COPY, THEME_PICK, sec } from '../config';
 import { EDITIONS, EDITION_KEYS } from '../editions';
 import { ThemeTile, TILE_H, TILE_W } from '../components/ThemeTile';
 import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
 import { BOUNCE, SNAP, ramp, sp } from '../anim';
 
-const LIFT_AT = 36;
-const WASH_AT = 46;
+const LIFT_AT = sec(1.9);
+const WASH_AT = sec(2.4);
 
 export const Themes: React.FC = () => {
   const frame = useCurrentFrame();
@@ -26,7 +26,7 @@ export const Themes: React.FC = () => {
   const gy = L.wide ? L.cy - gh / 2 : L.cy - gh / 2 + 40 * L.u;
 
   const lift = sp(frame, fps, LIFT_AT, SNAP);
-  const wash = ramp(frame, WASH_AT, WASH_AT + 16);
+  const wash = ramp(frame, WASH_AT, WASH_AT + sec(0.8));
   const pickIdx = EDITION_KEYS.indexOf(THEME_PICK);
   const pc = pickIdx % cols, pr = Math.floor(pickIdx / cols);
   const pickX = gx + pc * (tw + gap) + tw / 2;
@@ -38,7 +38,7 @@ export const Themes: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg }}>
       {EDITION_KEYS.map((key, i) => ({ key, i })).sort((a, b) => Number(a.key === THEME_PICK) - Number(b.key === THEME_PICK)).map(({ key, i }) => {
         const c = i % cols, r = Math.floor(i / cols);
-        const t = sp(frame, fps, 2 + (c + r) * 3 + c, BOUNCE);
+        const t = sp(frame, fps, sec(0.15) + ((c + r) * 3 + c) * sec(0.06), BOUNCE);
         const picked = key === THEME_PICK;
         const scale = (0.6 + 0.4 * t) * (picked ? 1 + 0.12 * lift : 1 - 0.04 * lift);
         const tile = (
@@ -60,7 +60,7 @@ export const Themes: React.FC = () => {
         );
       })}
 
-      <Caption text={COPY.themes} sub={COPY.themesSub} color={onColour ? '#fff' : COLORS.ink} delay={4} />
+      <Caption text={COPY.themes} sub={COPY.themesSub} color={onColour ? '#fff' : COLORS.ink} delay={sec(0.2)} out={BEATS.themes - sec(0.35)} />
     </AbsoluteFill>
   );
 };

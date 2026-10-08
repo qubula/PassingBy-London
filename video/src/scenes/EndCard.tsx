@@ -2,7 +2,7 @@
 // tagline, address and the concept note come in beside it.
 import React from 'react';
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { COLORS, COPY, LANDMARKS } from '../config';
+import { COLORS, COPY, LANDMARKS, sec } from '../config';
 import { CARD_H, CARD_W, Postcard } from '../components/Postcard';
 import { useLayout } from '../layout';
 import { SANS } from '../fonts';
@@ -35,7 +35,7 @@ export const EndCard: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg, fontFamily: SANS, color: COLORS.ink }}>
       {STACK.map((name, i) => {
         const lm = LANDMARKS.find(l => l.name === name)!;
-        const t = sp(frame, fps, i * 3, SNAP);
+        const t = sp(frame, fps, i * sec(0.15), SNAP);
         const x = sx + lerp(t, FROM[i][0] * L.width, 0);
         const y = sy + lerp(t, FROM[i][1] * L.height, 0);
         const rot = lerp(t, ROT[i] * 4, ROT[i]);
@@ -46,15 +46,15 @@ export const EndCard: React.FC = () => {
       })}
 
       <div style={textBox}>
-        <Img src={staticFile('shared/logo.png')} style={{ width: logoW, height: logoW / LOGO_RATIO, ...text(10) }} />
-        <div style={{ marginTop: 30 * L.u, fontSize: (L.wide ? 66 : 60) * L.u, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: L.wide ? 760 * L.u : 900 * L.u, ...text(16) }}>
+        <Img src={staticFile('shared/logo.png')} style={{ width: logoW, height: logoW / LOGO_RATIO, ...text(sec(0.6)) }} />
+        <div style={{ marginTop: 30 * L.u, fontSize: (L.wide ? 66 : 60) * L.u, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: L.wide ? 760 * L.u : 900 * L.u, ...text(sec(0.9)) }}>
           {COPY.endTagline}
         </div>
-        <div style={{ marginTop: 26 * L.u, fontSize: 40 * L.u, fontWeight: 500, ...text(22) }}>{COPY.endUrl}</div>
+        <div style={{ marginTop: 26 * L.u, fontSize: 40 * L.u, fontWeight: 500, ...text(sec(1.2)) }}>{COPY.endUrl}</div>
       </div>
       <div style={{
         position: 'absolute', bottom: 46 * L.u, left: L.wide ? 140 * L.u : 0, right: L.wide ? undefined : 0,
-        textAlign: L.wide ? 'left' : 'center', fontSize: 22 * L.u, color: COLORS.muted, ...text(26),
+        textAlign: L.wide ? 'left' : 'center', fontSize: 22 * L.u, color: COLORS.muted, ...text(sec(1.6)),
       }}>{COPY.endNote}</div>
     </AbsoluteFill>
   );

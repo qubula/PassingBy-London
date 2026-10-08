@@ -21,7 +21,7 @@ export const Caption: React.FC<Props> = ({ text, sub, color = '#111', delay = 0,
   const L = useLayout();
   const fs = (size ?? (L.wide ? 96 : 92)) * L.u;
   const words = text.split(' ');
-  const leave = out === undefined ? 0 : ramp(frame, out, out + 8);
+  const leave = out === undefined ? 0 : ramp(frame, out, out + 10);
   const c = L.caption;
   return (
     <div style={{
@@ -32,7 +32,7 @@ export const Caption: React.FC<Props> = ({ text, sub, color = '#111', delay = 0,
     }}>
       <div style={{ fontSize: fs, fontWeight: 700, lineHeight: 1.04, letterSpacing: '-0.035em' }}>
         {words.map((w, i) => {
-          const t = sp(frame, fps, delay + i * 2.5);
+          const t = sp(frame, fps, delay + i * 3.5);
           return (
             <span key={i} style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'top', paddingBottom: '0.08em', marginBottom: '-0.08em' }}>
               <span style={{ display: 'inline-block', transform: `translateY(${(1 - t) * 105}%)`, opacity: Math.min(1, t * 1.6) }}>
@@ -44,7 +44,7 @@ export const Caption: React.FC<Props> = ({ text, sub, color = '#111', delay = 0,
       </div>
       {sub ? (
         <div style={{
-          marginTop: 22 * L.u, fontSize: fs * 0.42, fontWeight: 500, letterSpacing: '-0.01em', opacity: 0.62 * sp(frame, fps, delay + words.length * 2.5 + 4),
+          marginTop: 22 * L.u, fontSize: fs * 0.42, fontWeight: 500, letterSpacing: '-0.01em', opacity: 0.62 * sp(frame, fps, delay + words.length * 3.5 + 8),
         }}>{sub}</div>
       ) : null}
     </div>

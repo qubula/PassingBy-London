@@ -4,7 +4,7 @@
 // the story stays, Alfie's waveform draws under it).
 import React from 'react';
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_LABEL, PICKED } from '../config';
+import { ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_LABEL, PICKED, sec } from '../config';
 import { CARD_H, CARD_W, Postcard } from '../components/Postcard';
 import { Caption } from '../components/Caption';
 import { Waveform } from '../components/Waveform';
@@ -19,11 +19,11 @@ const JX = [0, 6, -5, 4, -3, 5, -6, 2];
 const JY = [0, -4, 3, -2, 5, -3, 2, -1];
 
 const T = {
-  cut: 36, // black to grey, as the hero card lands
+  cut: sec(1.25), // black to grey, as the hero card lands
   deck: BEATS.hook,
   fan: BEATS.hook + BEATS.deck,
-  pick: BEATS.hook + BEATS.deck + 18,
-  flip: BEATS.hook + BEATS.deck + 30,
+  pick: BEATS.hook + BEATS.deck + sec(1.1),
+  flip: BEATS.hook + BEATS.deck + sec(1.8),
   alfie: BEATS.hook + BEATS.deck + BEATS.fan,
   end: BEATS.hook + BEATS.deck + BEATS.fan + BEATS.alfie,
 };
@@ -40,7 +40,7 @@ export const Cards: React.FC = () => {
   const pickT = sp(frame, fps, T.pick, SNAP);
   const flipT = sp(frame, fps, T.flip, { damping: 20, stiffness: 120, mass: 1 });
   const fallT = sp(frame, fps, T.alfie, { damping: 26, stiffness: 70, mass: 1 });
-  const storyT = ramp(frame, T.flip + 12, T.end, (x: number) => x);
+  const storyT = ramp(frame, T.flip + sec(0.5), T.end, (x: number) => x);
 
   // Where the story card settles for the Alfie beat, and the waveform under it.
   const restY = L.wide ? L.cy - 70 * L.u : L.cy - 60 * L.u;
@@ -49,8 +49,8 @@ export const Cards: React.FC = () => {
 
   const cards = DECK.map((lm, i) => {
     // Drop: the hero first, then the others on a quick rhythm.
-    const dropAt = i === 0 ? 0 : T.deck + 2 + (i - 1) * 5;
-    const d = sp(frame, fps, dropAt, i === 0 ? { damping: 20, stiffness: 90, mass: 1 } : SNAP);
+    const dropAt = i === 0 ? 0 : T.deck + sec(0.2) + (i - 1) * sec(0.28);
+    const d = sp(frame, fps, dropAt, i === 0 ? { damping: 22, stiffness: 50, mass: 1 } : SNAP);
     const startRot = i === 0 ? -364 : JITTER[i] * 6;
     let x = L.cx + JX[i] * L.u;
     let y = lerp(d, -ch * 1.3, L.cy + JY[i] * L.u);
@@ -61,11 +61,11 @@ export const Cards: React.FC = () => {
     let opacity = frame >= dropAt - 1 ? 1 : 0;
 
     // Fan: an arc around a pivot below the deck.
-    const span = L.wide ? 24 : 21;
+    const span = L.wide ? 19 : 21;
     const R = (L.wide ? 1000 : 900) * L.u;
     const a = ((i / (DECK.length - 1)) * 2 - 1) * span * fanT;
     const rad = (a * Math.PI) / 180;
-    x += R * Math.sin(rad);
+    x += R * Math.sin(rad) + (L.wide ? 90 * L.u * fanT * (1 - pickT * (i === pickIndex ? 1 : 0)) : 0);
     y += R * (1 - Math.cos(rad)) + 40 * L.u * fanT;
     rot = lerp(fanT, rot, a);
 
@@ -90,7 +90,7 @@ export const Cards: React.FC = () => {
   });
 
   const black = frame < T.cut;
-  const count = Math.round(interpolate(ramp(frame, T.deck + 2, T.fan - 12), [0, 1], [0, Math.floor(1300)]));
+  const count = Math.round(interpolate(ramp(frame, T.deck + sec(0.2), T.deck + sec(2.6)), [0, 1], [0, Math.floor(1300)]));
   const deckText = `${count.toLocaleString('en-GB')}${count >= 1300 ? '+' : ''} ${COPY.deck.replace(LANDMARK_LABEL + ' ', '')}`;
 
   return (
@@ -105,22 +105,22 @@ export const Cards: React.FC = () => {
       ))}
 
       <Sequence from={0} durationInFrames={T.deck}>
-        <Caption text={COPY.hook} color={black ? COLORS.white : COLORS.ink} delay={4} out={T.deck - 5} />
+        <Caption text={COPY.hook} color={black ? COLORS.white : COLORS.ink} delay={sec(0.2)} out={T.deck - sec(0.35)} />
       </Sequence>
       <Sequence from={T.deck} durationInFrames={BEATS.deck}>
-        <Caption text={deckText} delay={2} out={BEATS.deck - 8} />
+        <Caption text={deckText} delay={sec(0.1)} out={BEATS.deck - sec(0.35)} />
       </Sequence>
       <Sequence from={T.fan} durationInFrames={BEATS.fan}>
-        <Caption text={COPY.fan} delay={4} out={BEATS.fan - 8} />
+        <Caption text={COPY.fan} delay={sec(0.3)} out={BEATS.fan - sec(0.35)} />
       </Sequence>
       <Sequence from={T.alfie} durationInFrames={BEATS.alfie}>
-        <Caption text={COPY.alfie} delay={2} />
+        <Caption text={COPY.alfie} delay={sec(0.2)} out={BEATS.alfie - sec(0.35)} />
         <Waveform left={L.wide ? L.cx - waveW / 2 : 80 * L.u} top={waveTop - T.alfie * 0} width={waveW} height={130 * L.u}
-          color={COLORS.ink} start={4} />
-        <Sequence from={4}>
+          color={COLORS.ink} start={sec(0.4)} />
+        <Sequence from={sec(0.4)}>
           <Audio src={staticFile(ALFIE.file)} startFrom={Math.round(ALFIE.startFrom * fps)}
             endAt={Math.round((ALFIE.startFrom + ALFIE.duration) * fps)}
-            volume={f => interpolate(f, [0, 4, ALFIE.duration * fps - 8, ALFIE.duration * fps], [0, 1, 1, 0], { extrapolateRight: 'clamp' })} />
+            volume={f => interpolate(f, [0, 3, ALFIE.duration * fps - 5, ALFIE.duration * fps], [0, 1, 1, 0], { extrapolateRight: 'clamp' })} />
         </Sequence>
       </Sequence>
     </AbsoluteFill>

@@ -3,7 +3,7 @@
 // Sticker: Figma "★ 06 · Chosen sticker (Kuba) · master" (page "★ PassingBy — Sticker & QR").
 import React from 'react';
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { BEATS, COLORS, COPY } from '../config';
+import { BEATS, COLORS, COPY, sec } from '../config';
 import { Phone, PHONE_H, PHONE_W, StatusBar } from '../components/Phone';
 import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
@@ -13,8 +13,8 @@ import { SOFT, SNAP, lerp, ramp, sp } from '../anim';
 // sticker.png is 1008 × 1600; the QR code's centre and size in that image.
 const IMG = { w: 1008, h: 1600 };
 const QR = { x: 345, y: 975, size: 400 };
-const LOCK_AT = 26;
-const OPEN_AT = 46;
+const LOCK_AT = sec(1.5);
+const OPEN_AT = sec(2.7);
 const YELLOW = '#FFD60A';
 
 export const BlackCab: React.FC = () => {
@@ -31,14 +31,14 @@ export const BlackCab: React.FC = () => {
   const pw = 380 * L.u;
   const k = pw / PHONE_W;
   const ph = PHONE_H * k;
-  const phoneIn = sp(frame, fps, 8, SOFT);
+  const phoneIn = sp(frame, fps, sec(0.35), SOFT);
   const px = L.wide ? L.cx + 120 * L.u : L.width - pw - 60 * L.u;
   const py = L.wide ? L.cy - ph / 2 + 40 * L.u : 470 * L.u;
 
   const lock = sp(frame, fps, LOCK_AT, SNAP);
-  const banner = sp(frame, fps, LOCK_AT + 8, SNAP);
-  const open = sp(frame, fps, OPEN_AT, { damping: 24, stiffness: 140, mass: 1 });
-  const out = ramp(frame, BEATS.blackCab - 6, BEATS.blackCab);
+  const banner = sp(frame, fps, LOCK_AT + sec(0.4), SNAP);
+  const open = sp(frame, fps, OPEN_AT, { damping: 26, stiffness: 90, mass: 1 });
+  const out = ramp(frame, BEATS.blackCab - sec(0.3), BEATS.blackCab);
 
   // Camera view inside the phone: the sticker, scaled so the QR fills the middle.
   const s = 0.72;
@@ -74,7 +74,7 @@ export const BlackCab: React.FC = () => {
           <Img src={staticFile('figma/sticker.png')} style={{
             position: 'absolute', left: camLeft, top: camTop, width: IMG.w * s, height: IMG.h * s, filter: `blur(${(1 - lock) * 1.2}px)`,
           }} />
-          <Corners x={195} y={380} size={box} opacity={ramp(frame, 14, 20)} />
+          <Corners x={195} y={380} size={box} opacity={ramp(frame, sec(0.8), sec(1.05))} />
           {/* QR banner */}
           <div style={{
             position: 'absolute', left: 40, right: 40, top: 600, padding: '14px 18px', borderRadius: 18,
@@ -93,7 +93,7 @@ export const BlackCab: React.FC = () => {
         </div>
       </Phone>
 
-      <Caption text={COPY.blackCab} color={COLORS.white} delay={4} />
+      <Caption text={COPY.blackCab} color={COLORS.white} delay={sec(0.2)} out={BEATS.blackCab - sec(0.35)} />
     </AbsoluteFill>
   );
 };

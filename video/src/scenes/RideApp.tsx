@@ -3,7 +3,7 @@
 // Screen: Figma "RA1 · Choose a ride" (page "★ PassingBy — Live Activity & ride app").
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { BEATS, COLORS, COPY } from '../config';
+import { BEATS, COLORS, COPY, sec } from '../config';
 import { Phone, PHONE_H, PHONE_W } from '../components/Phone';
 import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
@@ -12,7 +12,7 @@ import { SOFT, SNAP, lerp, ramp, sp } from '../anim';
 
 // The "Scenic route" row in the 390 × 844 screen.
 const ROW = { x: 195, y: 593 };
-const TAP_AT = 34;
+const TAP_AT = sec(1.8);
 
 export const RideApp: React.FC = () => {
   const frame = useCurrentFrame();
@@ -25,10 +25,10 @@ export const RideApp: React.FC = () => {
   const top = L.wide ? L.cy - ph / 2 : 360 * L.u;
 
   const enter = sp(frame, fps, 0, SOFT);
-  const tap = ramp(frame, TAP_AT, TAP_AT + 14);
-  const press = sp(frame, fps, TAP_AT, SNAP) - sp(frame, fps, TAP_AT + 5, SNAP);
-  const zoom = sp(frame, fps, TAP_AT + 10, { damping: 24, stiffness: 80, mass: 1 });
-  const out = ramp(frame, BEATS.rideApp - 8, BEATS.rideApp);
+  const tap = ramp(frame, TAP_AT, TAP_AT + sec(0.6));
+  const press = sp(frame, fps, TAP_AT, SNAP) - sp(frame, fps, TAP_AT + sec(0.25), SNAP);
+  const zoom = sp(frame, fps, TAP_AT + sec(0.5), { damping: 26, stiffness: 50, mass: 1 });
+  const out = ramp(frame, BEATS.rideApp - sec(0.3), BEATS.rideApp);
 
   // Camera: push in on the row (screen point -> page point), keeping it in the picture area.
   const rowX = left + (12 + 3.5 + ROW.x) * k;
@@ -64,16 +64,16 @@ export const RideApp: React.FC = () => {
       </AbsoluteFill>
 
       {/* price chip */}
-      <PriceChip L={L} frame={frame} fps={fps} start={TAP_AT + 22} out={BEATS.rideApp - 8} />
+      <PriceChip L={L} frame={frame} fps={fps} start={TAP_AT + sec(1.3)} out={BEATS.rideApp - sec(0.35)} />
 
-      <Caption text={COPY.rideApp} delay={6} out={BEATS.rideApp - 8} />
+      <Caption text={COPY.rideApp} delay={sec(0.3)} out={BEATS.rideApp - sec(0.35)} />
     </AbsoluteFill>
   );
 };
 
 const PriceChip: React.FC<{ L: ReturnType<typeof useLayout>; frame: number; fps: number; start: number; out: number }> = ({ L, frame, fps, start, out }) => {
   const t = sp(frame, fps, start, SNAP);
-  const o = ramp(frame, out, out + 8);
+  const o = ramp(frame, out, out + 10);
   const fs = (L.wide ? 54 : 58) * L.u;
   const pos = L.wide
     ? { left: 140 * L.u, top: L.cy + 150 * L.u }

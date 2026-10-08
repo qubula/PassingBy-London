@@ -1,9 +1,9 @@
 import { Easing, interpolate, spring } from 'remotion';
 
 // Motion language: fast in, soft settle.
-export const SNAP = { damping: 18, stiffness: 180, mass: 0.9 };
-export const SOFT = { damping: 22, stiffness: 110, mass: 1 };
-export const BOUNCE = { damping: 12, stiffness: 160, mass: 0.8 };
+export const SNAP = { damping: 20, stiffness: 130, mass: 1 };
+export const SOFT = { damping: 24, stiffness: 80, mass: 1 };
+export const BOUNCE = { damping: 13, stiffness: 120, mass: 0.9 };
 
 export const sp = (frame: number, fps: number, delay = 0, config = SNAP) =>
   spring({ frame: frame - delay, fps, config });

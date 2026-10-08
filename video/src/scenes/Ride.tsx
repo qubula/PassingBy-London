@@ -3,7 +3,8 @@
 // Screens: the 3x mockup exports (Figma 04d) and DI4 "Look left" (Live Activity page).
 import React from 'react';
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { BEATS, COLORS, COPY } from '../config';
+import { BEATS, COLORS, COPY, THEME_PICK, sec } from '../config';
+import { EDITIONS } from '../editions';
 import { Phone, PHONE_H, PHONE_W } from '../components/Phone';
 import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
@@ -11,9 +12,9 @@ import { SOFT, lerp, ramp, sp } from '../anim';
 
 // Mini card on the map screen, in 390 × 844 screen points.
 const MINI = { top: 639, right: 20, bottom: 76, left: 21, r: 18 };
-const MORPH_AT = 20;
-const ZOOM_AT = 56;
-const ISLAND_AT = 62;
+const MORPH_AT = sec(1.2);
+const ZOOM_AT = sec(3.1);
+const ISLAND_AT = sec(3.4);
 
 export const Ride: React.FC = () => {
   const frame = useCurrentFrame();
@@ -26,10 +27,10 @@ export const Ride: React.FC = () => {
   const top = L.wide ? L.cy - ph / 2 : 400 * L.u;
 
   const enter = sp(frame, fps, 0, SOFT);
-  const m = sp(frame, fps, MORPH_AT, { damping: 22, stiffness: 120, mass: 1 });
-  const zoom = sp(frame, fps, ZOOM_AT, { damping: 24, stiffness: 90, mass: 1 });
-  const isl = sp(frame, fps, ISLAND_AT, { damping: 16, stiffness: 150, mass: 0.9 });
-  const out = ramp(frame, BEATS.ride - 6, BEATS.ride);
+  const m = sp(frame, fps, MORPH_AT, { damping: 24, stiffness: 70, mass: 1 });
+  const zoom = sp(frame, fps, ZOOM_AT, { damping: 26, stiffness: 55, mass: 1 });
+  const isl = sp(frame, fps, ISLAND_AT, { damping: 17, stiffness: 110, mass: 1 });
+  const out = ramp(frame, BEATS.ride - sec(0.3), BEATS.ride);
 
   const clip = `inset(${lerp(m, MINI.top, 0)}px ${lerp(m, MINI.right, 0)}px ${lerp(m, MINI.bottom, 0)}px ${lerp(m, MINI.left, 0)}px round ${lerp(m, MINI.r, 0)}px)`;
 
@@ -56,6 +57,8 @@ export const Ride: React.FC = () => {
             position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', clipPath: clip,
             opacity: m > 0.001 ? 1 : 0,
           }} />
+          {/* The screens were exported with the Royal badge; draw the picked theme's badge over it. */}
+          <ThemeBadge edition={THEME_PICK} />
           {/* Dynamic Island */}
           <div style={{
             position: 'absolute', top: 11, left: 195 - iw / 2, width: iw, height: ih, borderRadius: lerp(isl, 20, 46),
@@ -63,12 +66,31 @@ export const Ride: React.FC = () => {
           }}>
             <Img src={staticFile('figma/island-look-left.png')} style={{
               position: 'absolute', left: 0, top: 0, width: 371, height: 180,
-              transform: `scale(${iw / 371}, ${ih / 180})`, transformOrigin: 'top left', opacity: ramp(frame, ISLAND_AT + 4, ISLAND_AT + 12),
+              transform: `scale(${iw / 371}, ${ih / 180})`, transformOrigin: 'top left', opacity: ramp(frame, ISLAND_AT + sec(0.15), ISLAND_AT + sec(0.45)),
             }} />
           </div>
         </Phone>
       </AbsoluteFill>
-      <Caption text={COPY.ride} color={COLORS.white} delay={6} out={BEATS.ride - 8} />
+      <Caption text={COPY.ride} color={COLORS.white} delay={sec(0.3)} out={BEATS.ride - sec(0.35)} />
     </AbsoluteFill>
+  );
+};
+
+// The ride's theme badge (.v2-badge in v2.css, filled by tour_logic.js), at its
+// place in the next-stop card: 36 pt circle, theme body colour, accent glyph.
+const ThemeBadge: React.FC<{ edition: string }> = ({ edition }) => {
+  const e = EDITIONS[edition];
+  return (
+    <div style={{
+      position: 'absolute', left: 61.7 - 19, top: 96 - 19, width: 38, height: 38, borderRadius: '50%', background: '#fff', zIndex: 2,
+      display: 'grid', placeItems: 'center',
+    }}>
+      <div style={{
+        width: 36, height: 36, borderRadius: '50%', background: e.body, display: 'grid', placeItems: 'center',
+        boxShadow: e.light ? 'inset 0 0 0 1px rgba(0,0,0,0.1)' : undefined,
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill={e.accent} dangerouslySetInnerHTML={{ __html: e.glyph }} />
+      </div>
+    </div>
   );
 };

@@ -1,6 +1,6 @@
 # PassingBy launch advert (Remotion)
 
-A 22-second advert, rendered in two formats from one project:
+A 40-second advert, rendered in two formats from one project:
 
 - `advert-4x5`: 1080 × 1350, for the LinkedIn feed
 - `advert-16x9`: 1920 × 1080, for the website
@@ -43,5 +43,5 @@ Re-export these when the frames change. Landmark photo credits: `public/landmark
 
 ## Sound
 
-No music yet. The only sound is Alfie's first line from the recorded Buckingham
-Palace clip. The video is built to work muted, as LinkedIn plays it.
+No music yet. The only sound is Alfie's first two sentences from the recorded
+Buckingham Palace clip (a placeholder voice; the final one is still to come). The video is built to work muted, as LinkedIn plays it.

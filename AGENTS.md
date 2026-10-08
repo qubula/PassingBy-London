@@ -129,7 +129,7 @@ Rules:
 - The root `README.md` is the project's portfolio page. It describes v2 and
   links to the v1 README on the `v1-archive` branch. v1 screenshots stay in
   `docs/images/screenshots/`.
-- `video/`: the Remotion launch advert (22 s, 4:5 and 16:9), script in
+- `video/`: the Remotion launch advert (40 s, 4:5 and 16:9), script in
   `docs/video/advert-script.md`, renders in `docs/video/`. Its postcard, theme
   tile and phone are React copies of the app's (`video/src/components/`); when
   the card or tile design changes in code, update them and re-render. Copy,
