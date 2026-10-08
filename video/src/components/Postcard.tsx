@@ -32,14 +32,15 @@ type Props = {
   flip?: number; // 0 = front, 1 = back
   story?: number; // 0..1 of the story written on the back
   storyChars?: number; // or an exact number of characters (overrides `story`)
+  storyText?: string; // text for the back, instead of the landmark's story from the database
   caret?: boolean; // show a typing caret after the text
   shadow?: number; // 0..1 shadow strength
   style?: React.CSSProperties;
 };
 
-export const Postcard: React.FC<Props> = ({ landmark, width, flip = 0, story = 1, storyChars, caret = false, shadow = 1, style }) => {
+export const Postcard: React.FC<Props> = ({ landmark, width, flip = 0, story = 1, storyChars, storyText, caret = false, shadow = 1, style }) => {
   const k = width / CARD_W;
-  const text = storyFor(landmark.name);
+  const text = storyText ?? storyFor(landmark.name);
   const shown = text.slice(0, storyChars ?? Math.round(text.length * story));
   const photo = staticFile('landmarks/' + landmark.photo);
   const boxShadow = `0 ${8 + 20 * shadow}px ${24 + 40 * shadow}px rgba(0,0,0,${0.12 + 0.14 * shadow})`;

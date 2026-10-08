@@ -9,8 +9,8 @@ import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
 import { BOUNCE, SNAP, ramp, sp } from '../anim';
 
-const LIFT_AT = sec(1.5);
-const WASH_AT = sec(1.9);
+const LIFT_AT = sec(1.3);
+const WASH_AT = sec(1.7);
 
 export const Themes: React.FC = () => {
   const frame = useCurrentFrame();
@@ -40,7 +40,7 @@ export const Themes: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg }}>
       {EDITION_KEYS.map((key, i) => ({ key, i })).sort((a, b) => Number(a.key === THEME_PICK) - Number(b.key === THEME_PICK)).map(({ key, i }) => {
         const c = i % cols, r = Math.floor(i / cols);
-        const t = sp(frame, fps, sec(0.15) + ((c + r) * 3 + c) * sec(0.06), BOUNCE);
+        const t = sp(frame, fps, ((c + r) * 3 + c) * sec(0.05), BOUNCE);
         const picked = key === THEME_PICK;
         const scale = (0.6 + 0.4 * t) * (picked ? 1 + 0.12 * lift + 0.1 * drift : 1 - 0.04 * lift);
         const tile = (
@@ -62,7 +62,7 @@ export const Themes: React.FC = () => {
         );
       })}
 
-      <Caption text={COPY.themes} sub={COPY.themesSub} color={onColour ? '#fff' : COLORS.ink} delay={sec(0.2)} out={BEATS.themes - sec(0.35)} />
+      <Caption text={COPY.themes} sub={COPY.themesSub} color={onColour ? '#fff' : COLORS.ink} delay={sec(0.05)} out={BEATS.themes - sec(0.25)} />
     </AbsoluteFill>
   );
 };

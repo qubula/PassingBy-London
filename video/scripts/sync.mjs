@@ -30,7 +30,11 @@ fs.writeFileSync(path.join(GEN, 'editions.json'), JSON.stringify(sandbox.window.
 // 2. Landmark count and the stories for the landmarks named in src/config.ts.
 const db = JSON.parse(fs.readFileSync(path.join(REPO, 'Data/final_landmarks_v6.2_Big.json'), 'utf8'));
 const stories = Object.fromEntries(db.map(l => [l.name, (l.script || '').trim()]));
-fs.writeFileSync(path.join(GEN, 'landmarks.json'), JSON.stringify({ count: db.length, stories }, null, 0));
+// Stories: one Alfie story per landmark, plus one per theme the landmark is in.
+const tags = JSON.parse(fs.readFileSync(path.join(REPO, 'Data/landmark_tags.json'), 'utf8')).tags;
+const themeStories = Object.values(tags).reduce((n, t) => n + Object.values(t.talking_points || {}).filter(v => String(v).trim()).length, 0);
+const storyCount = db.filter(l => (l.script || '').trim()).length + themeStories;
+fs.writeFileSync(path.join(GEN, 'landmarks.json'), JSON.stringify({ count: db.length, storyCount, stories }, null, 0));
 
 // 3. Fonts: Satoshi from the app, theme fonts from @fontsource, SF Pro if present locally.
 const FS = path.join(VIDEO, 'node_modules', '@fontsource');
@@ -59,4 +63,4 @@ copy(path.join(REPO, 'App/Web_App/static/v2/images/logo.png'), path.join(SHARED,
 const audio = path.join(REPO, 'docs/audio');
 for (const f of fs.readdirSync(audio)) copy(path.join(audio, f), path.join(SHARED, 'audio', f));
 
-console.log(`synced: ${Object.keys(sandbox.window.EDITIONS).length} editions, ${db.length} landmarks, ${present.length} fonts`);
+console.log(`synced: ${Object.keys(sandbox.window.EDITIONS).length} editions, ${db.length} landmarks, ${storyCount} stories, ${present.length} fonts`);

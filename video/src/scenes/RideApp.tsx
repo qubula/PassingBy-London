@@ -12,7 +12,7 @@ import { SOFT, SNAP, lerp, ramp, sp } from '../anim';
 
 // The "Scenic route" row in the 390 × 844 screen.
 const ROW = { x: 195, y: 593 };
-const TAP_AT = sec(1.8);
+const TAP_AT = sec(1.35);
 
 export const RideApp: React.FC = () => {
   const frame = useCurrentFrame();
@@ -28,7 +28,6 @@ export const RideApp: React.FC = () => {
   const tap = ramp(frame, TAP_AT, TAP_AT + sec(0.6));
   const press = sp(frame, fps, TAP_AT, SNAP) - sp(frame, fps, TAP_AT + sec(0.25), SNAP);
   const zoom = sp(frame, fps, TAP_AT + sec(0.5), { damping: 26, stiffness: 50, mass: 1 });
-  const out = ramp(frame, BEATS.rideApp - sec(0.3), BEATS.rideApp);
 
   // Camera: push in on the row (screen point -> page point), keeping it in the picture area.
   const rowX = left + (12 + 3.5 + ROW.x) * k;
@@ -45,7 +44,6 @@ export const RideApp: React.FC = () => {
       <AbsoluteFill style={{
         transformOrigin: `${rowX}px ${rowY}px`,
         transform: `translate(${camX}px, ${camY + (1 - enter) * L.height * 0.9}px) scale(${Z})`,
-        opacity: 1 - out,
       }}>
         <Phone screen="figma/ride-choose.png" statusBar={false} island={false} width={pw} style={{ left, top }}>
           {/* tap: press on the row, then a ripple */}
@@ -64,9 +62,9 @@ export const RideApp: React.FC = () => {
       </AbsoluteFill>
 
       {/* price chip */}
-      <PriceChip L={L} frame={frame} fps={fps} start={TAP_AT + sec(1.3)} out={BEATS.rideApp - sec(0.35)} />
+      <PriceChip L={L} frame={frame} fps={fps} start={TAP_AT + sec(1.0)} out={BEATS.rideApp - sec(0.25)} />
 
-      <Caption text={COPY.rideApp} delay={sec(0.3)} out={BEATS.rideApp - sec(0.35)} />
+      <Caption text={COPY.rideApp} delay={sec(0.1)} out={BEATS.rideApp - sec(0.25)} />
     </AbsoluteFill>
   );
 };

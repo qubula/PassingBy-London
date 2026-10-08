@@ -1,6 +1,6 @@
-# PassingBy launch advert: script (as built, draft 4)
+# PassingBy launch advert: script (as built, draft 5)
 
-Length 38.4 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
+Length 38.8 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
 first (LinkedIn autoplays without sound), so every key fact is on screen as text.
 
 Formats from the same project:
@@ -18,15 +18,16 @@ integration is a concept.
 
 | # | Time | On screen | Text on screen | Sound |
 |---|---|---|---|---|
-| 1 | 0.0–2.5 | **Hook.** Black frame. An Elizabeth Tower postcard drops in from above, spins once and lands. Hard cut to grey as it lands. | **Every landmark has a story.** | (music later) |
-| 2 | 2.5–6.0 | **The deck.** Seven more postcards fall onto it, each a different landmark, into a loose stack. The number counts up with them. | **1,300+ London landmarks** | |
-| 3 | 6.0–9.0 | **Fan and flip.** The deck fans out in an arc. Buckingham Palace rises out of the fan and flips to its back; the story writes on. | **A story for each one** | |
-| 4 | 9.0–14.4 | **Alfie.** The other cards fall away. The story card stays, and Alfie's waveform draws under it, and the story types onto the card word by word as he says it. | **Told by Alfie, a London cabbie** | Alfie, 4.4 s (Buckingham Palace clip) |
-| 5 | 14.4–20.4 | **Flow A: ride app.** A phone rises with a generic ride app, "Choose a ride". A tap lands on **Scenic route**, and the camera pushes in on the row. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
-| 6 | 20.4–23.9 | **Themes.** The nine theme tiles drop into a 3 × 3 grid in their own colours. Architecture lifts and its colour washes over the frame. | **9 themes** · Architecture, Historical, Royal… | |
-| 7 | 23.9–29.9 | **The ride.** Black frame, the dark ride map. The mini card grows into the postcard (the app's morph). The theme badge shows the Architecture glyph. The camera rises to the Dynamic Island, which expands to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | |
-| 8 | 29.9–34.4 | **Flow B: black cab.** The sticker on a dark seat back. A phone moves in, the camera locks on the QR code, the "passingby.uk" banner appears, and the landing page opens. | **In a black cab? Scan the sticker.** | |
-| 9 | 34.4–38.4 | **End card.** Five postcards fly in and settle into a stack beside the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | |
+| 1 | 0.0–2.4 | **Hook.** Black frame. An Elizabeth Tower postcard drops in from above, spins once and lands; the grey opens out from the card in a quick circle. | **Every landmark has a story.** | |
+| 2 | 2.4–4.8 | **The deck.** Seven more postcards drop fast onto it, each a different landmark. The number grows on its own line. | **1,300+** / London landmarks | |
+| 3 | 4.8–8.2 | **Stories.** Landmark photos in white mounts, short quotes from the stories and the "Look left" pill burst out around the deck and drift. The number rolls on. | **4,700+** / stories · One for every landmark, and one for each theme it's in | |
+| 4 | 8.2–10.8 | **Fan and flip.** The pieces fly outwards as the deck fans out. Buckingham Palace rises and flips to its back. | **A story for each one** | |
+| 5 | 10.8–16.2 | **Alfie.** The other cards fall away. The story types onto the card word by word as Alfie says it; his waveform draws under it. | **Told by Alfie, a London cabbie** | Alfie (new recording to come, see `alfie-buckingham-script.md`) |
+| 6 | 16.2–21.2 | **Flow A: ride app.** A generic ride app, "Choose a ride". A tap on **Scenic route**, and the camera pushes in. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
+| 7 | 21.2–24.7 | **Themes.** The nine theme tiles drop into a grid. Architecture lifts and its colour washes over the frame. | **9 themes** · Architecture, Historical, Royal… | |
+| 8 | 24.7–30.3 | **The ride.** The dark ride map with the Architecture badge. The mini card grows into the postcard. The camera rises to the Dynamic Island, which expands to **Look left · Elizabeth Tower · 200 m**; the top of the screen dims under it. | **Stories as you pass them** | |
+| 9 | 30.3–34.8 | **Flow B: black cab.** The sticker on a dark seat back. A phone moves in, locks on the QR code, and the landing page opens. | **In a black cab? Scan the sticker.** | |
+| 10 | 34.8–38.8 | **End card.** Five postcards fly in and settle into a stack beside the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | |
 
 ## Alfie in sync with the card
 
@@ -53,6 +54,11 @@ Corner labels: "PassingBy", the section ("03 · Ride app"), "1,327 landmarks ·
 9 themes · Alfie" and "passingby.uk", in JetBrains Mono like the theme codes.
 
 ## Facts on screen, and where they come from
+
+- **4,700+ stories:** 1,327 Alfie stories (one per landmark) plus 3,439 theme
+  stories (`talking_points` in `Data/landmark_tags.json`, one for each theme a
+  landmark is in): 4,766, rounded down. Counted at render time.
+- **Quotes:** short lines from Alfie's own scripts in the database.
 
 - **1,300+ landmarks:** the database (`Data/final_landmarks_v6.2_Big.json`)
   holds 1,327. The video reads the count at render time and rounds down to the

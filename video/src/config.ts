@@ -12,6 +12,11 @@ const s = sec;
 const rounded = Math.floor(landmarks.count / 100) * 100;
 export const LANDMARK_COUNT = landmarks.count;
 export const LANDMARK_LABEL = `${rounded.toLocaleString('en-GB')}+`;
+export const LANDMARK_ROUNDED = rounded;
+// Stories: an Alfie story for every landmark plus one for each theme it's in
+// (4,766 at the last sync), rounded down: "4,700+".
+export const STORY_COUNT = (landmarks as { storyCount: number }).storyCount;
+export const STORY_ROUNDED = Math.floor(STORY_COUNT / 100) * 100;
 
 export const COLORS = {
   bg: '#E3E1DA', // the website set's warm grey
@@ -47,25 +52,38 @@ export const storyFor = (name: string): string =>
 export const HERO = 'Elizabeth Tower';
 export const PICKED = 'Buckingham Palace';
 
+// Short lines from the landmarks' own stories (Alfie's scripts in Data/),
+// shown as quotes around the deck in the "stories" beat.
+export const QUOTES = [
+  { name: 'Tower of London', text: 'A royal palace, a prison, and even a zoo at one point.' },
+  { name: 'Elizabeth Tower', text: "Most folks call it Big Ben, but that's the name of the giant bell inside." },
+  { name: 'Royal Albert Hall', text: 'From classical music to rock and even boxing matches.' },
+];
+
 // Alfie: the real recorded clip, trimmed to its first two sentences.
-export const ALFIE = {
+export const ALFIE: { file: string; startFrom: number; duration: number; text?: string } = {
   file: 'shared/audio/alfie-buckingham-palace.mp3',
   startFrom: 0, // seconds into the clip
   duration: 4.45, // seconds: the first two sentences (the second pause is at 4.43 s)
+  // text: the words of a clip recorded for the video, if they differ from the
+  // landmark's story in the database. Typed onto the card as Alfie says them,
+  // with word timings in src/alfie-words.json.
 };
+export const alfieText = () => ALFIE.text ?? storyFor(PICKED);
 
 // The theme that lifts out of the grid (a key from editions.js).
 export const THEME_PICK = 'architecture';
 
 // Beats, in order. Lengths in seconds; they add up to the video length.
 export const BEATS = {
-  hook: s(2.5),
-  deck: s(3.5),
-  fan: s(3.0),
+  hook: s(2.4),
+  deck: s(2.4),
+  stories: s(3.4),
+  fan: s(2.6),
   alfie: s(5.4),
-  rideApp: s(6.0),
+  rideApp: s(5.0),
   themes: s(3.5),
-  ride: s(6.0),
+  ride: s(5.6),
   blackCab: s(4.5),
   end: s(4.0),
 };
@@ -74,7 +92,9 @@ export const TOTAL = Object.values(BEATS).reduce((a, b) => a + b, 0);
 // On-screen copy. Every fact is on screen, because LinkedIn starts muted.
 export const COPY = {
   hook: 'Every landmark has a story.',
-  deck: `${LANDMARK_LABEL} London landmarks`,
+  deck: 'London landmarks',
+  stories: 'stories',
+  storiesSub: "One for every landmark, and one for each theme it's in",
   fan: 'A story for each one',
   alfie: 'Told by Alfie, a London cabbie',
   rideApp: 'Book a ride. Add the scenic route.',

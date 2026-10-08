@@ -93,7 +93,7 @@ export const BlackCab: React.FC = () => {
         </div>
       </Phone>
 
-      <Caption text={COPY.blackCab} color={COLORS.white} delay={sec(0.2)} out={BEATS.blackCab - sec(0.35)} />
+      <Caption text={COPY.blackCab} color={COLORS.white} delay={sec(0.1)} out={BEATS.blackCab - sec(0.3)} />
     </AbsoluteFill>
   );
 };
