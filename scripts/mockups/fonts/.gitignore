@@ -1,0 +1,4 @@
+# Apple fonts are licensed for mockups but may not be redistributed.
+# Put your own copy of SF-Pro-Text-Semibold.otf here (developer.apple.com/fonts).
+*.otf
+*.ttf

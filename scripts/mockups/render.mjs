@@ -2,6 +2,8 @@
 // Screens: scripts/mockups/screens/ (3x exports of the Figma source frames, no status bar).
 // Usage: npm i playwright && npx playwright install chromium, then
 //   node scripts/mockups/render.mjs <outDir> [names...]   (names: hero flow ride detail themes entry single)
+// Status bar time uses SF Pro Text Semibold from scripts/mockups/fonts/ (not committed:
+// Apple licence). Download it from developer.apple.com/fonts; Inter Display is the fallback.
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
@@ -53,6 +55,7 @@ function card(screen, style = '') {
 }
 
 const CSS = `
+@font-face{font-family:'SF Pro Text';src:url('file://${HERE}/fonts/SF-Pro-Text-Semibold.otf');font-weight:600}
 @font-face{font-family:Satoshi;src:url('file://${HERE}/../../App/Web_App/static/fonts/Satoshi-Variable.ttf');font-weight:300 900}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;color:#111}
@@ -69,7 +72,7 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .card{position:absolute;width:390px;height:844px;border-radius:44px;overflow:hidden;background-size:cover;background-color:#fff;
   box-shadow:0 40px 80px -30px rgba(20,22,26,.35),0 12px 30px -12px rgba(20,22,26,.18),0 0 0 1px rgba(0,0,0,.04)}
 .sb{position:absolute;left:0;right:0;top:0;height:58px;z-index:3}
-.time{position:absolute;left:0;width:116px;top:18px;text-align:center;font-family:'Inter Display',Inter,sans-serif;font-weight:600;font-size:17px;line-height:22px;letter-spacing:-.45px;font-feature-settings:'tnum' 1,'cv05' 1}
+.time{position:absolute;left:0;width:116px;top:18px;text-align:center;font-family:'SF Pro Text','Inter Display',Inter,sans-serif;font-weight:600;font-size:17px;line-height:22px;letter-spacing:-.4px}
 .sb-r{position:absolute;right:28px;top:23px;height:13px;display:flex;align-items:center;gap:6px}
 .island{position:absolute;top:11px;left:50%;width:125px;height:37px;margin-left:-62.5px;border-radius:20px;background:#000;z-index:4}
 .island i{position:absolute;right:13px;top:12px;width:13px;height:13px;border-radius:50%;
