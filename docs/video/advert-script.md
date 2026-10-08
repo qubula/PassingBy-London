@@ -1,67 +1,66 @@
-# PassingBy launch advert: script (draft 1)
+# PassingBy launch advert: script (as built, draft 2)
 
-Length 22 s · 30 fps · built in Remotion · plays muted first (LinkedIn
-autoplays without sound), so every key fact is on screen as text.
+Length 22 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
+first (LinkedIn autoplays without sound), so every key fact is on screen as text.
 
 Formats from the same project:
 - **4:5, 1080 × 1350** for the LinkedIn feed (takes the most screen on a phone).
 - **16:9, 1920 × 1080** for the website.
 
 Look: the website set's warm grey (`#E3E1DA`), black type in Satoshi, the
-app's own cards, tiles and phones. One accent at a time, taken from the theme
-being shown. Motion is fast in, soft settle (spring easing), with hard cuts on
-the beat. No logos of real companies: the ride app is a generic black-and-white
-ride app, and the end card says the integration is a concept.
+app's own cards, tiles and phones. In 16:9 the words sit on the left and the
+picture on the right; in 4:5 the words sit on top. Motion is fast in, soft
+settle (springs), with hard cuts between beats. No logos of real companies:
+the ride app is a generic black-and-white ride app, and the end card says the
+integration is a concept.
 
 ## Beat sheet
 
 | # | Time | On screen | Text on screen | Sound |
 |---|---|---|---|---|
-| 1 | 0.0–1.5 | **Hook.** Black frame. A single Elizabeth Tower postcard drops in from above, spins once and lands face-up in the centre. Hard cut to grey on landing. | **Every landmark has a story.** | Beat 1, card snap |
-| 2 | 1.5–3.5 | **The deck.** Postcards fall onto the first one and stack into a neat deck, each a different landmark. A counter riffles up with them. | **1,400 London landmarks** | Riffle sound |
-| 3 | 3.5–5.5 | **Fan and flip.** The deck fans out in an arc. One card slides out of the fan to the top, scales up and flips to its back: stamp, name and story text writing on. | **A story for each one** | Card flip |
-| 4 | 5.5–7.5 | **Alfie.** The story card shrinks to the side; a waveform draws across the frame while Alfie's real voice plays the first line of the London Eye clip. | **Told by Alfie, a London cabbie** | Alfie (2 s), music dips |
-| 5 | 7.5–11.0 | **Flow A: ride app.** A phone slides up. Generic ride app, "Choose a ride". A cursor dot taps **Scenic route · +6 min · +£3.20**. The map redraws: the straight route bends past four numbered pins. | **Book a ride. Add the scenic route.** then **+6 min · +£3.20** | Tap, route draw |
-| 6 | 11.0–13.5 | **Themes.** The nine theme tiles drop into the grid one by one in their own colours. The Royal tile lifts and the frame washes purple for a beat. | **9 themes · Royal, Historical, Architecture…** | Tile ticks on the beat |
-| 7 | 13.5–17.0 | **The ride.** Dark map, car dot moving along the route. The mini card rises and grows into the postcard (the app's real morph). Then cut to the top of the phone: the Dynamic Island expands to **Look left · Elizabeth Tower**. | **Stories as you pass them** | Whoosh, island pop |
-| 8 | 17.0–19.5 | **Flow B: black cab.** Cut to the sticker on the back of a cab seat. A phone moves in, the QR frame locks on, and the landing screen opens. | **In a black cab? Scan the sticker.** | Camera beep |
-| 9 | 19.5–22.0 | **End card.** Cards from the deck fly in and settle as a neat stack behind the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | Final hit, music out |
+| 1 | 0.0–1.5 | **Hook.** Black frame. An Elizabeth Tower postcard drops in from above, spins once and lands. Hard cut to grey as it lands. | **Every landmark has a story.** | (music later) |
+| 2 | 1.5–3.5 | **The deck.** Seven more postcards fall onto it, each a different landmark, into a loose stack. The number counts up with them. | **1,300+ London landmarks** | |
+| 3 | 3.5–5.5 | **Fan and flip.** The deck fans out in an arc. Buckingham Palace rises out of the fan and flips to its back; the story writes on. | **A story for each one** | |
+| 4 | 5.5–7.5 | **Alfie.** The other cards fall away. The story card stays, and Alfie's waveform draws under it as his first line plays. | **Told by Alfie, a London cabbie** | Alfie, 2.6 s (Buckingham Palace clip) |
+| 5 | 7.5–11.0 | **Flow A: ride app.** A phone rises with a generic ride app, "Choose a ride". A tap lands on **Scenic route**, and the camera pushes in on the row. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
+| 6 | 11.0–13.5 | **Themes.** The nine theme tiles drop into a 3 × 3 grid in their own colours. Royal lifts and its purple washes over the frame. | **9 themes** · Royal, Historical, Architecture… | |
+| 7 | 13.5–17.0 | **The ride.** Black frame, the dark ride map. The mini card grows into the postcard (the app's morph). The camera rises to the Dynamic Island, which expands to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | |
+| 8 | 17.0–19.5 | **Flow B: black cab.** The sticker on a dark seat back. A phone moves in, the camera locks on the QR code, the "passingby.uk" banner appears, and the landing page opens. | **In a black cab? Scan the sticker.** | |
+| 9 | 19.5–22.0 | **End card.** Five postcards fly in and settle into a stack beside the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | |
 
-Pacing: no shot is longer than 3.5 s; the first image moves in frame 1.
+## Facts on screen, and where they come from
 
-## What each beat shows (feature checklist)
-
-- 1,400 landmarks → beat 2
-- Custom stories → beat 3
-- Custom voice, Alfie → beat 4
-- Uber / private hire flow, scenic route priced from extra time → beat 5
-- Themes → beat 6
-- In-ride postcard, morph, Dynamic Island → beat 7
-- QR / black cab flow → beat 8
+- **1,300+ landmarks:** the database (`Data/final_landmarks_v6.2_Big.json`)
+  holds 1,327. The video reads the count at render time and rounds down to the
+  hundred. (The README says "about 1,400"; 1,300+ is the accurate figure.)
+- **Stories:** the story on the flipped card is the app's own text for that
+  landmark, from the same database.
+- **Alfie:** the real recorded clip (`docs/audio/alfie-buckingham-palace.mp3`),
+  first line only. Buckingham Palace was chosen because its first line ends
+  cleanly at 2.55 s; the London Eye clip's first pause is at 6.8 s.
+- **9 themes:** the nine editions in `static/v2/js/editions.js` (Surprise Me
+  and eight themes), read at render time.
+- **+6 min · +£3.20:** an example price, as on the ride-app concept screens.
+- **Ride-app screens, Dynamic Island and sticker:** concept designs from Figma.
+  The web app can't show the Dynamic Island; the end card notes the concept.
 
 ## Built so it's easy to change later
 
 The video isn't a screen recording. It's built from the same pieces as the
-design, so a change is one edit and a re-render:
+design, so a change is one edit and a re-render. See
+[`video/README.md`](../../video/README.md) for the file map:
 
-- `video.config.ts`: all copy, timings per beat, colours and which landmarks
-  appear. Change a line, re-render.
-- `components/Postcard.tsx`, `ThemeTile.tsx`, `RideCard.tsx`, `Phone.tsx`:
-  React versions of the app's components. Change the postcard here and every
-  beat that uses it updates (deck, fan, flip, end card).
-- Theme colours, glyphs and names are read straight from the app's
-  `static/v2/js/editions.js`, so the video always matches the live themes.
-- Landmark photos and names come from the app's own data; the phone screens
-  that are hard to rebuild (map, ride app) use the 3× Figma exports in
-  `scripts/mockups/screens/`, which are already kept in sync.
+- `src/config.ts`: all copy, timings per beat, colours, which landmarks appear,
+  the Alfie clip and the picked theme.
+- `src/components/Postcard.tsx`, `ThemeTile.tsx`, `Phone.tsx`: React versions
+  of the app's postcard, theme tile and the mockups' phone frame. Change the
+  postcard here and every beat that uses it updates.
+- Theme colours, fonts and glyphs, the landmark count and the stories are read
+  from the app's own files on every render.
 - One command renders both formats.
 
-## Needs from you
+## Still to do
 
-1. **Music:** a licensed track (or I make the cut to a click track and you
-   drop music in later). LinkedIn mutes by default, so the video must work
-   without it.
-2. **Alfie:** I'll use the existing London Eye clip in the repo unless you
-   prefer another of the recorded ones.
-3. **Check the facts on screen:** "1,400 landmarks" (the README says about
-   1,400), "9 themes", "+6 min · +£3.20" (example price).
+1. **Music:** a licensed track from you. Each beat starts on a cut, so the
+   edit can be retimed to the track's bars in `BEATS` in `src/config.ts`.
+2. **Longer version:** a 45–60 s cut with more of each flow.
