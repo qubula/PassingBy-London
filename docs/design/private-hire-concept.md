@@ -51,7 +51,12 @@ difference between the two routes. It is not a separate PassingBy charge.
 1. **While waiting for the driver (the main moment).** After booking, there
    are usually a few minutes before pickup. A card on the waiting screen offers
    the upgrade:
-   *"Make it a PassingBy ride: 6 landmarks · +6 min · +£3.20"*.
+   *"Take the scenic route: see 6 London landmarks on your way and hear
+   their stories as you pass. +6 min · +£3.20"*. In the list of rides it
+   appears as *"Scenic route · 13:28 · +6 min · 6 landmarks · £18.00"*.
+   The wording says what you get, the time and the price, in words someone
+   who has never heard of PassingBy understands. "PassingBy" is only the
+   small "Stories by PassingBy" credit.
    One tap shows the two routes on a map, like the Choose Route screen in the
    black cab version, and a second tap confirms. This is the most valuable
    placement, because the route can still change before the car sets off.
@@ -97,11 +102,19 @@ private hire drivers who opt in before any partnership exists.
 
 ## What's realistic
 
-- **Today:** the web app from a QR code or a shared link. This works now.
-- **Next:** an iPhone App Clip from the same QR code, plus the Live Activity.
-  Both are standard Apple features a small team can ship.
-- **With a partner:** the waiting-screen upgrade, the in-trip card and the
-  shared trip data. These need Uber (or another ride app) to build them in.
+| Feature | Web app (today) | App Clip | Ride-app partnership |
+|---|---|---|---|
+| Postcards, stories, map | Yes | Yes | Yes |
+| Opens from the QR sticker | Yes | Yes (on iPhone) | Not needed |
+| Trip already loaded | No, you type the destination | Only if the ride app shares it | Yes |
+| Lock screen Live Activity and Dynamic Island | **No** | Yes | Yes, inside the ride app's own trip activity |
+| Scenic route upgrade before pickup | No | No | Yes |
+
+A web app can't show a Live Activity or use the Dynamic Island: on iPhone
+those need native code. The lock screen and island designs are for the
+App Clip (a small native piece of PassingBy that opens from the same QR
+code, with nothing to install) and for the ride-app integration. The web
+app shows the same content in the page itself.
 
 ## Open questions
 
