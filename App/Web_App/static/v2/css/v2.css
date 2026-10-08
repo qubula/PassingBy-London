@@ -930,18 +930,19 @@ html:has(.v2-ride-body),
   display: block;
 }
 
-.v2-pc-name {
+/* Same type as the minimised card: uppercase eyebrow, bold name */
+.v2-pc-where {
   margin-top: 18px;
-  font-size: 22px;
-  line-height: 1.25;
-  color: #2c2416;
+  color: var(--text-secondary);
   text-align: center;
 }
 
-.v2-pc-where {
+.v2-pc-name {
   margin-top: 4px;
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
   text-align: center;
 }
 

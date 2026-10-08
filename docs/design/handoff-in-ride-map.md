@@ -85,7 +85,7 @@ language (white card, Satoshi, no cream or vintage fonts).
 | State | What's on screen | How you get there |
 |---|---|---|
 | 1 · Minimised | Same as the main version | Swipe down from the front or the back of the postcard |
-| 2 · Postcard front | Photo in a white mount (whole, `object-fit: contain`), name, "On your left · 200 m", "Tap to read the story" | Swipe up on the mini card, or tap a landmark pin |
+| 2 · Postcard front | Photo in a white mount (whole, `object-fit: contain`), "ON YOUR LEFT · 200 M" eyebrow, bold name (same type as the mini card), "Tap to read the story" | Swipe up on the mini card, or tap a landmark pin |
 | 3 · Postcard back | Story text, the photo shrunk into a stamp top-right, "Tap to flip back" | Tap anywhere on the card front |
 
 - Tap anywhere on the card flips it (the current code already does this on
