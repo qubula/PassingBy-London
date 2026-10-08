@@ -1,0 +1,5 @@
+{
+  "clip": "alfie-video-buckingham.mp3",
+  "note": "Word timings (seconds) from a Whisper small.en transcription of the clip, one per spoken word in order; used to type ALFIE.text onto the card as Alfie says it. Re-run the transcription if the clip changes.",
+  "words": [[0.0,0.44,"Okay,"],[1.4,1.6,"Buckingham"],[1.6,2.08,"Palace,"],[2.48,2.58,"on"],[2.58,2.72,"your"],[2.72,3.02,"left."],[3.76,3.8,"Did"],[3.8,3.98,"you"],[3.98,4.2,"know"],[4.2,4.42,"there"],[4.42,4.58,"are"],[4.58,6.24,"775"],[6.24,6.64,"rooms"],[6.64,6.9,"in"],[6.9,7.06,"that"],[7.06,7.36,"place,"],[7.9,8.12,"and"],[8.12,8.78,"78"],[8.78,9.02,"of"],[9.02,9.16,"them"],[9.16,9.34,"are"],[9.34,9.86,"bathrooms?"],[10.7,11.18,"78!"],[12.12,12.8,"Imagine"],[12.8,13.18,"doing"],[13.18,13.4,"the"],[13.4,13.78,"cleaning"],[13.78,14.12,"rota!"]]
+}
