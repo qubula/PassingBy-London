@@ -63,6 +63,12 @@ All four v2 screens are built. Each one's Figma source is in the sync table belo
   Each screen reads left to right: round 1, round 2, final direction. Build
   from the frames in the sync table below. Choose Theme comes from "05b",
   not from the "03c" final board.
+- Figma page "★ PassingBy — Sticker & QR": five in-car sticker directions.
+  Each QR code encodes https://www.passingby.uk/v2 (error correction H) and
+  was checked with a ZXing decoder. Re-check any restyled QR before printing.
+- Board "08 · Uber / private hire — concept round 1" on the design page:
+  generic ride-app screens for `docs/design/private-hire-concept.md`. Not
+  built, and never styled as a real company's interface.
 - `docs/design/README.md`: the redesign write-up (testing summary slides,
   final screens). The README and this page use PNG exports from the Figma
   frames "06 · Testing summary" and "07 · Clean screens for GitHub and

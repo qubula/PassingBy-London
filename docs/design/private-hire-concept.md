@@ -31,6 +31,21 @@ new tools. It is close to how a rider adds a stop in Uber today: the app shows
 the new arrival time and fare, the rider confirms, and the driver's route
 updates.
 
+## How the price is worked out
+
+The extra fare comes from the ride app's own pricing, applied to the
+difference between the two routes. It is not a separate PassingBy charge.
+
+- Both routes come from Google Maps, so the app knows the extra time and the
+  extra distance before the rider decides.
+- Extra fare = extra minutes × the per-minute rate + extra miles × the
+  per-mile rate, using the same rates (and any surge) as the rest of the trip.
+- The rider sees one rounded line, for example *"+6 min · +£3.20"*. That keeps
+  the decision quick, and the number is the real one they will pay.
+- If traffic makes the detour slower than planned, the fare follows the
+  ride app's normal rules for route changes, the same as when a stop is
+  added.
+
 ## When the rider chooses
 
 1. **While waiting for the driver (the main moment).** After booking, there
@@ -90,12 +105,18 @@ private hire drivers who opt in before any partnership exists.
 
 ## Open questions
 
-- How to price the detour: the normal per-minute and per-mile fare, or a flat
-  upgrade price that is easier to understand.
 - How to cap the detour so it never makes a trip much longer (the black cab
   version already limits it to a few minutes).
 - Shared rides and very short trips: hide the offer when it doesn't make
   sense.
+
+## Designs
+
+- Figma board "08 · Uber / private hire — concept round 1": waiting for the
+  driver with the upgrade card, the route comparison, the in-trip card and
+  the lock screen Live Activity.
+- Figma page "★ PassingBy — Sticker & QR": five sticker directions for the
+  QR code in the car.
 
 ## What to test
 
