@@ -67,9 +67,9 @@ The Uber / private hire screen is a design concept and is not built yet.
 
 ## Still to come
 
-- The Uber / private hire entry point, with its own page and QR code.
-- A mock-up of PassingBy inside a ride-hailing app (format still open, for
-  example an App Clip-style card).
+- The Uber / private hire entry point: see
+  [`private-hire-concept.md`](private-hire-concept.md) for the route upgrade,
+  where the rider chooses it, the Live Activity and where the QR code goes.
 - Landmark audio in the ride, once the remaining recordings are in.
 
 ## Specs

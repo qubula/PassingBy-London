@@ -153,7 +153,9 @@ Each screen went through four directions in round 1 and two in round 2 before th
 | **v2**, the redesign | [passingby.uk/v2](https://www.passingby.uk/v2) |
 | **v1**, the original design | [passingby.uk/mobile](https://www.passingby.uk/mobile) · [v1 README and code](https://github.com/qubula/PassingBy-London/tree/v1-archive#readme) · [video walkthrough](https://www.youtube.com/watch?v=hFkSI2gQjCA) |
 
-**Next:** the Uber / private hire screen with its own QR code, a mock-up of PassingBy inside a ride-hailing app, Alfie's audio in the ride (switched off in the preview for now) and a more rigorous test round on the live app.
+**Next: PassingBy in Uber and private hire.** Riders could make any booked trip a PassingBy ride while they wait for the driver: a slightly longer route past the landmarks, with the extra minutes and fare shown before they agree. The driver's navigation follows it like any other route, and the longer trip means more income for the driver and Uber. Stories carry on in the Dynamic Island and on the lock screen. [Read the concept →](docs/design/private-hire-concept.md)
+
+Also next: Alfie's audio in the ride (switched off in the preview for now) and a more rigorous test round on the live app.
 
 ## How it works
 
