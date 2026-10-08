@@ -112,9 +112,15 @@ private hire drivers who opt in before any partnership exists.
 
 ## Designs
 
-- Figma board "08 · Uber / private hire — concept round 1": waiting for the
-  driver with the upgrade card, the route comparison, the in-trip card and
-  the lock screen Live Activity.
+- Figma page "★ PassingBy — Live Activity & ride app":
+  - five lock screen Live Activity iterations on an iPhone 15 Pro lock screen;
+  - five Dynamic Island iterations, each expanded and compact;
+  - five entry points inside a ride-hailing app (a ride option in the list,
+    an add-on while waiting, a connected card during the trip, PassingBy
+    opening over the trip, a notification at the start). Styled like a
+    ride-hailing app but not affiliated with Uber and without real logos.
+- Figma board "08 · Uber / private hire — concept round 1": the first, plainer
+  pass, kept for the record.
 - Figma page "★ PassingBy — Sticker & QR": five sticker directions for the
   QR code in the car.
 
