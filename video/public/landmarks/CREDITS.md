@@ -1,7 +1,7 @@
 # Landmark photos
 
 From Wikimedia Commons, the same images the app uses (`Data/landmark_images.json`),
-downloaded as 500 px thumbnails and cropped to 400 × 480. Each file page lists
+downloaded at 1280–1920 px and cropped to 1000 × 1200. Each file page lists
 the author and licence.
 
 | File | Source |
