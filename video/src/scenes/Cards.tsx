@@ -4,11 +4,12 @@
 // the story stays, Alfie's waveform draws under it).
 import React from 'react';
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_LABEL, PICKED, sec } from '../config';
+import { ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_LABEL, PICKED, sec, storyFor } from '../config';
 import { CARD_H, CARD_W, Postcard } from '../components/Postcard';
 import { Caption } from '../components/Caption';
 import { Waveform } from '../components/Waveform';
 import { useLayout } from '../layout';
+import { spokenChars } from '../alfie';
 import { SNAP, SOFT, lerp, ramp, sp } from '../anim';
 
 // Deck order, bottom to top. The hero lands first; the picked card sits mid-deck.
@@ -26,6 +27,7 @@ const T = {
   flip: BEATS.hook + BEATS.deck + sec(1.8),
   alfie: BEATS.hook + BEATS.deck + BEATS.fan,
   end: BEATS.hook + BEATS.deck + BEATS.fan + BEATS.alfie,
+  voice: BEATS.hook + BEATS.deck + BEATS.fan + sec(0.3), // Alfie starts; the story types as he speaks
 };
 
 export const Cards: React.FC = () => {
@@ -40,11 +42,13 @@ export const Cards: React.FC = () => {
   const pickT = sp(frame, fps, T.pick, SNAP);
   const flipT = sp(frame, fps, T.flip, { damping: 20, stiffness: 120, mass: 1 });
   const fallT = sp(frame, fps, T.alfie, { damping: 26, stiffness: 70, mass: 1 });
-  const storyT = ramp(frame, T.flip + sec(0.5), T.end, (x: number) => x);
+  const said = Math.min((frame - T.voice) / fps, ALFIE.startFrom + ALFIE.duration);
+  const storyChars = spokenChars(storyFor(PICKED), said + ALFIE.startFrom);
+  const typing = frame >= T.voice && said < ALFIE.duration;
 
   // Where the story card settles for the Alfie beat, and the waveform under it.
-  const restY = L.wide ? L.cy - 70 * L.u : L.cy - 60 * L.u;
-  const waveTop = L.wide ? L.cy + 300 * L.u : L.height - 200 * L.u;
+  const restY = L.wide ? L.cy - 60 * L.u : L.cy - 40 * L.u;
+  const waveTop = L.wide ? L.cy + 300 * L.u : L.height - 175 * L.u;
   const waveW = L.wide ? 820 * L.u : L.width - 160 * L.u;
 
   const cards = DECK.map((lm, i) => {
@@ -79,7 +83,7 @@ export const Cards: React.FC = () => {
       flip = flipT;
       // Alfie: settle above the waveform.
       y = lerp(fallT, y, restY);
-      scale = lerp(fallT, scale, L.wide ? 0.98 : 1);
+      scale = lerp(fallT, scale, L.wide ? 1.18 : 1.22);
     } else {
       // The rest dip while the picked card rises, then fall away for Alfie.
       y += 30 * L.u * pickT + fallT * (L.height + ch);
@@ -96,7 +100,8 @@ export const Cards: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: black ? COLORS.black : COLORS.bg }}>
       {cards.sort((p, q) => p.z - q.z).map(c => (
-        <Postcard key={c.lm.name} landmark={c.lm} width={cw} flip={c.flip} story={c.i === pickIndex ? storyT : 1}
+        <Postcard key={c.lm.name} landmark={c.lm} width={cw} flip={c.flip}
+          storyChars={c.i === pickIndex ? storyChars : undefined} caret={c.i === pickIndex && typing}
           shadow={c.i === pickIndex ? 0.6 + 0.4 * pickT : 0.5}
           style={{
             left: c.x - cw / 2, top: c.y - ch / 2, opacity: c.opacity,
@@ -116,8 +121,8 @@ export const Cards: React.FC = () => {
       <Sequence from={T.alfie} durationInFrames={BEATS.alfie}>
         <Caption text={COPY.alfie} delay={sec(0.2)} out={BEATS.alfie - sec(0.35)} />
         <Waveform left={L.wide ? L.cx - waveW / 2 : 80 * L.u} top={waveTop - T.alfie * 0} width={waveW} height={130 * L.u}
-          color={COLORS.ink} start={sec(0.4)} />
-        <Sequence from={sec(0.4)}>
+          color={COLORS.ink} start={T.voice - T.alfie} />
+        <Sequence from={T.voice - T.alfie}>
           <Audio src={staticFile(ALFIE.file)} startFrom={Math.round(ALFIE.startFrom * fps)}
             endAt={Math.round((ALFIE.startFrom + ALFIE.duration) * fps)}
             volume={f => interpolate(f, [0, 3, ALFIE.duration * fps - 5, ALFIE.duration * fps], [0, 1, 1, 0], { extrapolateRight: 'clamp' })} />

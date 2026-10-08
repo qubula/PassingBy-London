@@ -78,7 +78,7 @@ export const Ride: React.FC = () => {
 
 // The ride's theme badge (.v2-badge in v2.css, filled by tour_logic.js), at its
 // place in the next-stop card: 36 pt circle, theme body colour, accent glyph.
-const ThemeBadge: React.FC<{ edition: string }> = ({ edition }) => {
+export const ThemeBadge: React.FC<{ edition: string }> = ({ edition }) => {
   const e = EDITIONS[edition];
   return (
     <div style={{

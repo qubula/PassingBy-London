@@ -1,11 +1,12 @@
 # PassingBy launch advert (Remotion)
 
-A 40-second advert, rendered in two formats from one project:
+A 38-second advert, rendered in two formats from one project:
 
 - `advert-4x5`: 1080 × 1350, for the LinkedIn feed
 - `advert-16x9`: 1920 × 1080, for the website
 
-The script and beat sheet are in [`docs/video/advert-script.md`](../docs/video/advert-script.md).
+An experimental cut with different motion (`lab-4x5`, `lab-16x9`, code in
+`src/lab/`) is described in the script doc too. The script and beat sheet are in [`docs/video/advert-script.md`](../docs/video/advert-script.md).
 
 ## Run it
 
@@ -14,6 +15,7 @@ cd video
 npm install
 npm run studio     # live preview in the browser, with a timeline
 npm run render     # writes out/advert-4x5.mp4 and out/advert-16x9.mp4
+npx remotion render lab-4x5 out/lab-4x5.mp4   # the experimental cut
 node scripts/stills.mjs 30 200 400   # a few frames of both formats, for a quick check
 ```
 
@@ -30,7 +32,8 @@ matches the app.
 | The postcard (used in the hook, deck, fan, flip and end card) | `src/components/Postcard.tsx` |
 | The theme tiles | `src/components/ThemeTile.tsx`; colours, fonts and glyphs come from the app's `static/v2/js/editions.js` |
 | The phone frame and status bar | `src/components/Phone.tsx` (same as `scripts/mockups/render.mjs`) |
-| One beat's motion | `src/scenes/` (Cards covers beats 1–4 as one shot) |
+| One beat's motion | `src/scenes/` (Cards covers beats 1–4 as one shot); the lab cut is in `src/lab/` |
+| Alfie's word timings (the card types as he speaks) | `src/alfie-words.json` |
 
 Images that come from Figma rather than code:
 

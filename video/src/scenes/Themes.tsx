@@ -9,8 +9,8 @@ import { Caption } from '../components/Caption';
 import { useLayout } from '../layout';
 import { BOUNCE, SNAP, ramp, sp } from '../anim';
 
-const LIFT_AT = sec(1.9);
-const WASH_AT = sec(2.4);
+const LIFT_AT = sec(1.5);
+const WASH_AT = sec(1.9);
 
 export const Themes: React.FC = () => {
   const frame = useCurrentFrame();
@@ -26,7 +26,9 @@ export const Themes: React.FC = () => {
   const gy = L.wide ? L.cy - gh / 2 : L.cy - gh / 2 + 40 * L.u;
 
   const lift = sp(frame, fps, LIFT_AT, SNAP);
-  const wash = ramp(frame, WASH_AT, WASH_AT + sec(0.8));
+  const wash = ramp(frame, WASH_AT, WASH_AT + sec(0.6));
+  // The picked tile keeps growing slowly on the colour, so the frame never sits still.
+  const drift = ramp(frame, WASH_AT, BEATS.themes, (x: number) => x);
   const pickIdx = EDITION_KEYS.indexOf(THEME_PICK);
   const pc = pickIdx % cols, pr = Math.floor(pickIdx / cols);
   const pickX = gx + pc * (tw + gap) + tw / 2;
@@ -40,7 +42,7 @@ export const Themes: React.FC = () => {
         const c = i % cols, r = Math.floor(i / cols);
         const t = sp(frame, fps, sec(0.15) + ((c + r) * 3 + c) * sec(0.06), BOUNCE);
         const picked = key === THEME_PICK;
-        const scale = (0.6 + 0.4 * t) * (picked ? 1 + 0.12 * lift : 1 - 0.04 * lift);
+        const scale = (0.6 + 0.4 * t) * (picked ? 1 + 0.12 * lift + 0.1 * drift : 1 - 0.04 * lift);
         const tile = (
           <ThemeTile key={key} edition={key} width={tw} style={{
             left: gx + c * (tw + gap), top: gy + r * (th + gap) - (1 - t) * 120 * L.u,

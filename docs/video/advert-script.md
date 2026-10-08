@@ -1,6 +1,6 @@
-# PassingBy launch advert: script (as built, draft 3)
+# PassingBy launch advert: script (as built, draft 4)
 
-Length 40 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
+Length 38.4 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
 first (LinkedIn autoplays without sound), so every key fact is on screen as text.
 
 Formats from the same project:
@@ -20,13 +20,37 @@ integration is a concept.
 |---|---|---|---|---|
 | 1 | 0.0–2.5 | **Hook.** Black frame. An Elizabeth Tower postcard drops in from above, spins once and lands. Hard cut to grey as it lands. | **Every landmark has a story.** | (music later) |
 | 2 | 2.5–6.0 | **The deck.** Seven more postcards fall onto it, each a different landmark, into a loose stack. The number counts up with them. | **1,300+ London landmarks** | |
-| 3 | 6.0–10.0 | **Fan and flip.** The deck fans out in an arc. Buckingham Palace rises out of the fan and flips to its back; the story writes on. | **A story for each one** | |
-| 4 | 10.0–15.0 | **Alfie.** The other cards fall away. The story card stays, and Alfie's waveform draws under it as his first two sentences play. | **Told by Alfie, a London cabbie** | Alfie, 4.4 s (Buckingham Palace clip) |
-| 5 | 15.0–21.0 | **Flow A: ride app.** A phone rises with a generic ride app, "Choose a ride". A tap lands on **Scenic route**, and the camera pushes in on the row. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
-| 6 | 21.0–25.5 | **Themes.** The nine theme tiles drop into a 3 × 3 grid in their own colours. Architecture lifts and its colour washes over the frame. | **9 themes** · Architecture, Historical, Royal… | |
-| 7 | 25.5–31.5 | **The ride.** Black frame, the dark ride map. The mini card grows into the postcard (the app's morph). The theme badge shows the Architecture glyph. The camera rises to the Dynamic Island, which expands to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | |
-| 8 | 31.5–36.0 | **Flow B: black cab.** The sticker on a dark seat back. A phone moves in, the camera locks on the QR code, the "passingby.uk" banner appears, and the landing page opens. | **In a black cab? Scan the sticker.** | |
-| 9 | 36.0–40.0 | **End card.** Five postcards fly in and settle into a stack beside the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | |
+| 3 | 6.0–9.0 | **Fan and flip.** The deck fans out in an arc. Buckingham Palace rises out of the fan and flips to its back; the story writes on. | **A story for each one** | |
+| 4 | 9.0–14.4 | **Alfie.** The other cards fall away. The story card stays, and Alfie's waveform draws under it, and the story types onto the card word by word as he says it. | **Told by Alfie, a London cabbie** | Alfie, 4.4 s (Buckingham Palace clip) |
+| 5 | 14.4–20.4 | **Flow A: ride app.** A phone rises with a generic ride app, "Choose a ride". A tap lands on **Scenic route**, and the camera pushes in on the row. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
+| 6 | 20.4–23.9 | **Themes.** The nine theme tiles drop into a 3 × 3 grid in their own colours. Architecture lifts and its colour washes over the frame. | **9 themes** · Architecture, Historical, Royal… | |
+| 7 | 23.9–29.9 | **The ride.** Black frame, the dark ride map. The mini card grows into the postcard (the app's morph). The theme badge shows the Architecture glyph. The camera rises to the Dynamic Island, which expands to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | |
+| 8 | 29.9–34.4 | **Flow B: black cab.** The sticker on a dark seat back. A phone moves in, the camera locks on the QR code, the "passingby.uk" banner appears, and the landing page opens. | **In a black cab? Scan the sticker.** | |
+| 9 | 34.4–38.4 | **End card.** Five postcards fly in and settle into a stack beside the logo. | **PassingBy** · London's stories, as you pass them · passingby.uk · small: *Ride-app integration shown is a concept* | |
+
+## Alfie in sync with the card
+
+The story on the card types as Alfie says it. Word timings come from a
+Whisper transcription of the clip (`video/src/alfie-words.json`), matched in
+order to the words of the card's story; the clip and the database text say the
+same words. If the clip changes, re-run the transcription and replace the file.
+
+## Experimental cut ("lab")
+
+`lab-4x5` and `lab-16x9` (34.8 s, `docs/video/lab-*.mp4`) use the same pieces
+with motion borrowed from two references the user shared: Mouthwash Studio's
+Brand.ai identity (everything grows out of one dot and returns to it, a
+collage that keeps drifting) and Rico's Jitter Showcase 09 (pieces floating at
+different depths, focus pulls instead of cuts, mono labels in the corners).
+
+| Part | Time | What happens |
+|---|---|---|
+| Origin | 0–16.6 | A dot swells into a gooey blob and becomes the Elizabeth Tower postcard. Landmark photos, tiles and the "Look left" pill burst out around it and drift. Focus pulls to Buckingham Palace: it comes forward and flips while the rest goes soft; Alfie reads it as it types. |
+| Depth | 16.6–29.6 | On black, the ride app, theme tiles, the ride and the sticker float at different depths. The camera pulls focus from one to the next, each with its own caption and small action (tap and price, Architecture lifts, postcard morph and Dynamic Island, QR lock). |
+| Collapse | 29.6–34.8 | The photos fly back into the centre and melt into the dot; the dot closes and the logo comes out of it. |
+
+Corner labels: "PassingBy", the section ("03 · Ride app"), "1,327 landmarks ·
+9 themes · Alfie" and "passingby.uk", in JetBrains Mono like the theme codes.
 
 ## Facts on screen, and where they come from
 

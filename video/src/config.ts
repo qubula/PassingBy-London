@@ -61,10 +61,10 @@ export const THEME_PICK = 'architecture';
 export const BEATS = {
   hook: s(2.5),
   deck: s(3.5),
-  fan: s(4.0),
-  alfie: s(5.0),
+  fan: s(3.0),
+  alfie: s(5.4),
   rideApp: s(6.0),
-  themes: s(4.5),
+  themes: s(3.5),
   ride: s(6.0),
   blackCab: s(4.5),
   end: s(4.0),
