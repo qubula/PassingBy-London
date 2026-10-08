@@ -91,7 +91,10 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .ad-row{position:absolute;display:flex;gap:28px;width:560px}
 .ad-row .k{width:200px;flex:none;font-size:19px;font-weight:700;line-height:1.2;color:#111;letter-spacing:-.2px}
 .ad-row .v{font-size:19px;font-weight:500;line-height:1.35;color:#7d8086}
-.ad-code{position:absolute;font-size:19px;font-weight:500;color:#7d8086;letter-spacing:.5px}
+.ad-col{position:absolute}
+.ad-col .k{font-size:28px;font-weight:700;line-height:1.2;color:#111;letter-spacing:-.3px}
+.ad-col .v{margin-top:8px;font-size:24px;font-weight:500;line-height:1.38;color:#6f7278}
+.ad-code{position:absolute;font-size:24px;font-weight:500;color:#7d8086;letter-spacing:.5px}
 `;
 
 
@@ -102,6 +105,7 @@ const SPECS = [
   ['Narrated by Alfie', 'A custom London cabbie voice tells each story.'],
   ['Nothing to install', 'A web app. Scan a QR code in the cab and go.'],
 ];
+const specCol = (x, y, gap, w) => SPECS.map(([k, v], i) => `<div class="ad-col" style="left:${x}px;top:${y + i * gap}px;width:${w}px"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 const specRows = (x, y, gap) => SPECS.map(([k, v], i) => `<div class="ad-row" style="left:${x}px;top:${y + i * gap}px"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
 const pages = {
@@ -156,28 +160,24 @@ const pages = {
     <div class="lbl" style="left:640px;top:1012px">Black cab<b>Built in v2</b></div>
     <div class="lbl" style="left:1170px;top:1012px">Uber / private hire<b>Design concept</b></div>` },
 
-  // 7. Advert: the three-phone hero with product copy on both sides
-  advert: { w: 2600, h: 1300, bg: '#E8E7E3', html: () => `
-    <div class="ad-k" style="left:90px;top:70px">PassingBy <span class="ad-g">London</span></div>
-    <div class="ad-k ad-g" style="right:90px;top:70px">{v2 · 2026}</div>
-    <div class="h1" style="left:90px;top:400px;font-size:84px;letter-spacing:-2.5px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
-    <div class="ad-k" style="left:92px;top:820px;width:430px;font-size:21px;line-height:1.45;color:#55585e">A web app that turns a cab ride into a tour of the city. A postcard and a short story for every landmark you pass.</div>
-    ${phone('landing', { scale: .9, style: 'left:640px;top:240px' })}
-    ${phone('theme', { scale: .9, style: 'left:1054px;top:240px' })}
-    ${phone('postcard', { scale: .9, style: 'left:1468px;top:240px' })}
-    ${specRows(1960, 300, 150)}
-    <div class="ad-k" style="left:90px;bottom:70px">passingby<span class="ad-g">.uk</span></div>
-    <div class="ad-k ad-g" style="right:90px;bottom:70px">Black cab · Uber · on foot</div>` },
+  // 7. Advert: the three-phone hero with product copy on both sides (4:3, like the single advert)
+  advert: { w: 2020, h: 1500, bg: '#E8E7E3', html: () => `
+    <div class="ad-k ad-g" style="right:80px;top:64px;font-size:24px">{v2 · 2026}</div>
+    <div class="h1" style="left:80px;top:470px;font-size:76px;letter-spacing:-2.5px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
+    <div class="ad-k" style="left:82px;top:860px;width:380px;font-size:24px;line-height:1.45;color:#55585e">A web app that turns a cab ride into a tour of the city.</div>
+    ${phone('landing', { scale: .7, style: 'left:500px;top:440px' })}
+    ${phone('theme', { scale: .7, style: 'left:812px;top:440px' })}
+    ${phone('postcard', { scale: .7, style: 'left:1124px;top:440px' })}
+    ${specCol(1480, 250, 196, 460)}
+    <div class="ad-k ad-g" style="right:80px;bottom:64px;font-size:24px">Black cab · Uber · on foot</div>` },
 
   // 8. Advert, single phone (reference layout: headline left, specs right)
-  'advert-single': { w: 2000, h: 1500, bg: '#E3E1DA', html: () => `
-    <div class="ad-k" style="left:80px;top:64px">PassingBy <span class="ad-g">London</span></div>
-    <div class="h1" style="left:80px;top:520px;font-size:96px;letter-spacing:-3px">Stories<br>for every<br>landmark<br><span>you pass.</span></div>
-    ${phone('ridemap', { scale: 1.42, style: 'left:702px;top:120px' })}
-    <div class="ad-code" style="left:1360px;top:190px">{1,400 landmarks}</div>
-    ${specRows(1360, 300, 168)}
-    <div class="ad-code" style="left:1360px;top:1290px">{9 themes}</div>
-    <div class="ad-k" style="left:80px;bottom:64px">passingby<span class="ad-g">.uk</span></div>` },
+  'advert-single': { w: 2020, h: 1500, bg: '#E3E1DA', html: () => `
+    <div class="h1" style="left:80px;top:500px;font-size:96px;letter-spacing:-3px">Stories<br>for every<br>landmark<br><span>you pass.</span></div>
+    ${phone('ridemap', { scale: 1.42, style: 'left:640px;top:120px' })}
+    <div class="ad-code" style="left:1340px;top:150px">{1,400 landmarks}</div>
+    ${specCol(1340, 250, 196, 600)}
+    <div class="ad-code" style="left:1340px;top:1300px">{9 themes}</div>` },
 };
 
 const browser = await chromium.launch();
