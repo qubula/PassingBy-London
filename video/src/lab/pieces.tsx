@@ -14,7 +14,7 @@ export const Chrome: React.FC<{ u: number; color: string; index: string; spec: s
       <span style={{ ...s, left: m, top: m }}>PassingBy</span>
       <span style={{ ...s, right: m, top: m }}>{index}</span>
       <span style={{ ...s, left: m, bottom: m }}>{spec}</span>
-      <span style={{ ...s, right: m, bottom: m }}>passingby.uk</span>
+      <span style={{ ...s, right: m, bottom: m }}>London</span>
     </>
   );
 };

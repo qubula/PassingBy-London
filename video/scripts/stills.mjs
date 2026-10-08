@@ -15,7 +15,7 @@ for (const id of only ? [only] : ['advert-4x5', 'advert-16x9']) {
   const composition = await selectComposition({ serveUrl, id, browserExecutable: browser });
   for (const frame of frames) {
     const output = path.join(HERE, `../out/stills/${id}-${frame}.png`);
-    await renderStill({ composition, serveUrl, frame, output, browserExecutable: browser, scale: 0.5 });
+    await renderStill({ composition, serveUrl, frame, output, browserExecutable: browser, scale: Number(process.argv.find(a => a.startsWith('--scale='))?.slice(8) ?? 0.5) });
     console.log(output);
   }
 }

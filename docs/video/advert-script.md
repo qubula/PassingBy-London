@@ -1,4 +1,4 @@
-# PassingBy launch advert: script (as built, draft 7)
+# PassingBy launch advert: script (as built, draft 8)
 
 Length 45.6 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
 first (LinkedIn autoplays without sound), so every key fact is on screen as text.
@@ -28,7 +28,12 @@ integration is a concept.
 | 7 | 29.4–33.6 | **Way in 2: black cab.** The sticker on the plain grey background; a phone locks on the QR code and the landing page opens. | **Or in a black cab? Scan the sticker.** | whoosh, camera shutter on the lock, swipe |
 | 8 | 33.6–36.8 | **Themes.** Nine tiles drop in; Architecture lifts and its colour washes the frame. | **9 themes** · Architecture, Historical, Royal… | lift, whoosh |
 | 9 | 36.8–41.8 | **The ride.** Dark map, Architecture badge, the mini card grows into the postcard; the camera rises to the Dynamic Island, which opens to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | whooshes |
-| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** · Learn about London as you commute · passingby.uk · small: *Ride-app integration shown is a concept* | card taps; music fades out |
+| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** (JetBrains Mono Medium Italic, −4%, as the Figma logo) · Learn about London as you commute · small: *Ride-app integration shown is a concept* and the music and sound credits | card taps; music fades out |
+
+## No web address
+
+The video doesn't show passingby.uk (end card, QR banner), so it stays usable
+if the domain changes.
 
 ## Sound
 
@@ -120,3 +125,13 @@ design, so a change is one edit and a re-render. See
    clearer moment for scanning the QR code as you get into a black cab.
 4. **Theme badge in the screen exports:** the ride screens were exported with
    the Royal badge; the video draws the picked theme's badge over it.
+
+## Credits
+
+- Music by [Andrii Poradovskyi](https://pixabay.com/users/lnplusmusic-47631836/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=611049) from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=611049) (`docs/audio/music/jazz-lnplusmusic-611049.mp3`).
+- Sound effects: generated with ElevenLabs (`docs/audio/sfx/`).
+- Alfie's voice: ElevenLabs.
+- Landmark photos: Wikimedia Commons, see `video/public/landmarks/CREDITS.md`.
+
+The end card carries a short credit line: "Music by Andrii Poradovskyi from
+Pixabay · Sound effects by ElevenLabs".

@@ -75,7 +75,7 @@ export const BlackCab: React.FC = () => {
             transform: `translateY(${(1 - banner) * 30}px)`, opacity: banner,
           }}>
             <div style={{ width: 30, height: 30, borderRadius: 8, background: '#111', display: 'grid', placeItems: 'center', color: '#fff', fontSize: 15 }}>↗</div>
-            <div><div style={{ fontWeight: 600 }}>Website QR code</div><div style={{ color: '#555' }}>Open “passingby.uk” in Safari</div></div>
+            <div><div style={{ fontWeight: 600 }}>Website QR code</div><div style={{ color: '#555' }}>Open in Safari</div></div>
           </div>
         </div>
         {/* landing opens */}

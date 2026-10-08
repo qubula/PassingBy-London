@@ -109,6 +109,6 @@ export const COPY = {
   ride: 'Stories as you pass them',
   blackCab: 'Or in a black cab? Scan the sticker.',
   endTagline: 'Learn about London as you commute',
-  endUrl: 'passingby.uk',
   endNote: 'Ride-app integration shown is a concept',
+  credits: 'Music by Andrii Poradovskyi from Pixabay · Sound effects by ElevenLabs',
 };

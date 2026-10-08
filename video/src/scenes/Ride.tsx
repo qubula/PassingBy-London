@@ -2,11 +2,12 @@
 // morph), then the camera rises to the Dynamic Island as it expands to "Look left".
 // Screens: the 3x mockup exports (Figma 04d) and DI4 "Look left" (Live Activity page).
 import React from 'react';
-import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Easing, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { BEATS, COLORS, COPY, THEME_PICK, sec } from '../config';
 import { EDITIONS } from '../editions';
 import { Phone, PHONE_H, PHONE_W } from '../components/Phone';
 import { Caption } from '../components/Caption';
+import { IslandLookLeft, ISLAND_H, ISLAND_W } from '../components/IslandLookLeft';
 import { useLayout } from '../layout';
 import { SOFT, lerp, ramp, sp } from '../anim';
 
@@ -28,14 +29,19 @@ export const Ride: React.FC = () => {
 
   const enter = sp(frame, fps, -sec(0.3), SOFT); // already rising at the cut
   const m = sp(frame, fps, MORPH_AT, { damping: 24, stiffness: 70, mass: 1 });
-  const zoom = sp(frame, fps, ZOOM_AT, { damping: 30, stiffness: 55, mass: 1 });
-  const isl = sp(frame, fps, ISLAND_AT, { damping: 22, stiffness: 120, mass: 1 });
+  // Eased curves with a fixed length: they end exactly, with no sub-pixel creep
+  // at the tail (a slow spring made the island shimmer as it settled).
+  const zoom = ramp(frame, ZOOM_AT, ZOOM_AT + sec(1.2), Easing.bezier(0.33, 1, 0.68, 1));
+  const isl = ramp(frame, ISLAND_AT, ISLAND_AT + sec(0.55), Easing.out(Easing.back(1.3)));
 
   const clip = `inset(${lerp(m, MINI.top, 0)}px ${lerp(m, MINI.right, 0)}px ${lerp(m, MINI.bottom, 0)}px ${lerp(m, MINI.left, 0)}px round ${lerp(m, MINI.r, 0)}px)`;
 
-  // Island grows from the pill (125 × 37) to the expanded activity (371 × 180).
-  const iw = lerp(isl, 125, 371);
-  const ih = lerp(isl, 37, 180);
+  // Island grows from the pill (125 × 37) to the expanded activity, kept a little
+  // narrower than Figma's 371 pt so it has margin from the screen edge.
+  const IW = 351;
+  const IH = ISLAND_H * (IW / ISLAND_W);
+  const iw = lerp(isl, 125, IW);
+  const ih = lerp(isl, 37, IH);
 
   // Camera: rise to the island.
   const islX = left + pw / 2;
@@ -67,14 +73,13 @@ export const Ride: React.FC = () => {
           }} />
           {/* Dynamic Island */}
           <div style={{
-            position: 'absolute', top: 11, left: 195 - iw / 2, width: iw, height: ih, borderRadius: lerp(isl, 20, 46),
+            position: 'absolute', top: 11, left: 195 - iw / 2, width: iw, height: ih, borderRadius: lerp(isl, 20, 46 * (IW / ISLAND_W)),
             background: '#000', zIndex: 5, overflow: 'hidden', boxShadow: isl > 0.05 ? '0 10px 30px rgba(0,0,0,0.35)' : undefined,
           }}>
-            {/* the content stays at its real size; the growing island reveals it */}
-            <Img src={staticFile('figma/island-look-left.png')} style={{
-              position: 'absolute', left: (iw - 371) / 2, top: 0, width: 371, height: 180,
-              opacity: ramp(frame, ISLAND_AT + sec(0.1), ISLAND_AT + sec(0.35)),
-            }} />
+            {/* the content stays at its final size; the growing island reveals it */}
+            <div style={{ position: 'absolute', left: (iw - IW) / 2, top: 0 }}>
+              <IslandLookLeft width={IW} opacity={ramp(frame, ISLAND_AT + sec(0.1), ISLAND_AT + sec(0.35))} />
+            </div>
           </div>
         </Phone>
       </AbsoluteFill>

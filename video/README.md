@@ -48,3 +48,13 @@ Re-export these when the frames change. Landmark photo credits: `public/landmark
 
 No music yet. The only sound is Alfie's first two sentences from the recorded
 Buckingham Palace clip (a placeholder voice; the final one is still to come). The video is built to work muted, as LinkedIn plays it.
+
+## Credits
+
+- Music by [Andrii Poradovskyi](https://pixabay.com/users/lnplusmusic-47631836/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=611049) from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=611049) (`docs/audio/music/jazz-lnplusmusic-611049.mp3`).
+- Sound effects: generated with ElevenLabs (`docs/audio/sfx/`).
+- Alfie's voice: ElevenLabs.
+- Landmark photos: Wikimedia Commons, see `video/public/landmarks/CREDITS.md`.
+
+The end card carries a short credit line: "Music by Andrii Poradovskyi from
+Pixabay · Sound effects by ElevenLabs".

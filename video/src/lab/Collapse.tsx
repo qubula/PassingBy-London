@@ -1,16 +1,16 @@
 // Lab cut, part 3: the pieces fly back to the centre and melt into the dot
 // the film began with; the dot closes and the logo comes out of it.
 import React from 'react';
-import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
 import { COLORS, COPY, LANDMARKS, sec } from '../config';
 import { useLayout } from '../layout';
 import { SANS } from '../fonts';
+import { Wordmark } from '../components/Wordmark';
 import { SOFT, lerp, ramp, sp } from '../anim';
 import { Goo, Mounted } from './pieces';
 
 export const COLLAPSE_LEN = sec(5.2);
 const NAMES = ['London Eye', 'Tower Bridge', "St Paul's Cathedral", 'The Shard', 'Buckingham Palace', 'Elizabeth Tower', 'Tower of London', 'Westminster Abbey'];
-const LOGO_RATIO = 2944 / 655;
 
 export const Collapse: React.FC = () => {
   const frame = useCurrentFrame();
@@ -41,7 +41,6 @@ export const Collapse: React.FC = () => {
     const k = sp(frame, fps, delay, SOFT);
     return { opacity: k, transform: `translateY(${(1 - k) * 24 * u}px)` };
   };
-  const logoW = (L.wide ? 620 : 560) * u;
 
   return (
     <AbsoluteFill style={{ background: COLORS.bg, fontFamily: SANS, color: COLORS.ink }}>
@@ -52,9 +51,8 @@ export const Collapse: React.FC = () => {
       <Goo id="collapse-goo" width={width} height={height} softness={9 * u} color={COLORS.ink}
         circles={[{ x: ox, y: oy, r: R }, ...sats]} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: oy - 90 * u, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <Img src={staticFile('shared/logo.png')} style={{ width: logoW, height: logoW / LOGO_RATIO, ...text(sec(2.15)) }} />
+        <Wordmark size={(L.wide ? 104 : 96) * u} style={text(sec(2.15))} />
         <div style={{ marginTop: 30 * u, fontSize: (L.wide ? 60 : 56) * u, fontWeight: 700, letterSpacing: '-0.03em', ...text(sec(2.45)) }}>{COPY.endTagline}</div>
-        <div style={{ marginTop: 22 * u, fontSize: 38 * u, fontWeight: 500, ...text(sec(2.75)) }}>{COPY.endUrl}</div>
       </div>
       <div style={{ position: 'absolute', bottom: 100 * u, left: 0, right: 0, textAlign: 'center', fontSize: 22 * u, color: COLORS.muted, ...text(sec(3.1)) }}>{COPY.endNote}</div>
     </AbsoluteFill>
