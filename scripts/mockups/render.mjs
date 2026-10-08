@@ -41,7 +41,7 @@ function statusBar(dark) {
 function phone(screen, opts = {}) {
   const dark = DARK.has(screen);
   const scale = opts.scale || 1;
-  return `<div class="phone ${opts.cls || ''}" style="--s:${scale};${opts.style || ''}">${opts.noShadow ? '' : '<div class="shadow"></div><div class="shadow2"></div>'}
+  return `<div class="phone ${opts.cls || ''}" style="--s:${scale};${opts.style || ''}">
     <div class="btn act"></div><div class="btn vu"></div><div class="btn vd"></div><div class="btn pw"></div>
     <div class="bezel"><div class="screen" style="background-image:url('${S(screen)}')">
       ${statusBar(dark)}<div class="island"><i></i></div>
@@ -63,8 +63,6 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .phone{position:absolute;isolation:isolate;width:421px;height:875px;border-radius:70px;transform:scale(var(--s));transform-origin:top left;
   background:linear-gradient(150deg,#5b6672 0%,#232a33 18%,#3d4652 38%,#1a1f26 62%,#4d5864 82%,#20262e 100%);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
-.shadow{position:absolute;left:6%;right:6%;top:6%;bottom:-2%;border-radius:80px;background:rgba(18,20,24,.55);filter:blur(42px);transform:translateY(46px);z-index:-1}
-.shadow2{position:absolute;left:3%;right:3%;top:40%;bottom:0;border-radius:70px;background:rgba(18,20,24,.35);filter:blur(16px);transform:translateY(14px);z-index:-1}
 .phone::after{content:'';position:absolute;inset:1.6px;border-radius:68.5px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 0 2px 1px rgba(255,255,255,.08);pointer-events:none}
 .btn{position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#1b2027,#4f5a66 50%,#252b33)}
 .btn.act{left:-3px;top:118px;height:34px}.btn.vu{left:-3px;top:182px;height:64px}.btn.vd{left:-3px;top:258px;height:64px}
@@ -87,7 +85,24 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .num{position:absolute;font-size:13px;font-weight:600;letter-spacing:1.4px;color:#8a8d93}
 .h1{position:absolute;font-weight:800;letter-spacing:-2px;line-height:.98;color:#111}
 .h1 span{color:#a3a5a9}
+
+.ad-k{position:absolute;font-size:22px;font-weight:500;color:#111;letter-spacing:-.2px}
+.ad-g{color:#8d8f93}
+.ad-row{position:absolute;display:flex;gap:28px;width:560px}
+.ad-row .k{width:200px;flex:none;font-size:19px;font-weight:700;line-height:1.2;color:#111;letter-spacing:-.2px}
+.ad-row .v{font-size:19px;font-weight:500;line-height:1.35;color:#7d8086}
+.ad-code{position:absolute;font-size:19px;font-weight:500;color:#7d8086;letter-spacing:.5px}
 `;
+
+
+const SPECS = [
+  ['Custom landmark database', 'About 1,400 London landmarks, built from OpenStreetMap and Wikipedia.'],
+  ['Triggered by GPS', 'Each landmark has its own radius, so its card arrives as it comes into view.'],
+  ['Nine themed tours', 'Royal, Architecture, Parks & Gardens and more, sorted by your route.'],
+  ['Narrated by Alfie', 'A custom London cabbie voice tells each story.'],
+  ['Nothing to install', 'A web app. Scan a QR code in the cab and go.'],
+];
+const specRows = (x, y, gap) => SPECS.map(([k, v], i) => `<div class="ad-row" style="left:${x}px;top:${y + i * gap}px"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
 const pages = {
   // 1. Hero: three phones in a row
@@ -140,6 +155,29 @@ const pages = {
     ${phone('privatehire', { scale: .98, style: 'left:1170px;top:135px' })}
     <div class="lbl" style="left:640px;top:1012px">Black cab<b>Built in v2</b></div>
     <div class="lbl" style="left:1170px;top:1012px">Uber / private hire<b>Design concept</b></div>` },
+
+  // 7. Advert: the three-phone hero with product copy on both sides
+  advert: { w: 2600, h: 1300, bg: '#E8E7E3', html: () => `
+    <div class="ad-k" style="left:90px;top:70px">PassingBy <span class="ad-g">London</span></div>
+    <div class="ad-k ad-g" style="right:90px;top:70px">{v2 · 2026}</div>
+    <div class="h1" style="left:90px;top:400px;font-size:84px;letter-spacing:-2.5px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
+    <div class="ad-k" style="left:92px;top:820px;width:430px;font-size:21px;line-height:1.45;color:#55585e">A web app that turns a cab ride into a tour of the city. A postcard and a short story for every landmark you pass.</div>
+    ${phone('landing', { scale: .9, style: 'left:640px;top:240px' })}
+    ${phone('theme', { scale: .9, style: 'left:1054px;top:240px' })}
+    ${phone('postcard', { scale: .9, style: 'left:1468px;top:240px' })}
+    ${specRows(1960, 300, 150)}
+    <div class="ad-k" style="left:90px;bottom:70px">passingby<span class="ad-g">.uk</span></div>
+    <div class="ad-k ad-g" style="right:90px;bottom:70px">Black cab · Uber · on foot</div>` },
+
+  // 8. Advert, single phone (reference layout: headline left, specs right)
+  'advert-single': { w: 2000, h: 1500, bg: '#E3E1DA', html: () => `
+    <div class="ad-k" style="left:80px;top:64px">PassingBy <span class="ad-g">London</span></div>
+    <div class="h1" style="left:80px;top:520px;font-size:96px;letter-spacing:-3px">Stories<br>for every<br>landmark<br><span>you pass.</span></div>
+    ${phone('ridemap', { scale: 1.42, style: 'left:702px;top:120px' })}
+    <div class="ad-code" style="left:1360px;top:190px">{1,400 landmarks}</div>
+    ${specRows(1360, 300, 168)}
+    <div class="ad-code" style="left:1360px;top:1290px">{9 themes}</div>
+    <div class="ad-k" style="left:80px;bottom:64px">passingby<span class="ad-g">.uk</span></div>` },
 };
 
 const browser = await chromium.launch();
