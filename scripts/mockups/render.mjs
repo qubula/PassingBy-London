@@ -91,6 +91,10 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .ad-row .k{width:200px;flex:none;font-size:19px;font-weight:700;line-height:1.2;color:#111;letter-spacing:-.2px}
 .ad-row .v{font-size:19px;font-weight:500;line-height:1.35;color:#7d8086}
 .ad-col{position:absolute}
+.web-num{position:absolute;font-size:20px;font-weight:600;letter-spacing:1.4px;color:#8a8d93}
+.web-t{position:absolute;font-size:32px;font-weight:700;letter-spacing:-.4px;color:#111}
+.web-cap{position:absolute;font-size:20px;font-weight:500;color:#6b6e75}
+.web-cap b{display:block;margin-top:4px;font-size:26px;font-weight:700;color:#111;letter-spacing:-.3px}
 .ad-col .k{font-size:28px;font-weight:700;line-height:1.2;color:#111;letter-spacing:-.3px}
 .ad-col .v{margin-top:8px;font-size:24px;font-weight:500;line-height:1.38;color:#6f7278}
 .ad-code{position:absolute;font-size:24px;font-weight:500;color:#7d8086;letter-spacing:.5px}
@@ -106,6 +110,9 @@ const SPECS = [
 ];
 const specCol = (x, y, gap, w) => SPECS.map(([k, v], i) => `<div class="ad-col" style="left:${x}px;top:${y + i * gap}px;width:${w}px"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 const specRows = (x, y, gap) => SPECS.map(([k, v], i) => `<div class="ad-row" style="left:${x}px;top:${y + i * gap}px"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+
+const WEB_BG = '#E3E1DA';
+const webSpecs = (x, y, gap) => SPECS.map(([k, v], i) => `<div class="ad-col" style="left:${x}px;top:${y + i * gap}px;width:350px"><div class="k" style="font-size:27px">${k}</div><div class="v" style="font-size:22px">${v}</div></div>`).join('');
 
 const pages = {
   // 1. Hero: three phones in a row
@@ -158,6 +165,36 @@ const pages = {
     ${phone('privatehire', { scale: .98, style: 'left:1170px;top:135px' })}
     <div class="lbl" style="left:640px;top:1012px">Black cab<b>Built in v2</b></div>
     <div class="lbl" style="left:1170px;top:1012px">Uber / private hire<b>Design concept</b></div>` },
+
+
+  // ---------- Website set: four 3:2 images, same background and type sizes ----------
+  'web-1-overview': { w: 1800, h: 1200, bg: WEB_BG, html: () => `
+    <div class="h1" style="left:80px;top:300px;font-size:72px;letter-spacing:-2.4px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
+    <div class="ad-k" style="left:82px;top:660px;width:330px;font-size:26px;line-height:1.4;color:#55585e">A web app that turns a cab ride into a tour of the city.</div>
+    ${phone('landing', { scale: .66, style: 'left:448px;top:312px' })}
+    ${phone('theme', { scale: .66, style: 'left:1036px;top:312px' })}
+    ${phone('route', { scale: .66, style: 'left:742px;top:312px' })}
+    ${webSpecs(1380, 150, 186)}` },
+
+  'web-2-ride': { w: 1800, h: 1200, bg: WEB_BG, html: () => `
+    <div class="h1" style="left:110px;top:360px;font-size:92px">London's<br>stories,<br><span>as you<br>pass them.</span></div>
+    ${phone('postcard', { scale: 1.62, style: 'left:860px;top:150px' })}` },
+
+  'web-3-flow': { w: 1800, h: 1200, bg: WEB_BG, html: () => {
+    const items = [['landing', 'Where to?'], ['route', 'Choose a route'], ['theme', 'Pick a theme'], ['postcard', 'Ride']];
+    return items.map(([s, t], i) => { const x = 128 + i * 396;
+      return `${card(s, `left:${x}px;top:250px;transform:scale(.9);transform-origin:top left`)}
+        <div class="web-num" style="left:${x + 2}px;top:176px">0${i + 1}</div>
+        <div class="web-t" style="left:${x + 46}px;top:168px">${t}</div>`; }).join('');
+  } },
+
+  'web-4-card': { w: 1800, h: 1200, bg: WEB_BG, html: () => `
+    <div class="h1" style="left:110px;top:330px;font-size:80px;letter-spacing:-2.5px">Look out,<br><span>or read on.</span></div>
+    <div class="ad-k" style="left:112px;top:540px;width:500px;font-size:26px;line-height:1.45;color:#55585e">The card stays small while you watch the window. Swipe up to open it, tap to flip it for Alfie's story.</div>
+    ${phone('ridemap', { scale: .98, style: 'left:760px;top:120px' })}
+    ${phone('story', { scale: .98, style: 'left:1250px;top:120px' })}
+    <div class="web-cap" style="left:762px;top:1010px">Minimised<b>The map comes first</b></div>
+    <div class="web-cap" style="left:1252px;top:1010px">Expanded<b>The story, one tap away</b></div>` },
 
   // 7. Advert: the three-phone hero with product copy on both sides (4:3, like the single advert)
   advert: { w: 2020, h: 1500, bg: '#E8E7E3', html: () => `
