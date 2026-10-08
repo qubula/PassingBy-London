@@ -316,7 +316,7 @@ function onLandmarkTriggered(idx) {
 
 function refreshCurrentText() {
     if (ride.deckOpen) {
-        $('pc-where').textContent = whereLine(ride.current, false);
+        $('pc-where').textContent = whereLine(ride.current, true);
         $('pc-back-eyebrow').textContent = whereLine(ride.current, true);
     } else if (!$('mini-card').hidden) {
         $('mini-eyebrow').textContent = whereLine(ride.current, true);
@@ -560,7 +560,7 @@ function fillPostcard(idx) {
     ride.current = idx;
     $('pc-name').textContent = lm.name;
     $('pc-back-name').textContent = lm.name;
-    $('pc-where').textContent = whereLine(idx, false);
+    $('pc-where').textContent = whereLine(idx, true);
     $('pc-back-eyebrow').textContent = whereLine(idx, true);
     $('pc-story').textContent = lm.script || 'No story for this landmark yet.';
     $('pc-story').scrollTop = 0;

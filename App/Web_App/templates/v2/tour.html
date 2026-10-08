@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#2a2a2a">
     <title>Ride - PassingBy</title>
     <link rel="stylesheet" href="/static/v2/css/style.css?v=7">
-    <link rel="stylesheet" href="/static/v2/css/v2.css?v=8">
+    <link rel="stylesheet" href="/static/v2/css/v2.css?v=9">
 </head>
 <body class="v2-ride-body">
     <!-- v2 ride. Figma: "04d · In-ride map — Final direction, postcard version".
@@ -66,8 +66,8 @@
                     <div class="v2-pc-face v2-pc-front">
                         <span class="v2-handle" aria-hidden="true"></span>
                         <div class="v2-pc-mount"><div class="v2-pc-photo"><img id="pc-img" alt=""></div></div>
+                        <span class="v2-eyebrow v2-pc-where" id="pc-where"></span>
                         <p class="v2-pc-name" id="pc-name"></p>
-                        <p class="v2-pc-where" id="pc-where"></p>
                         <span class="v2-pc-pill">Tap to read the story</span>
                     </div>
                     <div class="v2-pc-face v2-pc-back">
@@ -86,7 +86,7 @@
     <script>const GOOGLE_MAPS_KEY = "{{ google_maps_key }}";</script>
     <script src="/static/v2/js/editions.js?v=1"></script>
     <script src="/static/v2/js/map_pins.js?v=1"></script>
-    <script src="/static/v2/js/tour_logic.js?v=22"></script>
+    <script src="/static/v2/js/tour_logic.js?v=23"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=geometry&callback=initMap" async defer></script>
 </body>
 </html>
