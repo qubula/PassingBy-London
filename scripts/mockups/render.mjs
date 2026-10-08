@@ -15,25 +15,22 @@ const DARK = new Set(['ridemap', 'postcard', 'story']);
 
 // ---------- status bar (iOS 17 style) ----------
 function statusBar(dark) {
+  // iOS 17 status bar on a 390 pt wide iPhone 15 Pro screen. Items sit on the
+  // Dynamic Island's centre line; time is centred in the left "ear", icons in the right.
   const c = dark ? '#fff' : '#000';
   const signal = `<svg width="18" height="12" viewBox="0 0 18 12"><g fill="${c}">
-    <rect x="0" y="7.6" width="3.2" height="4.2" rx="1"/><rect x="4.8" y="5.2" width="3.2" height="6.6" rx="1"/>
-    <rect x="9.6" y="2.6" width="3.2" height="9.2" rx="1"/><rect x="14.4" y="0" width="3.2" height="11.8" rx="1"/></g></svg>`;
-  const sector = (r0, r1) => {
-    const a = Math.PI / 4, cx = 8, cy = 11.6;
-    const p = (r, s) => [cx + r * Math.sin(s * a), cy - r * Math.cos(s * a)];
-    const [x1, y1] = p(r1, -1), [x2, y2] = p(r1, 1), [x3, y3] = p(r0, 1), [x4, y4] = p(r0, -1);
-    return r0 === 0
-      ? `M${cx} ${cy} L${x1} ${y1} A${r1} ${r1} 0 0 1 ${x2} ${y2} Z`
-      : `M${x1} ${y1} A${r1} ${r1} 0 0 1 ${x2} ${y2} L${x3} ${y3} A${r0} ${r0} 0 0 0 ${x4} ${y4} Z`;
-  };
-  const wifi = `<svg width="16" height="12" viewBox="0 0 16 12"><g fill="${c}" stroke="${c}" stroke-width="0.7" stroke-linejoin="round">
-    <path d="${sector(0, 3.4)}"/><path d="${sector(5.0, 7.4)}"/><path d="${sector(9.0, 11.4)}"/></g></svg>`;
-  const battery = `<svg width="28" height="13" viewBox="0 0 28 13">
-    <rect x="0.5" y="0.5" width="24" height="12" rx="3.8" fill="none" stroke="${c}" stroke-opacity="0.38"/>
-    <rect x="2.5" y="2.5" width="20" height="8" rx="2.2" fill="${c}"/>
-    <path d="M26 4.4v4.2c0.9-0.3 1.5-1.1 1.5-2.1s-0.6-1.8-1.5-2.1z" fill="${c}" fill-opacity="0.45"/></svg>`;
-  return `<div class="sb" style="color:${c}"><div class="sb-l"><span class="time">9:41</span></div>
+    <rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/>
+    <rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></g></svg>`;
+  const arc = r => { const a = 0.785, cx = 8.5, cy = 11.4; return `M${(cx - r * Math.sin(a)).toFixed(2)} ${(cy - r * Math.cos(a)).toFixed(2)} A${r} ${r} 0 0 1 ${(cx + r * Math.sin(a)).toFixed(2)} ${(cy - r * Math.cos(a)).toFixed(2)}`; };
+  const wedge = (() => { const a = 0.785, cx = 8.5, cy = 11.4, r = 3.3; return `M${cx} ${cy - 0.2} L${(cx - r * Math.sin(a)).toFixed(2)} ${(cy - r * Math.cos(a)).toFixed(2)} A${r} ${r} 0 0 1 ${(cx + r * Math.sin(a)).toFixed(2)} ${(cy - r * Math.cos(a)).toFixed(2)} Z`; })();
+  const wifi = `<svg width="17" height="12" viewBox="0 0 17 12">
+    <g fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="${arc(9.6)}"/><path d="${arc(6.1)}"/></g>
+    <path d="${wedge}" fill="${c}" stroke="${c}" stroke-width="1.3" stroke-linejoin="round"/></svg>`;
+  const battery = `<svg width="27.5" height="13" viewBox="0 0 27.5 13">
+    <rect x="0.5" y="0.5" width="24" height="12" rx="4" fill="none" stroke="${c}" stroke-opacity="0.35"/>
+    <rect x="2" y="2" width="21" height="9" rx="2.6" fill="${c}"/>
+    <path d="M26 4.6v3.8c0.85-0.32 1.4-1.1 1.4-1.9s-0.55-1.58-1.4-1.9z" fill="${c}" fill-opacity="0.4"/></svg>`;
+  return `<div class="sb" style="color:${c}"><span class="time">9:41</span>
     <div class="sb-r">${signal}${wifi}${battery}</div></div>`;
 }
 
@@ -71,10 +68,9 @@ body{font-family:Satoshi,Inter,sans-serif;-webkit-font-smoothing:antialiased;col
 .screen{position:absolute;left:12px;top:12px;width:390px;height:844px;border-radius:55px;overflow:hidden;background-size:cover;background-position:center;background-color:#fff}
 .card{position:absolute;width:390px;height:844px;border-radius:44px;overflow:hidden;background-size:cover;background-color:#fff;
   box-shadow:0 40px 80px -30px rgba(20,22,26,.35),0 12px 30px -12px rgba(20,22,26,.18),0 0 0 1px rgba(0,0,0,.04)}
-.sb{position:absolute;left:0;right:0;top:0;height:54px;display:flex;align-items:center;font-family:Inter;z-index:3}
-.sb-l{width:150px;display:flex;justify-content:center;padding-left:14px}
-.time{font-weight:600;font-size:17px;letter-spacing:-.3px}
-.sb-r{margin-left:auto;width:150px;display:flex;justify-content:center;align-items:center;gap:6px;padding-right:12px}
+.sb{position:absolute;left:0;right:0;top:0;height:58px;z-index:3}
+.time{position:absolute;left:0;width:116px;top:18px;text-align:center;font-family:'Inter Display',Inter,sans-serif;font-weight:600;font-size:17px;line-height:22px;letter-spacing:-.45px;font-feature-settings:'tnum' 1,'cv05' 1}
+.sb-r{position:absolute;right:28px;top:23px;height:13px;display:flex;align-items:center;gap:6px}
 .island{position:absolute;top:11px;left:50%;width:125px;height:37px;margin-left:-62.5px;border-radius:20px;background:#000;z-index:4}
 .island i{position:absolute;right:13px;top:12px;width:13px;height:13px;border-radius:50%;
   background:radial-gradient(circle at 40% 35%,#2b3a55 0%,#0d1220 45%,#05070b 70%);box-shadow:0 0 0 1.5px #0b0d12}
