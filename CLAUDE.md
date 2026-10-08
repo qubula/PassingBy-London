@@ -105,10 +105,12 @@ Rules:
    `scripts/mockups/render.mjs` from 3x exports of the source frames with the
    status bar and home indicator removed (`scripts/mockups/screens/`); the
    script draws the device, status bar and island. Re-export those screens and
-   re-render when a final frame changes.
-4. Exports are rebuilt from the source frames above. Never edit the copies in
+   re-render when a final frame changes. Phones have no drop shadow (the
+   user's choice). `advert` and `advert-single` add product copy around the
+   phones; keep that copy factual and in line with the README.
+5. Exports are rebuilt from the source frames above. Never edit the copies in
    "07 · Clean screens" or the slide images by hand.
-5. Round 1 and round 2 boards are a historical record. Leave them unchanged.
+6. Round 1 and round 2 boards are a historical record. Leave them unchanged.
 
 - The root `README.md` is the project's portfolio page. It describes v2 and
   links to the v1 README on the `v1-archive` branch. v1 screenshots stay in
