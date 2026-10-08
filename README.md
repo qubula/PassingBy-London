@@ -26,7 +26,9 @@ Micro stories and fun facts, triggered in real time, about the exact place outsi
 
 <br>
 
-<img src="docs/images/v2/mockups/hero.jpg" alt="PassingBy on three phones: the landing screen, the theme picker and a landmark postcard during a ride" width="100%">
+<img src="docs/images/v2/mockups/advert.jpg" alt="PassingBy on three phones (landing, theme picker, landmark postcard) with the headline London's stories, as you pass them, and notes on the landmark database, GPS triggers, nine themes, Alfie and no install" width="100%">
+
+<img src="docs/images/v2/mockups/advert-single.jpg" alt="PassingBy ride screen on one large phone with the headline Stories for every landmark you pass" width="100%">
 
 </div>
 
