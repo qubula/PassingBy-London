@@ -196,6 +196,15 @@ const pages = {
     <div class="web-cap" style="left:762px;top:1010px">Minimised<b>The map comes first</b></div>
     <div class="web-cap" style="left:1252px;top:1010px">Expanded<b>The story, one tap away</b></div>` },
 
+  'web-5-themes': { w: 1800, h: 1200, bg: WEB_BG, html: () => `
+    ${phone('theme', { scale: 1.0, style: 'left:150px;top:160px' })}
+    <div style="position:absolute;left:760px;top:160px;width:880px;height:878px;border-radius:48px;overflow:hidden;
+      box-shadow:0 50px 90px -40px rgba(20,22,26,.4),0 0 0 1px rgba(0,0,0,.04);background:#fff url('${S('theme')}') no-repeat;background-size:1009px auto;background-position:-64px -506px"></div>
+    <svg style="position:absolute;left:0;top:0" width="1800" height="1200">
+      <path d="M530 372 L760 200 M530 711 L760 1000" stroke="#a9abb0" stroke-width="2" fill="none" stroke-dasharray="1 9" stroke-linecap="round"/>
+      <rect x="190" y="371" width="340" height="340" rx="22" fill="none" stroke="#111" stroke-width="2.5"/></svg>
+    <div class="web-cap" style="left:760px;top:1066px">Choose Theme<b>Nine editions, one tile design</b></div>` },
+
   // 7. Advert: the three-phone hero with product copy on both sides (4:3, like the single advert)
   advert: { w: 2020, h: 1500, bg: '#E8E7E3', html: () => `
     <div class="ad-k ad-g" style="right:80px;top:64px;font-size:24px">{v2 · 2026}</div>
