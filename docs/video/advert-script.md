@@ -27,7 +27,7 @@ integration is a concept.
 | 7 | 29.4–33.6 | **Way in 2: black cab.** The sticker on the plain grey background; a phone locks on the QR code and the landing page opens. | **Or in a black cab? Scan the sticker.** | whoosh, camera shutter on the lock, swipe |
 | 8 | 33.6–36.8 | **Themes.** Nine tiles drop in; Architecture lifts and its colour washes the frame. | **9 themes** · Architecture, Historical, Royal… | lift, whoosh |
 | 9 | 36.8–41.8 | **The ride.** Dark map, Architecture badge, the mini card grows into the postcard; the camera rises to the Dynamic Island, which opens to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | whooshes |
-| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** (JetBrains Mono Medium Italic, −4%, as the Figma logo) · Learn about London as you commute · small: *Ride-app integration shown is a concept* and the music and sound credits | card taps; music fades out |
+| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** (JetBrains Mono Medium Italic, −4%, as the Figma logo) · Every ride has a story. · small: *Ride-app integration shown is a concept* and the music and sound credits | card taps; music fades out |
 
 ## No web address
 

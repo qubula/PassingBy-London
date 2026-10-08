@@ -108,7 +108,7 @@ export const COPY = {
   themesSub: 'Architecture, Historical, Royal…',
   ride: 'Stories as you pass them',
   blackCab: 'Or in a black cab? Scan the sticker.',
-  endTagline: 'Learn about London as you commute',
+  endTagline: 'Every ride has a story.',
   endNote: 'Ride-app integration shown is a concept',
   credits: 'Music by Andrii Poradovskyi from Pixabay · Sound effects by ElevenLabs',
 };
