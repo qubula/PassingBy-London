@@ -3,9 +3,11 @@
 // Files: docs/audio/sfx/ (ElevenLabs sound effects) and docs/audio/music/,
 // copied into public/shared/audio/ by scripts/sync.mjs.
 import React from 'react';
-import { Audio, Sequence, interpolate, staticFile, useVideoConfig } from 'remotion';
-import { BEATS, TOTAL, sec } from './config';
-import { T } from './scenes/Cards';
+import { Audio, Sequence, interpolate, spring, staticFile, useVideoConfig } from 'remotion';
+import { BEATS, FPS, TOTAL, sec } from './config';
+import { SNAP } from './anim';
+import { COUNTS, DECK_SIZE, DROP, HERO_DROP, T, countAt, dropAt } from './scenes/Cards';
+import { END_CARDS, endCardAt } from './scenes/EndCard';
 import { TAP_AT } from './scenes/RideApp';
 import { LOCK_AT, OPEN_AT, PHONE_AT } from './scenes/BlackCab';
 import { LIFT_AT, WASH_AT } from './scenes/Themes';
@@ -20,22 +22,58 @@ const START = (() => {
   return out;
 })();
 
-type Sfx = 'whoosh' | 'shutter' | 'card-draw' | 'card-spread' | 'counter';
+type Sfx = 'whoosh' | 'shutter' | 'card-draw' | 'card-spread' | 'counter-tick';
 type Cue = { sfx: Sfx; at: number; volume: number; rate?: number; length?: number };
+const FILE: Record<Sfx, string> = {
+  whoosh: 'whoosh.mp3', shutter: 'shutter.mp3', 'card-draw': 'card-draw.mp3', 'card-spread': 'card-spread.mp3',
+  'counter-tick': 'counter-tick.wav', // one tick cut from counter.mp3
+};
+
+// Frames until a spring visually lands (reaches 97% of the way), from the
+// same spring config the animation uses.
+const landAfter = (config: { damping: number; stiffness: number; mass: number }) => {
+  for (let f = 0; f < 120; f++) if (spring({ frame: f, fps: FPS, config }) >= 0.97) return f;
+  return 0;
+};
+// card-draw.mp3 peaks 45 ms in, about one frame, so it starts a frame early.
+const CARD_PEAK = 1;
+
+// Counter ticks follow the number itself: a tick on each frame its digits
+// change (at most one every 2 frames, the spacing of the original counter
+// sound), so they race while it races and slow as it settles. The final,
+// heavier tick lands on the exact frame the number reaches its final value,
+// the same frame the + appears.
+const countTicks = (): Cue[] => {
+  const cues: Cue[] = [];
+  for (const c of COUNTS) {
+    let lastTick = -99;
+    for (let f = c.from; f <= c.to + sec(1); f++) {
+      const v = countAt(f).value;
+      if (v === countAt(f - 1).value) continue;
+      if (v >= c.b) { cues.push({ sfx: 'counter-tick', at: f, volume: 0.95, rate: 0.8 }); break; }
+      if (f - lastTick >= 2) {
+        const p = (v - c.a) / (c.b - c.a);
+        cues.push({ sfx: 'counter-tick', at: f, volume: 0.5, rate: 1 + 0.15 * p });
+        lastTick = f;
+      }
+    }
+  }
+  return cues;
+};
 
 const RATES = [1.0, 1.08, 0.95, 1.12, 0.98, 1.05, 0.92];
 
 export const CUES: Cue[] = [
   // Hook: the card falls and spins, lands; the grey opens out.
   { sfx: 'whoosh', at: sec(0.05), volume: 0.45, rate: 0.85 },
-  { sfx: 'card-draw', at: T.reveal - sec(0.06), volume: 0.8, rate: 0.85 },
+  { sfx: 'card-draw', at: landAfter(HERO_DROP) - CARD_PEAK, volume: 0.8, rate: 0.85 },
   { sfx: 'whoosh', at: T.reveal + sec(0.05), volume: 0.25, rate: 0.7 },
-  // Deck: one card sound per drop, each pitched slightly differently, and the counter.
-  ...RATES.map((rate, i) => ({ sfx: 'card-draw' as Sfx, at: T.deck + sec(0.05) + i * sec(0.17) - 1, volume: 0.5, rate })),
-  { sfx: 'counter', at: T.deck + sec(0.05), volume: 0.3 },
+  // Deck: one card sound as each card lands, each pitched slightly differently.
+  ...Array.from({ length: DECK_SIZE - 1 }, (_, i) => ({ sfx: 'card-draw' as Sfx, at: dropAt(i + 1) + landAfter(DROP) - CARD_PEAK, volume: 0.5, rate: RATES[i] })),
+  // The counts.
+  ...countTicks(),
   // Stories: the pieces burst out; the count rolls on.
   { sfx: 'card-spread', at: T.stories, volume: 0.45, rate: 1.1 },
-  { sfx: 'counter', at: T.stories + sec(0.1), volume: 0.25, rate: 1.1 },
   // Fan: pieces fly out, the deck spreads, one card rises and flips.
   { sfx: 'whoosh', at: T.fan - sec(0.12), volume: 0.4 },
   { sfx: 'card-spread', at: T.fan, volume: 0.7 },
@@ -55,7 +93,7 @@ export const CUES: Cue[] = [
   { sfx: 'whoosh', at: START.ride + MORPH_AT, volume: 0.3, rate: 0.9 },
   { sfx: 'whoosh', at: START.ride + ISLAND_AT, volume: 0.3, rate: 1.4 },
   // End: five cards settle.
-  ...[0, 1, 2, 3, 4].map(i => ({ sfx: 'card-draw' as Sfx, at: START.end + i * sec(0.15) + sec(0.1), volume: 0.45, rate: RATES[i] })),
+  ...Array.from({ length: END_CARDS }, (_, i) => ({ sfx: 'card-draw' as Sfx, at: START.end + endCardAt(i) + landAfter(SNAP) - CARD_PEAK, volume: 0.45, rate: RATES[i] })),
 ];
 
 // Music: the full section of the track comes back at 77.47 s; start the track
@@ -85,7 +123,7 @@ export const Soundtrack: React.FC = () => {
       <Audio src={staticFile(MUSIC.file)} startFrom={Math.round(MUSIC.startFrom * fps)} volume={music} />
       {CUES.map((c, i) => (
         <Sequence key={i} from={Math.max(0, c.at)} durationInFrames={c.length ?? sec(2)}>
-          <Audio src={staticFile(`shared/audio/sfx/${c.sfx}.mp3`)} volume={c.volume * SFX_LEVEL} playbackRate={c.rate ?? 1} />
+          <Audio src={staticFile(`shared/audio/sfx/${FILE[c.sfx]}`)} volume={c.volume * SFX_LEVEL} playbackRate={c.rate ?? 1} />
         </Sequence>
       ))}
     </>

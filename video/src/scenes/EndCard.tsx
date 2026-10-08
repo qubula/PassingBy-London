@@ -13,6 +13,9 @@ import { SNAP, SOFT, lerp, sp } from '../anim';
 const STACK = ['Tower Bridge', 'London Eye', "St Paul's Cathedral", 'Buckingham Palace', 'Elizabeth Tower'];
 const FROM = [[-1.2, 0.2], [1.3, -0.1], [-1.1, 0.9], [1.2, 0.8], [0, 1.4]];
 const ROT = [-9, 7, -4, 4, -1];
+export const END_CARDS = STACK.length;
+// When each end card starts to fly in (shared with the soundtrack).
+export const endCardAt = (i: number) => i * sec(0.15) - sec(0.1);
 
 export const EndCard: React.FC = () => {
   const frame = useCurrentFrame();
@@ -35,7 +38,7 @@ export const EndCard: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg, fontFamily: SANS, color: COLORS.ink }}>
       {STACK.map((name, i) => {
         const lm = LANDMARKS.find(l => l.name === name)!;
-        const t = sp(frame, fps, i * sec(0.15) - sec(0.1), SNAP);
+        const t = sp(frame, fps, endCardAt(i), SNAP);
         const x = sx + lerp(t, FROM[i][0] * L.width, 0);
         const y = sy + lerp(t, FROM[i][1] * L.height, 0);
         const rot = lerp(t, ROT[i] * 4, ROT[i]);

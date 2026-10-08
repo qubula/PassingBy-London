@@ -25,7 +25,11 @@ const DECK = DECK_NAMES.map(n => LANDMARKS.find(l => l.name === n)!);
 const JITTER = [-4, 3, -2, 5, -3, 2, -5, 1.5];
 const JX = [0, 6, -5, 4, -3, 5, -6, 2];
 const JY = [0, -4, 3, -2, 5, -3, 2, -1];
-const DROP = { damping: 18, stiffness: 180, mass: 0.9 }; // quick, like the first cut
+export const DROP = { damping: 18, stiffness: 180, mass: 0.9 }; // quick, like the first cut
+export const HERO_DROP = { damping: 22, stiffness: 70, mass: 1 };
+// When each deck card starts to fall (the hero is card 0, at frame 0).
+export const dropAt = (i: number) => (i === 0 ? 0 : T.deck + sec(0.05) + (i - 1) * sec(0.17));
+export const DECK_SIZE = 8;
 
 // Pieces that burst out around the deck in the stories beat. x/y are offsets
 // from the deck in px at 1080; d is depth (drift and size).
@@ -55,6 +59,21 @@ export const T = {
   voice: BEATS.hook + BEATS.deck + BEATS.stories + sec(1.0), // Alfie starts as his card rises; the story types as he speaks
 };
 
+// The counts, shared with the soundtrack so the ticks stop on the frame the
+// number stops. Each segment eases out: fast at first, settling at the end.
+export const COUNTS = [
+  { from: T.deck + sec(0.05), to: T.deck + sec(1.5), a: 0, b: LANDMARK_ROUNDED },
+  { from: T.stories + sec(0.1), to: T.stories + sec(1.4), a: LANDMARK_ROUNDED, b: STORY_ROUNDED },
+];
+export const countAt = (frame: number) => {
+  const [l, s] = COUNTS;
+  const pl = ramp(frame, l.from, l.to);
+  const ps = ramp(frame, s.from, s.to);
+  const value = Math.round(lerp(pl, l.a, l.b) + ps * (s.b - s.a));
+  // The + appears on the frame the number reaches its final value.
+  return { value, plus: frame >= T.stories ? value >= s.b : value >= l.b };
+};
+
 export const Cards: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
@@ -80,13 +99,13 @@ export const Cards: React.FC = () => {
   const push = ramp(frame, T.alfie, T.end, (x: number) => x);
 
   // Where the story card settles for the Alfie beat, and the waveform under it.
-  const restY = L.wide ? L.cy - 60 * u : L.cy - 40 * u;
-  const waveTop = L.wide ? L.cy + 300 * u : L.height - 175 * u;
+  const restY = L.wide ? L.cy - 85 * u : L.cy - 40 * u;
+  const waveTop = L.wide ? L.cy + 335 * u : L.height - 175 * u;
   const waveW = L.wide ? 820 * u : L.width - 160 * u;
 
   const cards = DECK.map((lm, i) => {
-    const dropAt = i === 0 ? 0 : T.deck + sec(0.05) + (i - 1) * sec(0.17);
-    const d = sp(frame, fps, dropAt, i === 0 ? { damping: 22, stiffness: 70, mass: 1 } : DROP);
+    const at = dropAt(i);
+    const d = sp(frame, fps, at, i === 0 ? HERO_DROP : DROP);
     const startRot = i === 0 ? -364 : JITTER[i] * 6;
     let x = L.cx + JX[i] * u;
     let y = lerp(d, -ch * 1.3, L.cy + JY[i] * u);
@@ -94,14 +113,14 @@ export const Cards: React.FC = () => {
     let scale = lerp(d, i === 0 ? 1.7 : 1.25, 1);
     let flip = 0;
     let z = i;
-    const opacity = frame >= dropAt - 1 ? 1 : 0;
+    const opacity = frame >= at - 1 ? 1 : 0;
 
     // Fan: an arc around a pivot below the deck.
     const span = L.wide ? 19 : 21;
     const R = (L.wide ? 1000 : 900) * u;
     const a = ((i / (DECK.length - 1)) * 2 - 1) * span * fanT;
     const rad = (a * Math.PI) / 180;
-    x += R * Math.sin(rad) + (L.wide ? 90 * u * fanT * (1 - pickT * (i === pickIndex ? 1 : 0)) : 0);
+    x += R * Math.sin(rad) + (L.wide ? 170 * u * fanT * (1 - pickT * (i === pickIndex ? 1 : 0)) : 0);
     y += R * (1 - Math.cos(rad)) + 40 * u * fanT;
     rot = lerp(fanT, rot, a);
 
@@ -113,7 +132,7 @@ export const Cards: React.FC = () => {
       if (pickT > 0.01) z = 100;
       flip = flipT;
       y = lerp(fallT, y, restY);
-      scale = lerp(fallT, scale, L.wide ? 1.18 : 1.22) * (1 + 0.05 * push);
+      scale = lerp(fallT, scale, L.wide ? 1.42 : 1.22) * (1 + 0.05 * push);
     } else {
       y += 30 * u * pickT + fallT * (L.height + ch);
       rot += fallT * (i - pickIndex) * 6;
@@ -136,11 +155,8 @@ export const Cards: React.FC = () => {
   });
 
   // Count: 0 → 1,300 landmarks, then rolls on to 4,700 stories.
-  const toLandmarks = ramp(frame, T.deck + sec(0.05), T.deck + sec(1.5));
-  const toStories = ramp(frame, T.stories + sec(0.1), T.stories + sec(1.4));
-  const value = Math.round(lerp(toLandmarks, 0, LANDMARK_ROUNDED) + toStories * (STORY_ROUNDED - LANDMARK_ROUNDED));
+  const { value, plus } = countAt(frame);
   const onStories = frame >= T.stories;
-  const plus = onStories ? toStories >= 1 : toLandmarks >= 1;
 
   // Opening: black, then the grey opens out from the card as it lands.
   const rev = ramp(frame, T.reveal, T.reveal + sec(0.45));

@@ -16,7 +16,7 @@ export const useLayout = () => {
     cy: wide ? height / 2 : height * 0.6,
     // caption box
     caption: wide
-      ? { left: 140 * u, top: 0, bottom: 0, width: width * 0.36, align: 'left' as const, justify: 'center' as const }
+      ? { left: 140 * u, top: 0, bottom: 0, width: width * 0.42, align: 'left' as const, justify: 'center' as const }
       : { left: 70 * u, top: 96 * u, bottom: undefined, width: width - 140 * u, align: 'center' as const, justify: 'flex-start' as const },
   };
 };

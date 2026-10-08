@@ -1,10 +1,9 @@
-# PassingBy launch advert: script (as built, draft 8)
+# PassingBy launch advert: script (as built, draft 9)
 
 Length 45.6 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
 first (LinkedIn autoplays without sound), so every key fact is on screen as text.
 
-Formats from the same project (while the edit is in progress, only the 4:5
-version is rendered; the 16:9 file in `docs/video/` is from an earlier draft):
+Formats from the same project :
 - **4:5, 1080 × 1350** for the LinkedIn feed (takes the most screen on a phone).
 - **16:9, 1920 × 1080** for the website.
 
@@ -40,9 +39,12 @@ if the domain changes.
 All in `video/src/Soundtrack.tsx`; every cue is placed from the same timing
 constants as the animation, so retiming a beat moves its sounds.
 
-- **Effects** (`docs/audio/sfx/`, ElevenLabs): `card-draw` for each card landing
-  (pitched slightly differently per card), `card-spread` for the stories burst
-  and the fan, `counter` under the counts, `whoosh` for movement, `shutter`
+- **Effects** (`docs/audio/sfx/`, ElevenLabs): `card-draw` on the frame each card
+  lands (worked out from the same spring the animation uses; pitched slightly
+  differently per card), `card-spread` for the stories burst and the fan,
+  `counter-tick` (one tick cut from `counter.mp3`) on each frame the count's
+  digits change, with a heavier last tick on the exact frame the number reaches
+  its final value and the + appears (check with `npx tsx scripts/cues.ts`), `whoosh` for movement, `shutter`
   for the QR lock (and, short and high, the tap).
 - **Music** (`docs/audio/music/jazz-lnplusmusic-611049.mp3`, about 99 BPM): the
   track starts at 52.67 s so its full section returns (77.47 s) on the ride-app
