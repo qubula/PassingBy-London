@@ -66,11 +66,17 @@ All four v2 screens are built. Each one's Figma source is in the sync table belo
 - Figma page "★ PassingBy — Sticker & QR": five in-car sticker directions.
   Each QR code encodes https://www.passingby.uk/v2 (error correction H) and
   was checked with a ZXing decoder. Re-check any restyled QR before printing.
+  "★ 06 · Chosen sticker (Kuba) · master" is the user's own layout: use it as
+  the base for every sticker visualisation and don't rearrange it.
 - Figma page "★ PassingBy — Live Activity & ride app": lock screen Live
   Activity, Dynamic Island and ride-app entry points for
   `docs/design/private-hire-concept.md`. Ride-app screens follow ride-hailing
   patterns but carry no real company logo and are labelled as a concept.
   SF Pro is listed in Figma but does not render through the API; use Inter.
+  Lock screens and islands use Apple's iOS 18 kit (linked library). They need
+  native code (App Clip or ride-app integration); never say the web app can
+  show them. Ride-app copy must be plain: "Scenic route", "See London's
+  landmarks on the way", "+6 min · +£3.20", with PassingBy as a small credit.
 - `docs/design/README.md`: the redesign write-up (testing summary slides,
   final screens). The README and this page use PNG exports from the Figma
   frames "06 · Testing summary" and "07 · Clean screens for GitHub and
