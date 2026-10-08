@@ -74,6 +74,8 @@ The Uber / private hire screen is a design concept and is not built yet.
 
 ## Specs
 
+- [`app-clip.md`](app-clip.md): research note on an iPhone App Clip next to
+  the web app (Live Activity, limits, effort).
 - [`handoff-in-ride-map.md`](handoff-in-ride-map.md): interaction spec for the
   in-ride map (states, gestures, card size, Audio toggle, theme badge and
   colours).

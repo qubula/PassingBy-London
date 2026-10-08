@@ -114,7 +114,8 @@ A web app can't show a Live Activity or use the Dynamic Island: on iPhone
 those need native code. The lock screen and island designs are for the
 App Clip (a small native piece of PassingBy that opens from the same QR
 code, with nothing to install) and for the ride-app integration. The web
-app shows the same content in the page itself.
+app shows the same content in the page itself. See [`app-clip.md`](app-clip.md)
+for what an App Clip can and can't do, and how much work it would be.
 
 ## Open questions
 
