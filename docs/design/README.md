@@ -52,7 +52,7 @@ The last slide is a plan. None of it has been run yet.
 
 ## Final screens
 
-High-fidelity mockups of these screens (iPhone 15 Pro frame and frameless flows) are in [`docs/images/v2/mockups/`](../images/v2/mockups/). They are rendered by `scripts/mockups/render.mjs` from 3x exports of the Figma source frames.
+High-fidelity mockups of these screens (iPhone 15 Pro frame and frameless flows) are in [`docs/images/v2/mockups/`](../images/v2/mockups/). They are rendered by `scripts/mockups/render.mjs` from 3x exports of the Figma source frames. A matching set of four 3:2 images for the portfolio website (same background, larger text, no repeated screens) is in [`docs/images/v2/website/`](../images/v2/website/).
 
 | Landing (black cab) | Landing (Uber / private hire, concept) | Choose Route | Choose Theme |
 |---|---|---|---|
