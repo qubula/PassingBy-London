@@ -11,6 +11,7 @@ import { Themes } from './scenes/Themes';
 import { Ride } from './scenes/Ride';
 import { BlackCab } from './scenes/BlackCab';
 import { EndCard } from './scenes/EndCard';
+import { Soundtrack } from './Soundtrack';
 
 loadFonts();
 
@@ -18,11 +19,13 @@ export const Advert: React.FC = () => (
   <AbsoluteFill style={{ background: COLORS.bg }}>
     <Series>
       <Series.Sequence durationInFrames={BEATS.hook + BEATS.deck + BEATS.stories + BEATS.fan + BEATS.alfie}><Cards /></Series.Sequence>
+      {/* the two ways in, side by side: ride app, then black cab */}
       <Series.Sequence durationInFrames={BEATS.rideApp}><RideApp /></Series.Sequence>
+      <Series.Sequence durationInFrames={BEATS.blackCab}><BlackCab /></Series.Sequence>
       <Series.Sequence durationInFrames={BEATS.themes}><Themes /></Series.Sequence>
       <Series.Sequence durationInFrames={BEATS.ride}><Ride /></Series.Sequence>
-      <Series.Sequence durationInFrames={BEATS.blackCab}><BlackCab /></Series.Sequence>
       <Series.Sequence durationInFrames={BEATS.end}><EndCard /></Series.Sequence>
     </Series>
+    <Soundtrack />
   </AbsoluteFill>
 );

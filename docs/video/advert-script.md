@@ -1,4 +1,4 @@
-# PassingBy launch advert: script (as built, draft 6)
+# PassingBy launch advert: script (as built, draft 7)
 
 Length 45.6 s · 30 fps · built in Remotion ([`video/`](../../video/)) · plays muted
 first (LinkedIn autoplays without sound), so every key fact is on screen as text.
@@ -24,11 +24,26 @@ integration is a concept.
 | 3 | 4.8–7.8 | **Stories.** Photos in white mounts, quotes from the stories and the "Look left" pill burst out around the deck. The number rolls on. | **4,700+** / stories · One for every landmark, and one for each theme it's in | |
 | 4 | 7.8–10.2 | **Fan and flip.** The pieces fly outwards as the deck fans. Buckingham Palace rises and flips; Alfie starts talking as it rises. | **A story for each one** | Alfie starts (9.2 s) |
 | 5 | 10.2–24.8 | **Alfie.** The other cards fall away. His line types onto the card word by word as he says it, then a few lines of extra reading type in. The card slowly pushes in; the waveform draws underneath. | **Told by Alfie, a London cabbie**, then **Short, fun stories** · For tourists and lifelong Londoners alike | Alfie, 14.7 s (`docs/audio/alfie-video-buckingham.mp3`) |
-| 6 | 24.8–29.4 | **Flow A: ride app.** Already rising at the cut. A tap on **Scenic route**, and the camera pushes in. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | |
-| 7 | 29.4–32.6 | **Themes.** Nine tiles drop in; Architecture lifts and its colour washes the frame. | **9 themes** · Architecture, Historical, Royal… | |
-| 8 | 32.6–37.6 | **The ride.** Dark map, Architecture badge, the mini card grows into the postcard. The camera rises to the Dynamic Island, which opens to **Look left · Elizabeth Tower · 200 m**; everything under it is hidden. | **Stories as you pass them** | |
-| 9 | 37.6–41.8 | **Flow B: black cab.** The sticker on a seat back; a phone locks on the QR code and the landing page opens. | **In a black cab? Scan the sticker.** | |
-| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** · Learn about London as you commute · passingby.uk · small: *Ride-app integration shown is a concept* | |
+| 6 | 24.8–29.4 | **Way in 1: ride app.** Already rising at the cut. A tap on **Scenic route**, and the camera pushes in. | **Book a ride. Add the scenic route.** and **+6 min · +£3.20** | phone whoosh, tap; music back to full |
+| 7 | 29.4–33.6 | **Way in 2: black cab.** The sticker on the plain grey background; a phone locks on the QR code and the landing page opens. | **Or in a black cab? Scan the sticker.** | whoosh, camera shutter on the lock, swipe |
+| 8 | 33.6–36.8 | **Themes.** Nine tiles drop in; Architecture lifts and its colour washes the frame. | **9 themes** · Architecture, Historical, Royal… | lift, whoosh |
+| 9 | 36.8–41.8 | **The ride.** Dark map, Architecture badge, the mini card grows into the postcard; the camera rises to the Dynamic Island, which opens to **Look left · Elizabeth Tower · 200 m**. | **Stories as you pass them** | whooshes |
+| 10 | 41.8–45.6 | **End card.** Five postcards settle into a stack below the logo. | **PassingBy** · Learn about London as you commute · passingby.uk · small: *Ride-app integration shown is a concept* | card taps; music fades out |
+
+## Sound
+
+All in `video/src/Soundtrack.tsx`; every cue is placed from the same timing
+constants as the animation, so retiming a beat moves its sounds.
+
+- **Effects** (`docs/audio/sfx/`, ElevenLabs): `card-draw` for each card landing
+  (pitched slightly differently per card), `card-spread` for the stories burst
+  and the fan, `counter` under the counts, `whoosh` for movement, `shutter`
+  for the QR lock (and, short and high, the tap).
+- **Music** (`docs/audio/music/jazz-lnplusmusic-611049.mp3`, about 99 BPM): the
+  track starts at 52.67 s so its full section returns (77.47 s) on the ride-app
+  cut, with its quieter section under Alfie. It dips further while Alfie talks
+  and fades out over the last 1.8 s.
+- **Loudness:** the render script normalises to −14 LUFS, true peak −1.5 dB.
 
 ## Alfie in sync with the card
 

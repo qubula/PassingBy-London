@@ -85,9 +85,9 @@ export const BEATS = {
   fan: s(2.4), // Alfie starts talking 1 s into this beat, as his card rises
   alfie: s(14.6), // the rest of his line, then a moment to read the card
   rideApp: s(4.6),
+  blackCab: s(4.2), // the second way in, straight after the ride app
   themes: s(3.2),
   ride: s(5.0),
-  blackCab: s(4.2),
   end: s(3.8),
 };
 export const TOTAL = Object.values(BEATS).reduce((a, b) => a + b, 0);
@@ -107,7 +107,7 @@ export const COPY = {
   themes: '9 themes',
   themesSub: 'Architecture, Historical, Royal…',
   ride: 'Stories as you pass them',
-  blackCab: 'In a black cab? Scan the sticker.',
+  blackCab: 'Or in a black cab? Scan the sticker.',
   endTagline: 'Learn about London as you commute',
   endUrl: 'passingby.uk',
   endNote: 'Ride-app integration shown is a concept',

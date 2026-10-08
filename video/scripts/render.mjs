@@ -16,5 +16,11 @@ if (process.argv.includes('--stills')) {
   for (const id of ids) for (const f of frames.length ? frames : ['30', '100', '160', '200', '280', '380', '470', '550', '640'])
     run(['still', id, `out/stills/${id}-${f}.png`, `--frame=${f}`]);
 } else {
-  for (const id of ids) run(['render', id, `out/${id}.mp4`, '--codec=h264', '--crf=16']);
+  for (const id of ids) {
+    run(['render', id, `out/${id}.mp4`, '--codec=h264', '--crf=16']);
+    // Loudness for social video: -14 LUFS integrated, true peak -1.5 dB. Picture is copied untouched.
+    execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', `out/${id}.mp4`,
+      '-af', 'loudnorm=I=-14:TP=-1.5:LRA=7', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', `out/${id}.norm.mp4`], { stdio: 'inherit' });
+    fs.renameSync(`out/${id}.norm.mp4`, `out/${id}.mp4`);
+  }
 }

@@ -43,7 +43,7 @@ const BITS: Bit[] = [
   { kind: 'pill', ref: '', x: -150, y: -360, w: 0, rot: -4, d: 1.0 },
 ];
 
-const T = {
+export const T = {
   reveal: sec(1.05), // the grey opens out from the hero card as it lands
   deck: BEATS.hook,
   stories: BEATS.hook + BEATS.deck,

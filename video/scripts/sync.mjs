@@ -61,6 +61,11 @@ const screens = path.join(REPO, 'scripts/mockups/screens');
 for (const f of fs.readdirSync(screens)) copy(path.join(screens, f), path.join(SHARED, 'screens', f));
 copy(path.join(REPO, 'App/Web_App/static/v2/images/logo.png'), path.join(SHARED, 'logo.png'));
 const audio = path.join(REPO, 'docs/audio');
-for (const f of fs.readdirSync(audio)) copy(path.join(audio, f), path.join(SHARED, 'audio', f));
+for (const f of fs.readdirSync(audio)) {
+  const from = path.join(audio, f);
+  if (fs.statSync(from).isDirectory()) {
+    for (const g of fs.readdirSync(from)) copy(path.join(from, g), path.join(SHARED, 'audio', f, g)); // sfx/, music/
+  } else copy(from, path.join(SHARED, 'audio', f));
+}
 
 console.log(`synced: ${Object.keys(sandbox.window.EDITIONS).length} editions, ${db.length} landmarks, ${storyCount} stories, ${present.length} fonts`);

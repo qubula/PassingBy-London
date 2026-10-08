@@ -12,7 +12,7 @@ import { SOFT, SNAP, lerp, ramp, sp } from '../anim';
 
 // The "Scenic route" row in the 390 × 844 screen.
 const ROW = { x: 195, y: 593 };
-const TAP_AT = sec(1.35);
+export const TAP_AT = sec(1.35);
 
 export const RideApp: React.FC = () => {
   const frame = useCurrentFrame();

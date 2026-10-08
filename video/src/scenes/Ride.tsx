@@ -12,9 +12,9 @@ import { SOFT, lerp, ramp, sp } from '../anim';
 
 // Mini card on the map screen, in 390 × 844 screen points.
 const MINI = { top: 639, right: 20, bottom: 76, left: 21, r: 18 };
-const MORPH_AT = sec(0.9);
-const ZOOM_AT = sec(2.7);
-const ISLAND_AT = sec(3.0);
+export const MORPH_AT = sec(0.9);
+export const ZOOM_AT = sec(2.7);
+export const ISLAND_AT = sec(3.0);
 
 export const Ride: React.FC = () => {
   const frame = useCurrentFrame();
