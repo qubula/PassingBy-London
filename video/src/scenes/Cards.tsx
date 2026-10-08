@@ -7,7 +7,7 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Sequence, interpolate, interpolateColors, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import {
-  ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_ROUNDED, PICKED, QUOTES, STORY_ROUNDED, alfieText, sec,
+  ALFIE, BEATS, COLORS, COPY, HERO, LANDMARKS, LANDMARK_ROUNDED, PICKED, QUOTES, STORY_ROUNDED, alfieCard, alfieText, sec,
 } from '../config';
 import { CARD_H, CARD_W, Postcard } from '../components/Postcard';
 import { Caption } from '../components/Caption';
@@ -52,7 +52,7 @@ const T = {
   flip: BEATS.hook + BEATS.deck + BEATS.stories + sec(1.3),
   alfie: BEATS.hook + BEATS.deck + BEATS.stories + BEATS.fan,
   end: BEATS.hook + BEATS.deck + BEATS.stories + BEATS.fan + BEATS.alfie,
-  voice: BEATS.hook + BEATS.deck + BEATS.stories + BEATS.fan + sec(0.3), // Alfie starts; the story types as he speaks
+  voice: BEATS.hook + BEATS.deck + BEATS.stories + sec(1.0), // Alfie starts as his card rises; the story types as he speaks
 };
 
 export const Cards: React.FC = () => {
@@ -70,8 +70,14 @@ export const Cards: React.FC = () => {
   const flipT = sp(frame, fps, T.flip, { damping: 20, stiffness: 120, mass: 1 });
   const fallT = sp(frame, fps, T.alfie, { damping: 26, stiffness: 70, mass: 1 });
   const said = Math.min((frame - T.voice) / fps, ALFIE.duration);
-  const storyChars = spokenChars(alfieText(), said + ALFIE.startFrom);
-  const typing = frame >= T.voice && said < ALFIE.duration;
+  // What he has said so far, then the extra reading types in once he's done.
+  const spoken = spokenChars(alfieCard(), said + ALFIE.startFrom);
+  const afterVoice = T.voice + sec(ALFIE.duration) - sec(0.6);
+  const extra = Math.round(ramp(frame, afterVoice, afterVoice + sec(1.3), (x: number) => x) * (alfieCard().length - alfieText().length));
+  const storyChars = Math.max(spoken, frame >= afterVoice ? alfieText().length + extra : 0);
+  const typing = frame >= T.voice && storyChars < alfieCard().length;
+  // A slow push-in on the card while Alfie talks, so the frame keeps moving.
+  const push = ramp(frame, T.alfie, T.end, (x: number) => x);
 
   // Where the story card settles for the Alfie beat, and the waveform under it.
   const restY = L.wide ? L.cy - 60 * u : L.cy - 40 * u;
@@ -107,7 +113,7 @@ export const Cards: React.FC = () => {
       if (pickT > 0.01) z = 100;
       flip = flipT;
       y = lerp(fallT, y, restY);
-      scale = lerp(fallT, scale, L.wide ? 1.18 : 1.22);
+      scale = lerp(fallT, scale, L.wide ? 1.18 : 1.22) * (1 + 0.05 * push);
     } else {
       y += 30 * u * pickT + fallT * (L.height + ch);
       rot += fallT * (i - pickIndex) * 6;
@@ -162,7 +168,7 @@ export const Cards: React.FC = () => {
 
       {cards.sort((p, q) => p.z - q.z).map(c => (
         <Postcard key={c.lm.name} landmark={c.lm} width={cw} flip={c.flip}
-          storyText={c.i === pickIndex ? alfieText() : undefined}
+          storyText={c.i === pickIndex ? alfieCard() : undefined}
           storyChars={c.i === pickIndex ? storyChars : undefined} caret={c.i === pickIndex && typing}
           shadow={c.i === pickIndex ? 0.6 + 0.4 * pickT : 0.5}
           style={{ left: c.x - cw / 2, top: c.y - ch / 2, opacity: c.opacity, transform: `rotate(${c.rot}deg) scale(${c.scale})` }} />
@@ -180,15 +186,20 @@ export const Cards: React.FC = () => {
       <Sequence from={T.fan} durationInFrames={BEATS.fan}>
         <Caption text={COPY.fan} delay={0} out={BEATS.fan - sec(0.25)} />
       </Sequence>
+      <Sequence from={T.alfie} durationInFrames={sec(6.8)}>
+        <Caption text={COPY.alfie} delay={0} out={sec(6.8) - sec(0.3)} />
+      </Sequence>
+      <Sequence from={T.alfie + sec(6.8)} durationInFrames={BEATS.alfie - sec(6.8)}>
+        <Caption text={COPY.alfie2} sub={COPY.alfie2Sub} delay={0} out={BEATS.alfie - sec(6.8) - sec(0.25)} />
+      </Sequence>
       <Sequence from={T.alfie} durationInFrames={BEATS.alfie}>
-        <Caption text={COPY.alfie} delay={0} out={BEATS.alfie - sec(0.25)} />
         <Waveform left={L.wide ? L.cx - waveW / 2 : 80 * u} top={waveTop} width={waveW} height={130 * u}
           color={COLORS.ink} start={T.voice - T.alfie} />
-        <Sequence from={T.voice - T.alfie}>
-          <Audio src={staticFile(ALFIE.file)} startFrom={Math.round(ALFIE.startFrom * fps)}
-            endAt={Math.round((ALFIE.startFrom + ALFIE.duration) * fps)}
-            volume={f => interpolate(f, [0, 3, ALFIE.duration * fps - 5, ALFIE.duration * fps], [0, 1, 1, 0], { extrapolateRight: 'clamp' })} />
-        </Sequence>
+      </Sequence>
+      <Sequence from={T.voice}>
+        <Audio src={staticFile(ALFIE.file)} startFrom={Math.round(ALFIE.startFrom * fps)}
+          endAt={Math.round((ALFIE.startFrom + ALFIE.duration) * fps)}
+          volume={f => interpolate(f, [0, 3, ALFIE.duration * fps - 5, ALFIE.duration * fps], [0, 1, 1, 0], { extrapolateRight: 'clamp' })} />
       </Sequence>
     </AbsoluteFill>
   );

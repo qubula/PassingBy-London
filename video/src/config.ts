@@ -60,16 +60,19 @@ export const QUOTES = [
   { name: 'Royal Albert Hall', text: 'From classical music to rock and even boxing matches.' },
 ];
 
-// Alfie: the real recorded clip, trimmed to its first two sentences.
-export const ALFIE: { file: string; startFrom: number; duration: number; text?: string } = {
-  file: 'shared/audio/alfie-buckingham-palace.mp3',
-  startFrom: 0, // seconds into the clip
-  duration: 4.45, // seconds: the first two sentences (the second pause is at 4.43 s)
-  // text: the words of a clip recorded for the video, if they differ from the
-  // landmark's story in the database. Typed onto the card as Alfie says them,
-  // with word timings in src/alfie-words.json.
+// Alfie: a line recorded for the video (docs/video/alfie-buckingham-script.md).
+// `text` is what he says, without the delivery tags, typed onto the card word
+// by word using the timings in src/alfie-words.json. `more` is extra reading
+// that appears on the card once he's finished.
+export const ALFIE: { file: string; startFrom: number; duration: number; text?: string; more?: string } = {
+  file: 'shared/audio/alfie-video-buckingham.mp3',
+  startFrom: 0,
+  duration: 14.68,
+  text: "Okay, Buckingham Palace, on your left! Did you know there are 775 rooms in that place… and 78 of 'em are bathrooms. 78! Imagine doing the cleaning rota.",
+  more: 'It started out in 1703 as a townhouse for the Duke of Buckingham. George III bought it in 1761, and Queen Victoria was the first monarch to live there.',
 };
 export const alfieText = () => ALFIE.text ?? storyFor(PICKED);
+export const alfieCard = () => (ALFIE.more ? `${alfieText()}\n\n${ALFIE.more}` : alfieText());
 
 // The theme that lifts out of the grid (a key from editions.js).
 export const THEME_PICK = 'architecture';
@@ -78,14 +81,14 @@ export const THEME_PICK = 'architecture';
 export const BEATS = {
   hook: s(2.4),
   deck: s(2.4),
-  stories: s(3.4),
-  fan: s(2.6),
-  alfie: s(5.4),
-  rideApp: s(5.0),
-  themes: s(3.5),
-  ride: s(5.6),
-  blackCab: s(4.5),
-  end: s(4.0),
+  stories: s(3.0),
+  fan: s(2.4), // Alfie starts talking 1 s into this beat, as his card rises
+  alfie: s(14.6), // the rest of his line, then a moment to read the card
+  rideApp: s(4.6),
+  themes: s(3.2),
+  ride: s(5.0),
+  blackCab: s(4.2),
+  end: s(3.8),
 };
 export const TOTAL = Object.values(BEATS).reduce((a, b) => a + b, 0);
 
@@ -97,13 +100,15 @@ export const COPY = {
   storiesSub: "One for every landmark, and one for each theme it's in",
   fan: 'A story for each one',
   alfie: 'Told by Alfie, a London cabbie',
+  alfie2: 'Short, fun stories',
+  alfie2Sub: 'For tourists and lifelong Londoners alike',
   rideApp: 'Book a ride. Add the scenic route.',
   rideAppPrice: '+6 min · +£3.20',
   themes: '9 themes',
   themesSub: 'Architecture, Historical, Royal…',
   ride: 'Stories as you pass them',
   blackCab: 'In a black cab? Scan the sticker.',
-  endTagline: "London's stories, as you pass them",
+  endTagline: 'Learn about London as you commute',
   endUrl: 'passingby.uk',
   endNote: 'Ride-app integration shown is a concept',
 };

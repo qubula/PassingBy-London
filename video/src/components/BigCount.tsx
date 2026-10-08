@@ -28,7 +28,7 @@ export const BigCount: React.FC<Props> = ({ value, plus, label, labelKey, labelA
   const leave = out === undefined ? 0 : ramp(frame, out, out + 10);
   const lab = sp(frame, fps, labelAt);
   const subT = sub ? sp(frame, fps, subAt) : 0;
-  const big = (L.wide ? 150 : 140) * L.u;
+  const big = (L.wide ? 96 : 92) * L.u; // same size as the other captions
   return (
     <div style={{
       position: 'absolute', left: c.left, top: c.top, bottom: c.bottom, width: c.width,
@@ -36,13 +36,13 @@ export const BigCount: React.FC<Props> = ({ value, plus, label, labelKey, labelA
       textAlign: c.align, fontFamily: SANS, color, opacity: (1 - leave), transform: `translateY(${-30 * leave * L.u}px)`,
     }}>
       <div style={{
-        fontSize: big, fontWeight: 700, lineHeight: 0.95, letterSpacing: '-0.045em', fontVariantNumeric: 'tabular-nums',
+        fontSize: big, fontWeight: 700, lineHeight: 1.04, letterSpacing: '-0.035em', fontVariantNumeric: 'tabular-nums',
         transform: `translateY(${(1 - inT) * 40 * L.u}px)`, opacity: inT, whiteSpace: 'nowrap',
       }}>
         {value.toLocaleString('en-GB')}{plus ? '+' : ''}
       </div>
       <div key={labelKey} style={{
-        fontSize: (L.wide ? 78 : 76) * L.u, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginTop: 6 * L.u,
+        fontSize: big, fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1.04,
         transform: `translateY(${(1 - lab) * 30 * L.u}px)`, opacity: lab,
       }}>{label}</div>
       {sub ? (

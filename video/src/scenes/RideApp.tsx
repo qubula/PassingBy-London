@@ -24,7 +24,7 @@ export const RideApp: React.FC = () => {
   const left = L.cx - pw / 2;
   const top = L.wide ? L.cy - ph / 2 : 360 * L.u;
 
-  const enter = sp(frame, fps, 0, SOFT);
+  const enter = sp(frame, fps, -sec(0.35), SOFT); // already rising at the cut
   const tap = ramp(frame, TAP_AT, TAP_AT + sec(0.6));
   const press = sp(frame, fps, TAP_AT, SNAP) - sp(frame, fps, TAP_AT + sec(0.25), SNAP);
   const zoom = sp(frame, fps, TAP_AT + sec(0.5), { damping: 26, stiffness: 50, mass: 1 });
@@ -64,7 +64,7 @@ export const RideApp: React.FC = () => {
       {/* price chip */}
       <PriceChip L={L} frame={frame} fps={fps} start={TAP_AT + sec(1.0)} out={BEATS.rideApp - sec(0.25)} />
 
-      <Caption text={COPY.rideApp} delay={sec(0.1)} out={BEATS.rideApp - sec(0.25)} />
+      <Caption text={COPY.rideApp} delay={0} out={BEATS.rideApp - sec(0.25)} />
     </AbsoluteFill>
   );
 };

@@ -26,10 +26,10 @@ export const Ride: React.FC = () => {
   const left = L.cx - pw / 2;
   const top = L.wide ? L.cy - ph / 2 : 400 * L.u;
 
-  const enter = sp(frame, fps, 0, SOFT);
+  const enter = sp(frame, fps, -sec(0.3), SOFT); // already rising at the cut
   const m = sp(frame, fps, MORPH_AT, { damping: 24, stiffness: 70, mass: 1 });
-  const zoom = sp(frame, fps, ZOOM_AT, { damping: 26, stiffness: 55, mass: 1 });
-  const isl = sp(frame, fps, ISLAND_AT, { damping: 17, stiffness: 110, mass: 1 });
+  const zoom = sp(frame, fps, ZOOM_AT, { damping: 30, stiffness: 55, mass: 1 });
+  const isl = sp(frame, fps, ISLAND_AT, { damping: 22, stiffness: 120, mass: 1 });
 
   const clip = `inset(${lerp(m, MINI.top, 0)}px ${lerp(m, MINI.right, 0)}px ${lerp(m, MINI.bottom, 0)}px ${lerp(m, MINI.left, 0)}px round ${lerp(m, MINI.r, 0)}px)`;
 
@@ -40,7 +40,7 @@ export const Ride: React.FC = () => {
   // Camera: rise to the island.
   const islX = left + pw / 2;
   const islY = top + (15.5 + 11 + ih / 2) * k;
-  const Z = lerp(zoom, 1, L.wide ? 2.0 : 1.9);
+  const Z = lerp(zoom, 1, L.wide ? 1.7 : 1.6);
   const tx = lerp(zoom, 0, L.cx - islX);
   const ty = lerp(zoom, 0, (L.wide ? L.cy - 40 * L.u : L.cy - 20 * L.u) - islY);
 
@@ -58,26 +58,27 @@ export const Ride: React.FC = () => {
           }} />
           {/* The screens were exported with the Royal badge; draw the picked theme's badge over it. */}
           <ThemeBadge edition={THEME_PICK} />
-          {/* As the island expands, the top of the screen dims under it, so the
-              next-stop card's white corner never shows round the island's edge. */}
+          {/* Once the island pops up, whatever is under it is hidden, so nothing
+              shows round its edge. */}
           <div style={{
-            position: 'absolute', left: 0, right: 0, top: 0, height: 250, zIndex: 4, pointerEvents: 'none',
-            background: 'linear-gradient(180deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.9) 62%, rgba(0,0,0,0) 100%)',
-            opacity: ramp(frame, ISLAND_AT - sec(0.1), ISLAND_AT + sec(0.3)),
+            position: 'absolute', left: 0, right: 0, top: 0, height: 215, zIndex: 4, pointerEvents: 'none',
+            background: 'linear-gradient(180deg, #000 0%, #000 86%, rgba(0,0,0,0) 100%)',
+            opacity: ramp(frame, ISLAND_AT, ISLAND_AT + sec(0.2)),
           }} />
           {/* Dynamic Island */}
           <div style={{
             position: 'absolute', top: 11, left: 195 - iw / 2, width: iw, height: ih, borderRadius: lerp(isl, 20, 46),
             background: '#000', zIndex: 5, overflow: 'hidden', boxShadow: isl > 0.05 ? '0 10px 30px rgba(0,0,0,0.35)' : undefined,
           }}>
+            {/* the content stays at its real size; the growing island reveals it */}
             <Img src={staticFile('figma/island-look-left.png')} style={{
-              position: 'absolute', left: 0, top: 0, width: 371, height: 180,
-              transform: `scale(${iw / 371}, ${ih / 180})`, transformOrigin: 'top left', opacity: ramp(frame, ISLAND_AT + sec(0.15), ISLAND_AT + sec(0.45)),
+              position: 'absolute', left: (iw - 371) / 2, top: 0, width: 371, height: 180,
+              opacity: ramp(frame, ISLAND_AT + sec(0.1), ISLAND_AT + sec(0.35)),
             }} />
           </div>
         </Phone>
       </AbsoluteFill>
-      <Caption text={COPY.ride} color={COLORS.white} delay={sec(0.1)} out={BEATS.ride - sec(0.25)} />
+      <Caption text={COPY.ride} color={COLORS.white} delay={0} out={BEATS.ride - sec(0.25)} />
     </AbsoluteFill>
   );
 };

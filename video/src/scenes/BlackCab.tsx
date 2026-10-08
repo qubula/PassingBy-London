@@ -26,7 +26,7 @@ export const BlackCab: React.FC = () => {
   const sw = sh * (IMG.w / IMG.h);
   const sx = L.wide ? L.cx - sw / 2 - 150 * L.u : L.width / 2 - sw / 2 - 130 * L.u;
   const sy = L.wide ? L.cy - sh / 2 : 420 * L.u;
-  const stickerIn = sp(frame, fps, 0, SOFT);
+  const stickerIn = sp(frame, fps, -sec(0.25), SOFT);
 
   const pw = 380 * L.u;
   const k = pw / PHONE_W;

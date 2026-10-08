@@ -35,7 +35,7 @@ export const EndCard: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg, fontFamily: SANS, color: COLORS.ink }}>
       {STACK.map((name, i) => {
         const lm = LANDMARKS.find(l => l.name === name)!;
-        const t = sp(frame, fps, i * sec(0.15), SNAP);
+        const t = sp(frame, fps, i * sec(0.15) - sec(0.1), SNAP);
         const x = sx + lerp(t, FROM[i][0] * L.width, 0);
         const y = sy + lerp(t, FROM[i][1] * L.height, 0);
         const rot = lerp(t, ROT[i] * 4, ROT[i]);
@@ -47,7 +47,7 @@ export const EndCard: React.FC = () => {
 
       <div style={textBox}>
         <Img src={staticFile('shared/logo.png')} style={{ width: logoW, height: logoW / LOGO_RATIO, ...text(sec(0.6)) }} />
-        <div style={{ marginTop: 30 * L.u, fontSize: (L.wide ? 66 : 60) * L.u, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: L.wide ? 760 * L.u : 900 * L.u, ...text(sec(0.9)) }}>
+        <div style={{ marginTop: 30 * L.u, fontSize: (L.wide ? 66 : 60) * L.u, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: L.wide ? 760 * L.u : 900 * L.u, textWrap: 'balance', ...text(sec(0.9)) } as React.CSSProperties}>
           {COPY.endTagline}
         </div>
         <div style={{ marginTop: 26 * L.u, fontSize: 40 * L.u, fontWeight: 500, ...text(sec(1.2)) }}>{COPY.endUrl}</div>

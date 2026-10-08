@@ -68,7 +68,7 @@ export const Postcard: React.FC<Props> = ({ landmark, width, flip = 0, story = 1
             <p style={{ margin: '4px 0 0', paddingRight: 70, fontSize: 22, fontWeight: 600, lineHeight: 1.2, color: TEXT_PRIMARY }}>{landmark.name}</p>
             <div style={{
               flex: 1, minHeight: 0, marginTop: 16, padding: '14px 6px 24px 0', borderTop: '1px solid #e5e7eb', overflow: 'hidden',
-              fontSize: 16, lineHeight: 1.55, color: TEXT_PRIMARY,
+              fontSize: 16, lineHeight: 1.55, color: TEXT_PRIMARY, whiteSpace: 'pre-line',
               WebkitMaskImage: 'linear-gradient(to bottom, #000 calc(100% - 40px), transparent)',
               maskImage: 'linear-gradient(to bottom, #000 calc(100% - 40px), transparent)',
             }}>

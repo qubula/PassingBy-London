@@ -40,7 +40,7 @@ export const Themes: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bg }}>
       {EDITION_KEYS.map((key, i) => ({ key, i })).sort((a, b) => Number(a.key === THEME_PICK) - Number(b.key === THEME_PICK)).map(({ key, i }) => {
         const c = i % cols, r = Math.floor(i / cols);
-        const t = sp(frame, fps, ((c + r) * 3 + c) * sec(0.05), BOUNCE);
+        const t = sp(frame, fps, ((c + r) * 3 + c) * sec(0.05) - sec(0.12), BOUNCE);
         const picked = key === THEME_PICK;
         const scale = (0.6 + 0.4 * t) * (picked ? 1 + 0.12 * lift + 0.1 * drift : 1 - 0.04 * lift);
         const tile = (

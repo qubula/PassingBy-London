@@ -8,7 +8,9 @@ const browser = ['/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/hea
 const extra = browser ? ['--browser-executable', browser] : [];
 const run = args => execFileSync('npx', ['remotion', ...args, ...extra], { stdio: 'inherit' });
 
-const ids = ['advert-4x5', 'advert-16x9'];
+// --only=advert-4x5 renders one format
+const only = process.argv.find(a => a.startsWith('--only='))?.slice(7);
+const ids = only ? [only] : ['advert-4x5', 'advert-16x9'];
 if (process.argv.includes('--stills')) {
   const frames = process.argv.slice(process.argv.indexOf('--stills') + 1).filter(a => /^\d+$/.test(a));
   for (const id of ids) for (const f of frames.length ? frames : ['30', '100', '160', '200', '280', '380', '470', '550', '640'])
