@@ -40,11 +40,11 @@ PassingBy turns a London journey into a short history lesson. As you pass a land
 
 <img src="docs/images/v2/mockups/ride.jpg" alt="The ride in three steps: the map with the next stop, a postcard for Elizabeth Tower, and the story on the back" width="100%">
 
-## Launch video
+## Video overview
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=4OvFjlmLESk">
-    <img src="docs/images/v2/video-thumbnail.jpg" alt="Watch the PassingBy launch video on YouTube" width="720">
+    <img src="docs/images/v2/video-thumbnail.jpg" alt="Watch the PassingBy video overview on YouTube" width="720">
   </a>
   <br>
   <sub>A 45-second look at PassingBy: the landmark stories, Alfie, the two ways in and the ride. Opens on YouTube.</sub>
