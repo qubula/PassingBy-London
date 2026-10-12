@@ -40,6 +40,12 @@ PassingBy turns a London journey into a short history lesson. As you pass a land
 
 <img src="docs/images/v2/mockups/ride.jpg" alt="The ride in three steps: the map with the next stop, a postcard for Elizabeth Tower, and the story on the back" width="100%">
 
+### Watch the video
+
+[![PassingBy video on YouTube](https://img.youtube.com/vi/4OvFjlmLESk/hqdefault.jpg)](https://www.youtube.com/watch?v=4OvFjlmLESk)
+
+[Watch on YouTube](https://www.youtube.com/watch?v=4OvFjlmLESk)
+
 ## A ride, step by step
 
 <img src="docs/images/v2/mockups/flow.jpg" alt="Four steps: where to, choose a route, pick a theme, ride" width="100%">
