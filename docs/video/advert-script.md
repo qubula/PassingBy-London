@@ -5,6 +5,9 @@ first (LinkedIn autoplays without sound), so every key fact is on screen as text
 
 Formats from the same project :
 - **4:5, 1080 × 1350** for the LinkedIn feed (takes the most screen on a phone).
+  The LinkedIn cut (`advert-linkedin.mp4`) adds a small white "Best with sound on"
+  pill with a speaker icon below the cards, from 0.3 s to 4.6 s. It leaves before
+  the quotes reach the bottom of the frame.
 - **16:9, 1920 × 1080** for the website.
 
 Look: the website set's warm grey (`#E3E1DA`), black type in Satoshi, the

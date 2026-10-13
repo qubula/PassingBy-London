@@ -110,5 +110,11 @@ export const COPY = {
   blackCab: 'Or in a black cab? Scan the sticker.',
   endTagline: 'Every ride has a story.',
   endNote: 'Ride-app integration shown is a concept',
+  soundOn: 'Best with sound on', // LinkedIn cut only (advert-linkedin)
   credits: 'Music by Andrii Poradovskyi from Pixabay · Sound effects by ElevenLabs',
 };
+
+// LinkedIn cut: when the "sound on" pill shows (frames), and how far it sits
+// from the bottom edge at 1080 px wide. It leaves before the quotes in the
+// stories beat reach the bottom of the 4:5 frame.
+export const SOUND_ON = { from: s(0.3), to: s(4.6), bottom: 64 };

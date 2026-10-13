@@ -1,4 +1,4 @@
-// Renders both formats to out/.
+// Renders every format to out/ (4:5, the 4:5 LinkedIn cut, 16:9).
 //   node scripts/render.mjs                 both formats, high quality
 //   node scripts/render.mjs --only=advert-4x5
 //   node scripts/render.mjs --fast          1x render, for quick checks
@@ -17,7 +17,7 @@ const extra = browser ? ['--browser-executable', browser] : [];
 const run = args => execFileSync('npx', ['remotion', ...args, ...extra], { stdio: 'inherit' });
 const ffmpeg = args => execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: 'inherit' });
 
-const SIZES = { 'advert-4x5': [1080, 1350], 'advert-16x9': [1920, 1080] };
+const SIZES = { 'advert-4x5': [1080, 1350], 'advert-linkedin': [1080, 1350], 'advert-16x9': [1920, 1080] };
 const only = process.argv.find(a => a.startsWith('--only='))?.slice(7);
 const ids = only ? [only] : Object.keys(SIZES);
 const fast = process.argv.includes('--fast');

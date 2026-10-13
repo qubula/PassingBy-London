@@ -12,10 +12,12 @@ import { Ride } from './scenes/Ride';
 import { BlackCab } from './scenes/BlackCab';
 import { EndCard } from './scenes/EndCard';
 import { Soundtrack } from './Soundtrack';
+import { SoundOn } from './components/SoundOn';
 
 loadFonts();
 
-export const Advert: React.FC = () => (
+// `soundPrompt`: the LinkedIn cut, which asks people to turn the sound on.
+export const Advert: React.FC<{ soundPrompt?: boolean }> = ({ soundPrompt = false }) => (
   <AbsoluteFill style={{ background: COLORS.bg }}>
     <Series>
       <Series.Sequence durationInFrames={BEATS.hook + BEATS.deck + BEATS.stories + BEATS.fan + BEATS.alfie}><Cards /></Series.Sequence>
@@ -26,6 +28,7 @@ export const Advert: React.FC = () => (
       <Series.Sequence durationInFrames={BEATS.ride}><Ride /></Series.Sequence>
       <Series.Sequence durationInFrames={BEATS.end}><EndCard /></Series.Sequence>
     </Series>
+    {soundPrompt ? <SoundOn /> : null}
     <Soundtrack />
   </AbsoluteFill>
 );

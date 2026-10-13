@@ -2,7 +2,8 @@
 
 A 38-second advert, rendered in two formats from one project:
 
-- `advert-4x5`: 1080 × 1350, for the LinkedIn feed
+- `advert-4x5`: 1080 × 1350, for phones and the feed
+- `advert-linkedin`: the same 4:5 cut with a small "Best with sound on" pill for the first 4.6 s, because LinkedIn starts videos muted (`src/components/SoundOn.tsx`)
 - `advert-16x9`: 1920 × 1080, for the website
 
 An experimental cut with different motion (`lab-4x5`, `lab-16x9`, code in
@@ -14,7 +15,8 @@ An experimental cut with different motion (`lab-4x5`, `lab-16x9`, code in
 cd video
 npm install
 npm run studio     # live preview in the browser, with a timeline
-npm run render     # writes out/advert-4x5.mp4, out/advert-16x9.mp4 and out/advert-16x9-4k.mp4
+npm run render     # writes out/advert-4x5.mp4, out/advert-linkedin.mp4, out/advert-16x9.mp4 and out/advert-16x9-4k.mp4
+node scripts/render.mjs --only=advert-linkedin   # just the LinkedIn cut
 node scripts/render.mjs --fast   # 1x render, for quick checks
 npx remotion render lab-4x5 out/lab-4x5.mp4   # the experimental cut
 node scripts/stills.mjs 30 200 400   # a few frames of both formats, for a quick check
